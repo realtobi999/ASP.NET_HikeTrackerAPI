@@ -2,6 +2,7 @@
 using HikingTracks.Domain;
 using HikingTracks.Domain.DTO;
 using HikingTracks.Domain.Entities;
+using HikingTracks.Domain.Exceptions;
 using HikingTracks.Domain.Interfaces;
 
 namespace HikingTracks.Application.Services.AccountService;
@@ -37,13 +38,13 @@ public class AccountService : IAccountService
         return account.ToDTO();
     }
 
-    public AccountDto? GetAccount(Guid id)
+    public AccountDto GetAccount(Guid id)
     {
         var account = _repository.Account.GetAccount(id);
 
         if (account is null) 
         {
-            return null;
+            throw new AccountNotFoundException(id);
         }
 
         return account.ToDTO();

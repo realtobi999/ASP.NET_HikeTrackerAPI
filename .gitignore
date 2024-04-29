@@ -482,3 +482,4 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+src/HikingTracks.Presentation/internal_logs/internallog.txt

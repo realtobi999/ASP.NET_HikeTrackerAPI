@@ -1,3 +1,4 @@
+using HikingTracks.Domain.Interfaces;
 using HikingTracks.Presentation.Extensions;
 using NLog;
 
@@ -11,19 +12,23 @@ var builder = WebApplication.CreateBuilder(args);
 
     builder.Services.ConfigureCors();
     builder.Services.ConfigureLoggerService();
-    builder.Services.ConfigureDbContext();
     builder.Services.ConfigureRepositoryManager();
     builder.Services.ConfigureServiceManager();
+    builder.Services.ConfigureDbContext();
 }
 
 var app = builder.Build();
 {
+    var logger = app.Services.GetRequiredService<ILoggerManager>();
+    app.ConfigureExceptionHandler(logger);
+
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
         app.UseSwaggerUI();
     }
 
+    app.UseCors("CorsPolicy");
     app.UseHttpsRedirection();
     app.UseAuthorization();
     app.MapControllers();
