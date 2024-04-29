@@ -1,4 +1,5 @@
 ﻿using HikingTracks.Application.Interfaces;
+using HikingTracks.Domain.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HikingTracks.Presentation;
@@ -33,5 +34,18 @@ public class AccountController : ControllerBase
         }
 
         return Ok(account);
+    }
+
+    [HttpPost]
+    public IActionResult CreateAccount([FromBody] CreateAccountDto createAccountDto)
+    {
+        if (createAccountDto is null) 
+        {
+            return BadRequest("Body is not provided");
+        }
+
+        var account = _service.AccountService.CreateAccount(createAccountDto);
+
+        return Created(string.Format("/api/account/{0}", account.ID), account);
     }
 }

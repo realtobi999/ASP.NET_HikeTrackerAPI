@@ -1,8 +1,10 @@
 ﻿using HikingTracks.Application.Interfaces;
+using HikingTracks.Domain;
 using HikingTracks.Domain.DTO;
+using HikingTracks.Domain.Entities;
 using HikingTracks.Domain.Interfaces;
 
-namespace HikingTracks.Application.Services.Account;
+namespace HikingTracks.Application.Services.AccountService;
 
 public class AccountService : IAccountService
 {
@@ -13,12 +15,26 @@ public class AccountService : IAccountService
         _repository = repository;
     }
 
-    /// <summary>
-    /// Retrieves an account with the specified ID from the repository.
-    /// </summary>
-    /// <returns>
-    /// AccountDto representing the retrieved account, or null if the account is not found.
-    /// </returns>
+    public AccountDto CreateAccount(CreateAccountDto createAccountDto)
+    {
+        var account = new Account(){
+            ID = Guid.NewGuid(),
+            Username = createAccountDto.Username,
+            Email = createAccountDto.Email,
+            Password = createAccountDto.Password,
+            Token = "test",
+            TotalHikes = 0,
+            TotalDistance = 0.00,
+            TotalMovingTime = TimeSpan.Zero,
+            CreatedAt = DateTimeOffset.UtcNow
+        };
+
+        _repository.Account.CreateAccount(account);
+        _repository.Save();
+
+        return account.ToDTO();
+    }
+
     public AccountDto? GetAccount(Guid id)
     {
         var account = _repository.Account.GetAccount(id);
@@ -31,10 +47,6 @@ public class AccountService : IAccountService
         return account.ToDTO();
     }
 
-    /// <summary>
-    /// Retrieves all accounts from the repository and converts them to AccountDto objects.
-    /// </summary>
-    /// <returns>A collection of AccountDto representing all accounts.</returns>
     public IEnumerable<AccountDto> GetAllAccounts()
     {
         var accounts = _repository.Account.GetAllAccounts();

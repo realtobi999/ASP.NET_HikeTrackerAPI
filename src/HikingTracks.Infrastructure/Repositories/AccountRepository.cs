@@ -12,6 +12,11 @@ public class AccountRepository : IAccountRepository
         _context = context;
     }
 
+    public void CreateAccount(Account account)
+    {
+        _context.Accounts.Add(account);
+    }
+
     public Account? GetAccount(Guid id)
     {
         return _context.Accounts.SingleOrDefault(account => account.ID == id);

@@ -1,5 +1,5 @@
 ﻿using HikingTracks.Application.Interfaces;
-using HikingTracks.Application.Services.Account;
+using HikingTracks.Application.Services.AccountService;
 using HikingTracks.Domain.Interfaces;
 
 namespace HikingTracks.Application;
