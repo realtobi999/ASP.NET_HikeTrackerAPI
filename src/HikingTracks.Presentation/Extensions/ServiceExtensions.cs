@@ -1,4 +1,11 @@
-﻿namespace HikingTracks.Presentation.Extensions;
+﻿using HikingTracks.Application;
+using HikingTracks.Application.Interfaces;
+using HikingTracks.Domain.Interfaces;
+using HikingTracks.Infrastructure;
+using HikingTracks.Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
+
+namespace HikingTracks.Presentation.Extensions;
 
 public static class ServiceExtensions
 {
@@ -10,6 +17,20 @@ public static class ServiceExtensions
                     builder
                     .AllowAnyOrigin()
                     .WithMethods("POST", "GET", "PUT", "DELETE"));
+        });
+    }
+
+    public static void ConfigureRepositoryManager(this IServiceCollection services) =>
+       services.AddScoped<IRepositoryManager, RepositoryManager>();
+
+    public static void ConfigureServiceManager(this IServiceCollection services) =>
+        services.AddScoped<IServiceManager, ServiceManager>();
+
+    public static void ConfigureDbContext(this IServiceCollection services)
+    {
+        services.AddDbContext<HikingTracksContext>(options =>
+        {
+            options.UseNpgsql("Host=localhost;Username=postgres;Password=root;Database=HikingTracks");
         });
     }
 }

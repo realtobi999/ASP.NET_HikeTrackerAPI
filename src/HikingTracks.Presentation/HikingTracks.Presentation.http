@@ -1,6 +1,0 @@
-@HikingTracks.Presentation_HostAddress = http://localhost:5294
-
-GET {{HikingTracks.Presentation_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

@@ -7,6 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddSwaggerGen();
 
     builder.Services.ConfigureCors();
+    builder.Services.ConfigureDbContext();
+    builder.Services.ConfigureRepositoryManager();
+    builder.Services.ConfigureServiceManager();
 }
 
 var app = builder.Build();
