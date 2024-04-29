@@ -9,10 +9,12 @@ namespace HikingTracks.Application.Services.AccountService;
 public class AccountService : IAccountService
 {
     private readonly IRepositoryManager _repository;
+    private readonly ILoggerManager _logger;
 
-    public AccountService(IRepositoryManager repository)
+    public AccountService(IRepositoryManager repository, ILoggerManager logger)
     {
         _repository = repository;
+        _logger = logger;
     }
 
     public AccountDto CreateAccount(CreateAccountDto createAccountDto)

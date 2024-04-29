@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\HikingTracks.Application\HikingTracks.Application.csproj" />
     <ProjectReference Include="..\HikingTracks.Infrastructure\HikingTracks.Infrastructure.csproj" />
+    <ProjectReference Include="..\HikingTracks.LoggerService\HikingTracks.LoggerService.csproj" />
   </ItemGroup>
 
 </Project>

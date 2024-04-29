@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HikingTracks.Application", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HikingTracks.Infrastructure", "HikingTracks.Infrastructure\HikingTracks.Infrastructure.csproj", "{04ADB161-ECE3-488E-8DA1-72A23FFEA8B6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HikingTracks.LoggerService", "HikingTracks.LoggerService\HikingTracks.LoggerService.csproj", "{4EE26F3A-7BA4-425E-A78F-DD7BA493D2A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{04ADB161-ECE3-488E-8DA1-72A23FFEA8B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04ADB161-ECE3-488E-8DA1-72A23FFEA8B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04ADB161-ECE3-488E-8DA1-72A23FFEA8B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EE26F3A-7BA4-425E-A78F-DD7BA493D2A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EE26F3A-7BA4-425E-A78F-DD7BA493D2A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EE26F3A-7BA4-425E-A78F-DD7BA493D2A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EE26F3A-7BA4-425E-A78F-DD7BA493D2A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,7 @@
 using HikingTracks.Presentation.Extensions;
+using NLog;
+
+LogManager.Setup().LoadConfigurationFromFile(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 
 var builder = WebApplication.CreateBuilder(args);
 {
@@ -7,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddSwaggerGen();
 
     builder.Services.ConfigureCors();
+    builder.Services.ConfigureLoggerService();
     builder.Services.ConfigureDbContext();
     builder.Services.ConfigureRepositoryManager();
     builder.Services.ConfigureServiceManager();

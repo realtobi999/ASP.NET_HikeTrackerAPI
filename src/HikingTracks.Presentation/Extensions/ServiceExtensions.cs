@@ -3,6 +3,7 @@ using HikingTracks.Application.Interfaces;
 using HikingTracks.Domain.Interfaces;
 using HikingTracks.Infrastructure;
 using HikingTracks.Infrastructure.Repositories;
+using HikingTracks.LoggerService;
 using Microsoft.EntityFrameworkCore;
 
 namespace HikingTracks.Presentation.Extensions;
@@ -33,4 +34,7 @@ public static class ServiceExtensions
             options.UseNpgsql("Host=localhost;Username=postgres;Password=root;Database=HikingTracks");
         });
     }
+
+    public static void ConfigureLoggerService(this IServiceCollection services) =>
+        services.AddSingleton<ILoggerManager, LoggerManager>(); 
 }
