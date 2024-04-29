@@ -1,0 +1,8 @@
+@HOST = http://localhost:5294
+@AccountID = ""
+
+###
+GET {{HOST}}/api/account
+
+###
+GET {{HOST}}/api/account/{{AccountID}}

@@ -12,6 +12,11 @@ public class AccountRepository : IAccountRepository
         _context = context;
     }
 
+    public Account? GetAccount(Guid id)
+    {
+        return _context.Accounts.SingleOrDefault(account => account.ID == id);
+    }
+
     public IEnumerable<Account> GetAllAccounts()
     {
         return _context.Accounts.ToList();
