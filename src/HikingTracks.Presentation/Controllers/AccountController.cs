@@ -23,7 +23,7 @@ public class AccountController : ControllerBase
         return Ok(accounts);
     }
 
-    [HttpGet("/{accountID:guid}")]
+    [HttpGet("{accountID:guid}")]
     public IActionResult GetAccount(Guid accountID) 
     {
         var account = _service.AccountService.GetAccount(accountID);
