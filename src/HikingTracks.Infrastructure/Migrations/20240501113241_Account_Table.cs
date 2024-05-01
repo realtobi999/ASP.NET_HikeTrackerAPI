@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HikingTracks.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class AccountTable : Migration
+    public partial class Account_Table : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,7 +19,7 @@ namespace HikingTracks.Infrastructure.Migrations
                     username = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     email = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     password = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    token = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
+                    token = table.Column<Guid>(type: "uuid", nullable: false),
                     total_hikes = table.Column<int>(type: "integer", nullable: false),
                     total_distance = table.Column<double>(type: "double precision", nullable: false),
                     total_moving_time = table.Column<TimeSpan>(type: "interval", nullable: false),

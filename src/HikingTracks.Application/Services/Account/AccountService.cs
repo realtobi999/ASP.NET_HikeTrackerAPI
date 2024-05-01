@@ -25,7 +25,7 @@ public class AccountService : IAccountService
             Username = createAccountDto.Username,
             Email = createAccountDto.Email,
             Password = createAccountDto.Password,
-            Token = "test",
+            Token = Guid.NewGuid(),
             TotalHikes = 0,
             TotalDistance = 0.00,
             TotalMovingTime = TimeSpan.Zero,

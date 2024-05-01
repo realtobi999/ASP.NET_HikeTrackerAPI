@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HikingTracks.Infrastructure.Migrations
 {
     [DbContext(typeof(HikingTracksContext))]
-    [Migration("20240429125923_AccountTable")]
-    partial class AccountTable
+    [Migration("20240501113241_Account_Table")]
+    partial class Account_Table
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,10 +48,8 @@ namespace HikingTracks.Infrastructure.Migrations
                         .HasColumnType("character varying(255)")
                         .HasColumnName("password");
 
-                    b.Property<string>("Token")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("character varying(64)")
+                    b.Property<Guid>("Token")
+                        .HasColumnType("uuid")
                         .HasColumnName("token");
 
                     b.Property<double>("TotalDistance")

@@ -23,8 +23,8 @@ public class Account
     public string? Password { get; set; }
 
     [Column("token")]
-    [Required, MaxLength(64)]
-    public string? Token { get; set; }
+    [Required]
+    public Guid Token { get; set; }
 
     [Column("total_hikes")]
     [Required, DefaultValue(0)]
