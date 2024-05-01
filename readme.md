@@ -68,18 +68,30 @@ Create a new account with the provided details.
 
 ### Response
 
-``` json
-[
-    {
-        "id": "1c62211f-0451-4e13-8ddf-6a6de9284325",
-        "username": "tobinek",
-        "email": "tobiasfilgas@gmai.com",
-        "totalHikes": 14,
-        "totalDistance": 15.25,
-        "totalMovingTime": "00:00:00",
-        "createdAt": "2024-04-29T13:02:17.007955+00:00"
-    }
-]
-```
+`201` - Status Created
 
 ---
+
+### `PUT /api/account/{account_id}`
+
+Update an existing account's information.
+
+### Parameters
+
+- `account_id` : The id of the account.
+
+### Request Body
+
+```json
+{
+    "Username": "string",
+    "Email": "string",
+    "TotalHikes": "int",
+    "TotalDistance": "int",
+    "TotalMovingTime": "string (time format)"
+}
+```
+
+### Response
+
+`200` - Status OK

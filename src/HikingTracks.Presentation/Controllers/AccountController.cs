@@ -1,4 +1,5 @@
 ﻿using HikingTracks.Application.Interfaces;
+using HikingTracks.Domain;
 using HikingTracks.Domain.DTO;
 using Microsoft.AspNetCore.Mvc;
 
@@ -47,5 +48,18 @@ public class AccountController : ControllerBase
         var account = await _service.AccountService.CreateAccount(createAccountDto);
 
         return Created(string.Format("/api/account/{0}", account.ID), account);
+    }
+
+    [HttpPut("{accountID:guid}")]
+    public async Task<IActionResult> UpdateAccount(Guid accountID, [FromBody] UpdateAccountDto updateAccountDto)
+    {
+        if (updateAccountDto is null)
+        {
+            return BadRequest("Body is not provided");
+        }
+
+        _ = await _service.AccountService.UpdateAccount(accountID, updateAccountDto);
+
+        return Ok();
     }
 }

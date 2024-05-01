@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Json;
 using FluentAssertions;
+using HikingTracks.Domain;
 using HikingTracks.Domain.DTO;
 using HikingTracks.Domain.Entities;
 using HikingTracks.Domain.Exceptions;
@@ -50,5 +51,30 @@ public class AccountControllerTests
         var header = response.Headers.GetValues("Location");
 
         header.Should().Equal(string.Format("/api/account/{0}", account.ID));
+    }
+
+    [Fact]
+    public async Task Account_UpdateAccount_Works()
+    {
+        var client = new WebAppFactory<Program>().CreateDefaultClient(); 
+        var account = new Account().WithFakeData();
+
+        var create = await client.PostAsJsonAsync("/api/account", account);
+        create.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
+
+        account.Username = "tobinek";
+        account.Email = "tobiasfilgas@gmail.com";
+        account.TotalHikes = 13;        
+
+        var update = await client.PutAsJsonAsync(string.Format("/api/account/{0}", account.ID), account);
+        update.StatusCode.Should().Be(System.Net.HttpStatusCode.OK); 
+
+        var response = await client.GetAsync(string.Format("/api/account/{0}", account.ID));
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+
+        var body = await response.Content.ReadFromJsonAsync<AccountDto>() ??  throw new Exception("Failed to deserialize the response body into an AccountDto object.");
+        body.Username.Should().Be("tobinek");
+        body.Email.Should().Be("tobiasfilgas@gmail.com");
+        body.TotalHikes.Should().Be(13);
     }
 }

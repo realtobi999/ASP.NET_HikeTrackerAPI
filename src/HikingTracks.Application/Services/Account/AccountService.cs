@@ -61,4 +61,17 @@ public class AccountService : IAccountService
 
         return accountsDto;
     }
+
+    public async Task<int> UpdateAccount(Guid id, UpdateAccountDto updateAccountDto)
+    {
+        var account = await _repository.Account.GetAccount(id) ?? throw new AccountNotFoundException(id);
+
+        account.Username = updateAccountDto.Username;
+        account.Email = updateAccountDto.Email;
+        account.TotalHikes = updateAccountDto.TotalHikes;
+        account.TotalDistance = updateAccountDto.TotalDistance;
+        account.TotalMovingTime = updateAccountDto.TotalMovingTime;
+
+        return await _repository.SaveAsync();
+    }
 }

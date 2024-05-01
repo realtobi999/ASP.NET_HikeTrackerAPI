@@ -1,4 +1,5 @@
-﻿using HikingTracks.Domain.Entities;
+﻿using HikingTracks.Domain;
+using HikingTracks.Domain.Entities;
 using HikingTracks.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
