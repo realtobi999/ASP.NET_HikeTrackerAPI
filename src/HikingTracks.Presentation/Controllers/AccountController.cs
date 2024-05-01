@@ -3,7 +3,7 @@ using HikingTracks.Domain;
 using HikingTracks.Domain.DTO;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HikingTracks.Presentation;
+namespace HikingTracks.Presentation.Controllers;
 
 [Route("api/account")]
 [ApiController]

@@ -7,7 +7,7 @@ namespace HikingTracks.Domain.Entities;
 
 public class Account
 {
-    [Column("id")]
+    [Key, Column("id")]
     public Guid ID { get; set; }
 
     [Column("username")]
