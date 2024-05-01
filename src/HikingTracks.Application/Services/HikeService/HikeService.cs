@@ -27,7 +27,7 @@ public class HikeService : IHikeService
             Distance = createHikeDto.Distance,
             ElevationGain = createHikeDto.ElevationGain,
             ElevationLoss = createHikeDto.ElevationLoss,
-            AverageSpeed = 0,
+            AverageSpeed = createHikeDto.Distance / createHikeDto.MovingTime.TotalSeconds,
             MaxSpeed = createHikeDto.MaxSpeed,
             MovingTime = createHikeDto.MovingTime,
             CoordinatesString = createHikeDto.CoordinatesString,
