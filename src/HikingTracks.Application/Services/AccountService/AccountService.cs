@@ -18,7 +18,7 @@ public class AccountService : IAccountService
         _logger = logger;
     }
 
-    public async Task<AccountDto> CreateAccount(CreateAccountDto createAccountDto)
+    public async Task<Account> CreateAccount(CreateAccountDto createAccountDto)
     {
         var account = new Account(){
             ID = createAccountDto.ID ?? Guid.NewGuid(),
@@ -35,7 +35,7 @@ public class AccountService : IAccountService
         _repository.Account.CreateAccount(account);
         await _repository.SaveAsync();
 
-        return account.ToDTO();
+        return account;
     }
 
     public async Task DeleteAccount(Guid id)
@@ -46,22 +46,16 @@ public class AccountService : IAccountService
         await _repository.SaveAsync();
     }
 
-    public async Task<AccountDto> GetAccount(Guid id)
+    public async Task<Account> GetAccount(Guid id)
     {
         var account = await _repository.Account.GetAccount(id) ?? throw new AccountNotFoundException(id);
-        return account.ToDTO();
+        return account;
     }
 
-    public async Task<IEnumerable<AccountDto>> GetAllAccounts()
+    public async Task<IEnumerable<Account>> GetAllAccounts()
     {
         var accounts = await _repository.Account.GetAllAccounts();
-        var accountsDto = new List<AccountDto>();
-
-        foreach (var account in accounts) {
-            accountsDto.Add(account.ToDTO());
-        }
-
-        return accountsDto;
+        return accounts;
     }
 
     public async Task<int> UpdateAccount(Guid id, UpdateAccountDto updateAccountDto)

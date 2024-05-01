@@ -1,13 +1,14 @@
 ﻿using HikingTracks.Domain;
 using HikingTracks.Domain.DTO;
+using HikingTracks.Domain.Entities;
 
 namespace HikingTracks.Application.Interfaces;
 
 public interface IAccountService
 {
-    Task<IEnumerable<AccountDto>> GetAllAccounts();
-    Task<AccountDto> GetAccount(Guid id);
-    Task<AccountDto> CreateAccount(CreateAccountDto createAccountDto);
+    Task<IEnumerable<Account>> GetAllAccounts();
+    Task<Account> GetAccount(Guid id);
+    Task<Account> CreateAccount(CreateAccountDto createAccountDto);
     Task<int> UpdateAccount(Guid id, UpdateAccountDto updateAccountDto);  
     Task DeleteAccount(Guid id); 
 }

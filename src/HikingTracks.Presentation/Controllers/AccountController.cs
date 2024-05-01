@@ -2,6 +2,7 @@
 using HikingTracks.Domain;
 using HikingTracks.Domain.DTO;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace HikingTracks.Presentation.Controllers;
 
@@ -30,8 +31,14 @@ public class AccountController : ControllerBase
     public async Task<IActionResult> GetAccounts()
     {
         var accounts = await _service.AccountService.GetAllAccounts();
+        var accountsDto = new List<AccountDto>();
+        
+        foreach (var account in accounts)
+        {
+            accountsDto.Add(account.ToDTO());
+        }
 
-        return Ok(accounts);
+        return Ok(accountsDto);
     }
 
     [HttpGet("{accountID:guid}")]
@@ -44,7 +51,7 @@ public class AccountController : ControllerBase
             return NotFound();
         }
 
-        return Ok(account);
+        return Ok(account.ToDTO());
     }
 
     [HttpPost]
@@ -57,7 +64,9 @@ public class AccountController : ControllerBase
 
         var account = await _service.AccountService.CreateAccount(createAccountDto);
 
-        return Created(string.Format("/api/account/{0}", account.ID), account);
+        return Created(string.Format("/api/account/{0}", account.ID), new { 
+            Token = account.Token
+        });
     }
 
     [HttpPut("{accountID:guid}")]
