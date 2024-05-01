@@ -1,10 +1,20 @@
-﻿namespace HikingTracks.Domain;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace HikingTracks.Domain;
 
 public record class UpdateAccountDto
-(
-    string Username,
-    string Email,
-    int TotalHikes,
-    double TotalDistance,
-    TimeSpan TotalMovingTime
-);
+{
+    [MaxLength(255)]
+    public string? Username { get; set; }
+
+    [MaxLength(255)]
+    public string? Email { get; set; }
+
+    [Range(0, int.MaxValue)]
+    public int TotalHikes { get; set; }
+
+    [Range(0, double.MaxValue)]
+    public double TotalDistance { get; set; }
+
+    public TimeSpan TotalMovingTime { get; set; }
+};
