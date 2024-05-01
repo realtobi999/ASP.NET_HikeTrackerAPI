@@ -1,7 +1,7 @@
 ﻿using Bogus;
 using HikingTracks.Domain.Entities;
 
-namespace HikingTracks.Tests.Integration.AccountTests;
+namespace HikingTracks.Tests.Integration.AccountEndpointTests;
 
 public static class AccountTestExtensions
 {

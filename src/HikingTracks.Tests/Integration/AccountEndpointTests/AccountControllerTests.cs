@@ -7,7 +7,7 @@ using HikingTracks.Domain.Exceptions;
 using HikingTracks.Presentation;
 using Xunit.Sdk;
 
-namespace HikingTracks.Tests.Integration.AccountTests;
+namespace HikingTracks.Tests.Integration.AccountEndpointTests;
 
 public class AccountControllerTests
 {
