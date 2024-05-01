@@ -6,3 +6,13 @@ GET {{HOST}}/api/account
 
 ###
 GET {{HOST}}/api/account/{{AccountID}}
+
+###
+POST {{HOST}}/api/account
+Content-Type: application/json
+
+{
+    "Username": "tobinek",
+    "Email": "tobiasfilgas@gmail.com",
+    "Password": "password123"
+}
