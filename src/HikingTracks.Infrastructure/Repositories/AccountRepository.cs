@@ -19,6 +19,11 @@ public class AccountRepository : IAccountRepository
         _context.Accounts.Add(account);
     }
 
+    public void DeleteAccount(Account account)
+    {
+        _context.Accounts.Remove(account);
+    }
+
     async Task<Account?> IAccountRepository.GetAccount(Guid id)
     {
         return await _context.Accounts.SingleOrDefaultAsync(account => account.ID == id);

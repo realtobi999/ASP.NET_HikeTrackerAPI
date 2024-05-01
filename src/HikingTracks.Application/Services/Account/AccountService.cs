@@ -38,15 +38,17 @@ public class AccountService : IAccountService
         return account.ToDTO();
     }
 
+    public async Task DeleteAccount(Guid id)
+    {
+        var account = await _repository.Account.GetAccount(id) ?? throw new AccountNotFoundException(id);
+
+        _repository.Account.DeleteAccount(account);
+        await _repository.SaveAsync();
+    }
+
     public async Task<AccountDto> GetAccount(Guid id)
     {
-        var account = await _repository.Account.GetAccount(id);
-
-        if (account is null) 
-        {
-            throw new AccountNotFoundException(id);
-        }
-
+        var account = await _repository.Account.GetAccount(id) ?? throw new AccountNotFoundException(id);
         return account.ToDTO();
     }
 

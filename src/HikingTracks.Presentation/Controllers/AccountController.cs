@@ -62,4 +62,12 @@ public class AccountController : ControllerBase
 
         return Ok();
     }
+
+    [HttpDelete("{accountID:guid}")]
+    public async Task<IActionResult> DeleteAccount(Guid accountID)
+    {
+        await _service.AccountService.DeleteAccount(accountID);
+
+        return Ok();
+    }
 }

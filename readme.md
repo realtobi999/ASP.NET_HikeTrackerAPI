@@ -95,3 +95,17 @@ Update an existing account's information.
 ### Response
 
 `200` - Status OK
+
+---
+
+### `DELETE /api/account/{account_id}`
+
+Delete an existing account.
+
+### Parameters
+
+- `account_id` : The id of the account.
+
+### Response
+
+`200` - Status OK

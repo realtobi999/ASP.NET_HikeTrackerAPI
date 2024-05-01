@@ -38,7 +38,7 @@ public class AccountControllerTests
     }
 
     [Fact]
-    public async Task Account_CreateAccount_Works()
+    public async Task Account_CreateAccount_ReturnsCreated()
     {
         var client = new WebAppFactory<Program>().CreateDefaultClient();
         var account = new Account().WithFakeData();
@@ -77,4 +77,19 @@ public class AccountControllerTests
         body.Email.Should().Be("tobiasfilgas@gmail.com");
         body.TotalHikes.Should().Be(13);
     }
+
+   [Fact] 
+   public async Task Account_DeleteAccount_ReturnsOK()
+   {
+        var client = new WebAppFactory<Program>().CreateDefaultClient(); 
+        var account = new Account().WithFakeData();
+
+        var create = await client.PostAsJsonAsync("/api/account", account);
+        create.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
+
+        var response = await client.DeleteAsync(string.Format("/api/account/{0}", account.ID));
+        
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+   }
+
 }
