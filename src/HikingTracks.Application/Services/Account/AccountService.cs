@@ -18,10 +18,10 @@ public class AccountService : IAccountService
         _logger = logger;
     }
 
-    public AccountDto CreateAccount(CreateAccountDto createAccountDto)
+    public async Task<AccountDto> CreateAccount(CreateAccountDto createAccountDto)
     {
         var account = new Account(){
-            ID = Guid.NewGuid(),
+            ID = createAccountDto.ID ?? Guid.NewGuid(),
             Username = createAccountDto.Username,
             Email = createAccountDto.Email,
             Password = createAccountDto.Password,
@@ -33,14 +33,14 @@ public class AccountService : IAccountService
         };
 
         _repository.Account.CreateAccount(account);
-        _repository.Save();
+        await _repository.SaveAsync();
 
         return account.ToDTO();
     }
 
-    public AccountDto GetAccount(Guid id)
+    public async Task<AccountDto> GetAccount(Guid id)
     {
-        var account = _repository.Account.GetAccount(id);
+        var account = await _repository.Account.GetAccount(id);
 
         if (account is null) 
         {
@@ -50,9 +50,9 @@ public class AccountService : IAccountService
         return account.ToDTO();
     }
 
-    public IEnumerable<AccountDto> GetAllAccounts()
+    public async Task<IEnumerable<AccountDto>> GetAllAccounts()
     {
-        var accounts = _repository.Account.GetAllAccounts();
+        var accounts = await _repository.Account.GetAllAccounts();
         var accountsDto = new List<AccountDto>();
 
         foreach (var account in accounts) {

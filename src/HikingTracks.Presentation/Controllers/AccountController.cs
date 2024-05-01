@@ -16,17 +16,17 @@ public class AccountController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetAccounts()
+    public async Task<IActionResult> GetAccounts()
     {
-        var accounts = _service.AccountService.GetAllAccounts();
+        var accounts = await _service.AccountService.GetAllAccounts();
 
         return Ok(accounts);
     }
 
     [HttpGet("{accountID:guid}")]
-    public IActionResult GetAccount(Guid accountID) 
+    public async Task<IActionResult> GetAccount(Guid accountID) 
     {
-        var account = _service.AccountService.GetAccount(accountID);
+        var account = await _service.AccountService.GetAccount(accountID);
 
         if (account is null)
         {
@@ -37,14 +37,14 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult CreateAccount([FromBody] CreateAccountDto createAccountDto)
+    public async Task<IActionResult> CreateAccount([FromBody] CreateAccountDto createAccountDto)
     {
         if (createAccountDto is null) 
         {
             return BadRequest("Body is not provided");
         }
 
-        var account = _service.AccountService.CreateAccount(createAccountDto);
+        var account = await _service.AccountService.CreateAccount(createAccountDto);
 
         return Created(string.Format("/api/account/{0}", account.ID), account);
     }

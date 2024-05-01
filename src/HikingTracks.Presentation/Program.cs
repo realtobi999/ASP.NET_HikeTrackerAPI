@@ -2,36 +2,45 @@ using HikingTracks.Domain.Interfaces;
 using HikingTracks.Presentation.Extensions;
 using NLog;
 
-LogManager.Setup().LoadConfigurationFromFile(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
-
-var builder = WebApplication.CreateBuilder(args);
+namespace HikingTracks.Presentation
 {
-    builder.Services.AddControllers();
-    builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
-
-    builder.Services.ConfigureCors();
-    builder.Services.ConfigureLoggerService();
-    builder.Services.ConfigureRepositoryManager();
-    builder.Services.ConfigureServiceManager();
-    builder.Services.ConfigureDbContext();
-}
-
-var app = builder.Build();
-{
-    var logger = app.Services.GetRequiredService<ILoggerManager>();
-    app.ConfigureExceptionHandler(logger);
-
-    if (app.Environment.IsDevelopment())
+    public class Program
     {
-        app.UseSwagger();
-        app.UseSwaggerUI();
+        private static void Main(string[] args)
+        {
+            LogManager.Setup().LoadConfigurationFromFile(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
+
+            var builder = WebApplication.CreateBuilder(args);
+            {
+                builder.Services.AddControllers();
+                builder.Services.AddEndpointsApiExplorer();
+                builder.Services.AddSwaggerGen();
+
+                builder.Services.ConfigureCors();
+                builder.Services.ConfigureLoggerService();
+                builder.Services.ConfigureRepositoryManager();
+                builder.Services.ConfigureServiceManager();
+                builder.Services.ConfigureDbContext();
+            }
+
+            var app = builder.Build();
+            {
+                var logger = app.Services.GetRequiredService<ILoggerManager>();
+                app.ConfigureExceptionHandler(logger);
+
+                if (app.Environment.IsDevelopment())
+                {
+                    app.UseSwagger();
+                    app.UseSwaggerUI();
+                }
+
+                app.UseCors("CorsPolicy");
+                app.UseHttpsRedirection();
+                app.UseAuthorization();
+                app.MapControllers();
+
+                app.Run();
+            }
+        }
     }
-
-    app.UseCors("CorsPolicy");
-    app.UseHttpsRedirection();
-    app.UseAuthorization();
-    app.MapControllers();
-
-    app.Run();
 }

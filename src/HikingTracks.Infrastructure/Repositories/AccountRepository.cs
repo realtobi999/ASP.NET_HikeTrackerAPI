@@ -1,5 +1,6 @@
 ﻿using HikingTracks.Domain.Entities;
 using HikingTracks.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace HikingTracks.Infrastructure.Repositories;
 
@@ -17,13 +18,13 @@ public class AccountRepository : IAccountRepository
         _context.Accounts.Add(account);
     }
 
-    public Account? GetAccount(Guid id)
+    async Task<Account?> IAccountRepository.GetAccount(Guid id)
     {
-        return _context.Accounts.SingleOrDefault(account => account.ID == id);
+        return await _context.Accounts.SingleOrDefaultAsync(account => account.ID == id);
     }
 
-    public IEnumerable<Account> GetAllAccounts()
+    async Task<IEnumerable<Account>> IAccountRepository.GetAllAccounts()
     {
-        return _context.Accounts.ToList();
+        return await _context.Accounts.ToListAsync();
     }
 }

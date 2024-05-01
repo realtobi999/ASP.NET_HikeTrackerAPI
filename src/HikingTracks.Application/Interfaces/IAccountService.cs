@@ -5,7 +5,7 @@ namespace HikingTracks.Application.Interfaces;
 
 public interface IAccountService
 {
-    IEnumerable<AccountDto> GetAllAccounts();
-    AccountDto GetAccount(Guid id);
-    AccountDto CreateAccount(CreateAccountDto createAccountDto);
+    Task<IEnumerable<AccountDto>> GetAllAccounts();
+    Task<AccountDto> GetAccount(Guid id);
+    Task<AccountDto> CreateAccount(CreateAccountDto createAccountDto);
 }

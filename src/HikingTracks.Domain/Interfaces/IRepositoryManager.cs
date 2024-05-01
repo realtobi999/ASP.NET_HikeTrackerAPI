@@ -3,5 +3,5 @@
 public interface IRepositoryManager
 {
     IAccountRepository Account { get; }
-    void Save();
+    Task<int> SaveAsync();
 }
