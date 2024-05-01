@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using HikingTracks.Application.Services.AccountService;
+using HikingTracks.Domain;
 using HikingTracks.Domain.Entities;
 using HikingTracks.Domain.Exceptions;
 using HikingTracks.Domain.Interfaces;
@@ -47,9 +48,31 @@ public class AccountServiceTests
     {
         var repository = new Mock<IRepositoryManager>();
         var logger = new Mock<ILoggerManager>();
-        repository.Setup(repo => repo.Account.GetAccount(Guid.Empty)).ReturnsAsync((Account)null);
+        repository.Setup(repo => repo.Account.GetAccount(Guid.Empty)).ReturnsAsync(null as Account);
         var service = new AccountService(repository.Object, logger.Object);
 
         var account = await Assert.ThrowsAsync<AccountNotFoundException>(async () => await service.GetAccount(Guid.Empty));
     } 
+
+    [Fact]
+    public async void Account_DeleteAccount_FailsWhenNotFound()
+    {
+        var repository = new Mock<IRepositoryManager>();
+        var logger = new Mock<ILoggerManager>();
+        repository.Setup(repo => repo.Account.GetAccount(Guid.Empty)).ReturnsAsync(null as Account);
+        var service = new AccountService(repository.Object, logger.Object);
+
+        var account = await Assert.ThrowsAsync<AccountNotFoundException>(async () => await service.DeleteAccount(Guid.Empty));
+    }
+    
+    [Fact]
+    public async void Account_UpdateAccount_FailsWhenNotFound()
+    {
+        var repository = new Mock<IRepositoryManager>();
+        var logger = new Mock<ILoggerManager>();
+        repository.Setup(repo => repo.Account.GetAccount(Guid.Empty)).ReturnsAsync(null as Account);
+        var service = new AccountService(repository.Object, logger.Object);
+
+        var account = await Assert.ThrowsAsync<AccountNotFoundException>(async () => await service.UpdateAccount(Guid.Empty, new UpdateAccountDto()));
+    }
 }
