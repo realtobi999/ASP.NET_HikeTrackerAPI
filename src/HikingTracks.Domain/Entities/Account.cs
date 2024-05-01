@@ -32,7 +32,7 @@ public class Account
     public int TotalHikes { get; set; }
 
     [Column("total_distance")]
-    [Required, DefaultValue(0), MinLength(0)]
+    [Required, DefaultValue(0)]
     [Range(0, double.MaxValue)]
     public double TotalDistance { get; set; }
 

@@ -7,6 +7,16 @@ namespace HikingTracks.Presentation;
 
 [Route("api/account")]
 [ApiController]
+
+/*
+
+GET /api/account
+GET /api/account/{account_id}
+POST /api/account
+PUT /api/account/{account_id}
+DELETE /api/account/{account_id}
+
+*/
 public class AccountController : ControllerBase
 {
     private readonly IServiceManager _service;
