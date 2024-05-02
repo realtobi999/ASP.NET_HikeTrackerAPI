@@ -24,7 +24,7 @@ Retrieve a list of all accounts.
 ]
 ```
 
-- `200` - Status OK
+`200` - Status OK
 
 ---
 
@@ -117,5 +117,95 @@ Delete an existing account.
 - `account_id` : The id of the account.
 
 ### Response
+
+`200` - Status OK
+
+## Hike Endpoints
+
+### `GET /api/hike`
+
+Retrieve a list of all hikes.
+
+### Response
+
+```json
+[
+  {
+    "id": "ad31e37d-cfb2-4b6d-bfc8-e577849f6265",
+    "accountID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "distance": 10.5,
+    "elevationGain": 200,
+    "elevationLoss": 150,
+    "averageSpeed": 10.5,
+    "maxSpeed": 15.5,
+    "movingTime": "01:30:00",
+    "coordinates": [
+      {
+        "latitude": 37.7749,
+        "longitude": -122.4194
+      },
+      {
+        "latitude": 40.7128,
+        "longitude": -74.006
+      },
+      {
+        "latitude": 34.0522,
+        "longitude": -118.2437
+      },
+      {
+        "latitude": 51.5074,
+        "longitude": -0.1278
+      }
+    ]
+  }
+]
+```
+
+`200` - Status OK
+
+---
+
+### `GET /api/hike/{hike_id}`
+
+Retrieve a hike by it's ID.
+
+### Parameters
+
+- `hike_id` : The id of the hike.
+
+### Response
+
+```json
+[
+  {
+    "id": "ad31e37d-cfb2-4b6d-bfc8-e577849f6265",
+    "accountID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "distance": 10.5,
+    "elevationGain": 200,
+    "elevationLoss": 150,
+    "averageSpeed": 10.5,
+    "maxSpeed": 15.5,
+    "movingTime": "01:30:00",
+    "coordinates": [
+      {
+        "latitude": 37.7749,
+        "longitude": -122.4194
+      },
+      {
+        "latitude": 40.7128,
+        "longitude": -74.006
+      },
+      {
+        "latitude": 34.0522,
+        "longitude": -118.2437
+      },
+      {
+        "latitude": 51.5074,
+        "longitude": -0.1278
+      }
+    ]
+  }
+]
+```
 
 `200` - Status OK
