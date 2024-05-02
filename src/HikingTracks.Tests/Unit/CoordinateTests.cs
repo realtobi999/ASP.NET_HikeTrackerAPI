@@ -2,7 +2,7 @@
 using HikingTracks.Domain;
 using HikingTracks.Domain.Entities;
 
-namespace HikingTracks.Tests;
+namespace HikingTracks.Tests.Unit;
 
 public class CoordinateTests
 {

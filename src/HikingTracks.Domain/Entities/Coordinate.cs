@@ -1,5 +1,4 @@
-﻿
-namespace HikingTracks.Domain.Entities;
+﻿namespace HikingTracks.Domain.Entities;
 
 public class Coordinate
 {
@@ -17,7 +16,7 @@ public class Coordinate
     {
         if (Latitude < -90 || Latitude > 90)
         {
-            throw new InvalidCoordinateException("Latitude must be between -91 and 90 degrees.");
+            throw new InvalidCoordinateException("Latitude must be between -90 and 90 degrees.");
         }
 
         if (Longitude < -180 || Longitude > 180)
