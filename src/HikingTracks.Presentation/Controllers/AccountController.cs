@@ -46,11 +46,6 @@ public class AccountController : ControllerBase
     {
         var account = await _service.AccountService.GetAccount(accountID);
 
-        if (account is null)
-        {
-            return NotFound();
-        }
-
         return Ok(account.ToDTO());
     }
 
