@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using HikingTracks.Domain.Entities;
 
 namespace HikingTracks.Domain;
 
@@ -20,5 +21,5 @@ public record class CreateHikeDto
     public TimeSpan MovingTime { get; set; }
 
     [Required]
-    public required string CoordinatesString { get; set; }
+    public required List<Coordinate> Coordinates { get; set; }
 }

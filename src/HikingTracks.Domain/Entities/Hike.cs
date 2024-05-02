@@ -30,13 +30,14 @@ public class Hike
     public TimeSpan MovingTime { get; set; }
 
     [Required, Column("coordinates")]
-    public required string CoordinatesString { get; set; }
+    public string CoordinatesString
+    {
+        get => string.Join(";", Coordinates.Select(a => a.ToString()));
+        set => Coordinates = value.Split(';').Select(Coordinate.Parse).ToList();
+    }
 
     [NotMapped]
-    public List<Coordinate> Coordinates 
-    { 
-        get => CoordinatesString.Split(';').Select(Coordinate.Parse).ToList();
-    }
+    public required List<Coordinate> Coordinates; 
 
     [ForeignKey("account_id")]
     public Account? Account { get; set; }
