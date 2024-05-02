@@ -24,6 +24,8 @@ Retrieve a list of all accounts.
 ]
 ```
 
+- `200` - Status OK
+
 ---
 
 ### `GET /api/account/{account_id}`
@@ -50,6 +52,8 @@ Retrieve a account by it's ID.
 ]
 ```
 
+`200` - Status OK
+
 ---
 
 ### `POST /api/account`
@@ -67,6 +71,12 @@ Create a new account with the provided details.
 ```
 
 ### Response
+
+``` json
+{
+    "token": "1c62211f-0451-4e13-8ddf-6a6de9284325"
+}
+```
 
 `201` - Status Created
 
