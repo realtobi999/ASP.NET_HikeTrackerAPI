@@ -1,5 +1,5 @@
 ﻿namespace HikingTracks.Domain.Exceptions;
 
-public class AccountNotFoundException(Guid id) : NotFoundException($"The account with the id: {id} doesn't exist.")
+public class AccountNotFoundException(Guid Id) : NotFoundException($"The account with the id: {Id} doesn't exist.")
 {
 }

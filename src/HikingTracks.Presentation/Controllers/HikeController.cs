@@ -29,6 +29,14 @@ public class HikeController : ControllerBase
         return Ok(hikesDto);
     }
 
+    [HttpGet("{accountID:guid}")]
+    public async Task<IActionResult> GetHike(Guid accountID)
+    {
+        var hike = await _service.HikeService.GetHike(accountID);
+
+        return Ok(hike.ToDTO());
+    }
+
     [HttpPost("{accountID:guid}")]
     public async Task<IActionResult> CreateHike(Guid accountID, [FromBody] CreateHikeDto createHikeDto)
     {

@@ -20,6 +20,11 @@ public class HikeRepository : IHikeRepository
 
     public async Task<IEnumerable<Hike>> GetAllHikes()
     {
-            return await _context.Hikes.ToListAsync();
+        return await _context.Hikes.ToListAsync();
+    }
+
+    public async Task<Hike?> GetHike(Guid Id)
+    {
+        return await _context.Hikes.SingleOrDefaultAsync(account => account.ID == Id);
     }
 }

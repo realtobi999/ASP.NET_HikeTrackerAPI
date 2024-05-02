@@ -49,4 +49,11 @@ public class HikeService : IHikeService
         var hikes = await _repository.Hike.GetAllHikes();
         return hikes;        
     }
+
+    public async Task<Hike> GetHike(Guid Id)
+    {
+        var hike = await _repository.Hike.GetHike(Id) ?? throw new HikeNotFoundException(Id);
+
+        return hike;
+    }
 }
