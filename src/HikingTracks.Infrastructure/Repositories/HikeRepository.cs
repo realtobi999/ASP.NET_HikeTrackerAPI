@@ -1,5 +1,6 @@
 ﻿using HikingTracks.Domain.Entities;
 using HikingTracks.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace HikingTracks.Infrastructure.Repositories;
 
@@ -15,5 +16,10 @@ public class HikeRepository : IHikeRepository
     public void CreateHike(Hike hike)
     {
         _context.Hikes.Add(hike);
+    }
+
+    public async Task<IEnumerable<Hike>> GetAllHikes()
+    {
+            return await _context.Hikes.ToListAsync();
     }
 }

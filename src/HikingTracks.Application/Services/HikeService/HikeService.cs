@@ -30,12 +30,23 @@ public class HikeService : IHikeService
             AverageSpeed = createHikeDto.Distance / createHikeDto.MovingTime.TotalSeconds,
             MaxSpeed = createHikeDto.MaxSpeed,
             MovingTime = createHikeDto.MovingTime,
-            CoordinatesString = createHikeDto.CoordinatesString,
+            Coordinates = createHikeDto.Coordinates,
         };
 
         _repository.Hike.CreateHike(hike);
+        
+        account.TotalHikes++;
+        account.TotalDistance += hike.Distance;
+        account.TotalMovingTime += hike.MovingTime;
+
         await _repository.SaveAsync();
 
         return hike;
+    }
+
+    public async Task<IEnumerable<Hike>> GetAllHikes()
+    {
+        var hikes = await _repository.Hike.GetAllHikes();
+        return hikes;        
     }
 }
