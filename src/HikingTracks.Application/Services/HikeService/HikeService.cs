@@ -22,7 +22,7 @@ public class HikeService : IHikeService
         var account = await _repository.Account.GetAccount(accountID) ?? throw new AccountNotFoundException(accountID); 
 
         var hike = new Hike{
-            ID = Guid.NewGuid(),
+            ID = createHikeDto.Id ?? Guid.NewGuid(),
             AccountID = account.ID,
             Distance = createHikeDto.Distance,
             ElevationGain = createHikeDto.ElevationGain,

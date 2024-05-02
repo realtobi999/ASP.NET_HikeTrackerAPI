@@ -5,6 +5,8 @@ namespace HikingTracks.Domain;
 
 public record class CreateHikeDto
 {
+    public Guid? Id { get; set; }
+
     [Required, Range(0, double.MaxValue)]
     public double Distance { get; set; }
 
@@ -21,5 +23,5 @@ public record class CreateHikeDto
     public TimeSpan MovingTime { get; set; }
 
     [Required]
-    public required List<Coordinate> Coordinates { get; set; }
+    public List<Coordinate> Coordinates { get; set; } = new();
 }
