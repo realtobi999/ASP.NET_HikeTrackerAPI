@@ -37,7 +37,10 @@ public class Hike
     }
 
     [NotMapped]
-    public List<Coordinate> Coordinates = new(); 
+    public List<Coordinate> Coordinates = []; 
+
+    [Required, Column("created_at")]
+    public DateTimeOffset CreatedAt { get; set; }
 
     [ForeignKey("account_id")]
     public Account? Account { get; set; }
@@ -46,15 +49,16 @@ public class Hike
     {
         return new HikeDto
         {
-            ID = ID,
-            AccountID = AccountID,
-            Distance = Distance,
-            ElevationGain = ElevationGain,
-            ElevationLoss = ElevationLoss,
-            AverageSpeed = AverageSpeed,
-            MaxSpeed = MaxSpeed,
-            MovingTime = MovingTime,
-            Coordinates = Coordinates ?? []
+            ID = this.ID,
+            AccountID = this.AccountID,
+            Distance = this.Distance,
+            ElevationGain = this.ElevationGain,
+            ElevationLoss = this.ElevationLoss,
+            AverageSpeed = this.AverageSpeed,
+            MaxSpeed = this.MaxSpeed,
+            MovingTime = this.MovingTime,
+            Coordinates = this.Coordinates ?? [],
+            CreatedAt = this.CreatedAt
         };
     }
 }

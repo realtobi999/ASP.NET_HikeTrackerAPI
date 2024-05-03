@@ -31,6 +31,7 @@ public class HikeService : IHikeService
             MaxSpeed = createHikeDto.MaxSpeed,
             MovingTime = createHikeDto.MovingTime,
             Coordinates = createHikeDto.Coordinates,
+            CreatedAt = DateTimeOffset.UtcNow
         };
 
         _repository.Hike.CreateHike(hike);

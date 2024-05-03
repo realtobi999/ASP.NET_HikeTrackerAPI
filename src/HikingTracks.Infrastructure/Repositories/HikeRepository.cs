@@ -20,7 +20,8 @@ public class HikeRepository : IHikeRepository
 
     public async Task<IEnumerable<Hike>> GetAllHikes()
     {
-        return await _context.Hikes.ToListAsync();
+        var hikes = await _context.Hikes.OrderBy(hike => hike.CreatedAt).ToListAsync();
+        return hikes;
     }
 
     public async Task<Hike?> GetHike(Guid Id)

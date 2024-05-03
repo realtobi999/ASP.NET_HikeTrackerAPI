@@ -31,6 +31,6 @@ public class AccountRepository : IAccountRepository
 
     async Task<IEnumerable<Account>> IAccountRepository.GetAllAccounts()
     {
-        return await _context.Accounts.ToListAsync();
+        return await _context.Accounts.OrderBy(account => account.CreatedAt).ToListAsync();
     }
 }

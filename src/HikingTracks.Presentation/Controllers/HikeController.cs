@@ -36,17 +36,4 @@ public class HikeController : ControllerBase
 
         return Ok(hike.ToDTO());
     }
-
-    [HttpPost("{accountID:guid}")]
-    public async Task<IActionResult> CreateHike(Guid accountID, [FromBody] CreateHikeDto createHikeDto)
-    {
-        if (createHikeDto is null)
-        {
-            return BadRequest("Body is not provided");
-        }
-
-        var hike = await _service.HikeService.CreateHike(accountID, createHikeDto);
-
-        return Created(string.Format("/api/hike/{0}", hike.ID), null);
-    }
 }
