@@ -47,6 +47,14 @@ public class HikeService : IHikeService
         return hike;
     }
 
+    public async Task DeleteHike(Guid Id)
+    {
+        var hike = await _repository.Hike.GetHike(Id) ?? throw new HikeNotFoundException(Id);
+
+        _repository.Hike.DeleteHike(hike);
+        await _repository.SaveAsync();
+    }
+
     public async Task<IEnumerable<Hike>> GetAllHikes()
     {
         var hikes = await _repository.Hike.GetAllHikes();

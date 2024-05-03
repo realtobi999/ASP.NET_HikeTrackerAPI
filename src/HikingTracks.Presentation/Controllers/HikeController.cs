@@ -36,4 +36,12 @@ public class HikeController : ControllerBase
 
         return Ok(hike.ToDTO());
     }
+
+    [HttpDelete("{hikeID:guid}")]
+    public async Task<IActionResult> DeleteHike(Guid hikeID)
+    {
+        await _service.HikeService.DeleteHike(hikeID);
+        
+        return Ok();
+    }
 }

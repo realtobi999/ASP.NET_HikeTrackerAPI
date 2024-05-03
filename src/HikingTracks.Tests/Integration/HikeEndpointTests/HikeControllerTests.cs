@@ -83,4 +83,26 @@ public class HikeControllerTests
         body.ElementAt(0).ID.Should().Be(hike1.ID);
         body.ElementAt(1).ID.Should().Be(hike2.ID); 
     }
+
+    [Fact]
+    public async Task Hike_DeleteHike_ReturnsOKAsync()
+    {
+        // Prepare
+        var client = new WebAppFactory<Program>().CreateDefaultClient();
+        var hike = new Hike().WithFakeData();
+        var account = new Account().WithFakeData();
+ 
+        var create1 = await client.PostAsJsonAsync("/api/account", account);
+        create1.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
+
+        var create2 = await client.PostAsJsonAsync(string.Format("/api/account/{0}/hike", account.ID), hike.ToCreateHikeDto());
+        create2.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
+
+        // Act & Assert
+    
+        var response = await client.DeleteAsync(string.Format("/api/hike/{0}", hike.ID));
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+
+        (await client.GetAsync(string.Format("/api/hike/{0}", hike.ID))).StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
+    }
 }

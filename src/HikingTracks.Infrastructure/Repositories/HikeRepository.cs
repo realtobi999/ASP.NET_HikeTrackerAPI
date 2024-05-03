@@ -18,6 +18,11 @@ public class HikeRepository : IHikeRepository
         _context.Hikes.Add(hike);
     }
 
+    public void DeleteHike(Hike hike)
+    {
+        _context.Hikes.Remove(hike);
+    }
+
     public async Task<IEnumerable<Hike>> GetAllHikes()
     {
         var hikes = await _context.Hikes.OrderBy(hike => hike.CreatedAt).ToListAsync();
