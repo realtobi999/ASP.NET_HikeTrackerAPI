@@ -11,6 +11,12 @@ public class Hike
     [Required, Column("account_id")]
     public Guid AccountID { get; set; }
 
+    [Required, Column("title")]
+    public string? Title { get; set; }
+
+    [Required, Column("description")]
+    public string? Description { get; set; }
+
     [Required, Column("distance"), Range(0, double.MaxValue)]
     public double Distance { get; set; }
 

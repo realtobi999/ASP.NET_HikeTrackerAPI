@@ -24,6 +24,8 @@ public class HikeService : IHikeService
         var hike = new Hike{
             ID = createHikeDto.Id ?? Guid.NewGuid(),
             AccountID = account.ID,
+            Title = createHikeDto.Title,
+            Description = createHikeDto.Description,
             Distance = createHikeDto.Distance,
             ElevationGain = createHikeDto.ElevationGain,
             ElevationLoss = createHikeDto.ElevationLoss,
@@ -48,6 +50,7 @@ public class HikeService : IHikeService
     public async Task<IEnumerable<Hike>> GetAllHikes()
     {
         var hikes = await _repository.Hike.GetAllHikes();
+        
         return hikes;        
     }
 

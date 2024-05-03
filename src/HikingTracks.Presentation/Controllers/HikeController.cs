@@ -29,10 +29,10 @@ public class HikeController : ControllerBase
         return Ok(hikesDto);
     }
 
-    [HttpGet("{accountID:guid}")]
-    public async Task<IActionResult> GetHike(Guid accountID)
+    [HttpGet("{hikeID:guid}")]
+    public async Task<IActionResult> GetHike(Guid hikeID)
     {
-        var hike = await _service.HikeService.GetHike(accountID);
+        var hike = await _service.HikeService.GetHike(hikeID);
 
         return Ok(hike.ToDTO());
     }

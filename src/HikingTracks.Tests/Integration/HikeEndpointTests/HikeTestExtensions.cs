@@ -9,6 +9,8 @@ public static class HikeTestExtensions
     private static readonly Faker<Hike> _hikeFaker = new Faker<Hike>()
             .RuleFor(h => h.ID, f => f.Random.Guid())
             .RuleFor(h => h.AccountID, f => f.Random.Guid())
+            .RuleFor(h => h.Title, f => f.Random.AlphaNumeric(32))
+            .RuleFor(h => h.Description, f => f.Random.AlphaNumeric(123))
             .RuleFor(h => h.Distance, f => f.Random.Double(0, 100))
             .RuleFor(h => h.ElevationGain, f => f.Random.Double(0, 500))
             .RuleFor(h => h.ElevationLoss, f => f.Random.Double(0, 500))
@@ -17,6 +19,7 @@ public static class HikeTestExtensions
             .RuleFor(h => h.MovingTime, f => f.Date.Timespan())
             .RuleFor(h => h.Coordinates, f => GenerateRandomCoordinates())
             .RuleFor(h => h.CreatedAt, f => DateTimeOffset.UtcNow);
+
     private static List<Coordinate> GenerateRandomCoordinates()
     {
         var random = new Random();
@@ -41,6 +44,8 @@ public static class HikeTestExtensions
     {
         return new CreateHikeDto{
             Id = hike.ID,
+            Title = hike.Title,
+            Description = hike.Description,
             Distance = hike.Distance,
             ElevationGain = hike.ElevationGain,
             ElevationLoss = hike.ElevationLoss,
