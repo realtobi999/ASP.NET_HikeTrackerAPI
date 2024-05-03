@@ -209,3 +209,51 @@ Retrieve a hike by it's ID.
 ```
 
 `200` - Status OK
+
+---
+
+### `POST /api/account/{account_id}/hike`
+
+Create a new hike with the provided details.
+
+### Parameters
+
+- `account_id` : The id of the account.
+
+### Request Body
+
+``` json
+
+{
+    "Distance": "int",
+    "ElevationGain": "int",
+    "ElevationLoss": "int",
+    "MaxSpeed": "int",
+    "MovingTime": "string (format: 01:30:05)",
+    "Coordinates": [
+        { "latitude": "int", "longitude": "int" },
+        { "latitude": "int", "longitude": "int" },
+        { "latitude": "int", "longitude": "int" },
+        { "latitude": "int", "longitude": "int" }
+    ]
+}
+
+```
+
+### Response
+
+`201` - Status Created
+
+---
+
+### `DELETE /api/hike/{hike_id}`
+
+Delete an existing hike.
+
+### Parameters
+
+- `hike_id` : The id of the hike.
+
+### Response
+
+`200` - Status OK
