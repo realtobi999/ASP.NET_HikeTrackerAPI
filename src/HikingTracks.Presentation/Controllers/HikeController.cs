@@ -47,6 +47,6 @@ public class HikeController : ControllerBase
 
         var hike = await _service.HikeService.CreateHike(accountID, createHikeDto);
 
-        return Created(string.Format("/api/account/{0}", hike.ID), null);
+        return Created(string.Format("/api/hike/{0}", hike.ID), null);
     }
 }
