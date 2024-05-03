@@ -1,4 +1,6 @@
-﻿namespace HikingTracks.Domain.Entities;
+﻿using HikingTracks.Domain.Exceptions;
+
+namespace HikingTracks.Domain.Entities;
 
 public class Coordinate
 {

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using HikingTracks.Domain.Entities;
 
-namespace HikingTracks.Domain;
+namespace HikingTracks.Domain.DTO;
 
 public record class CreateHikeDto
 {

@@ -1,5 +1,5 @@
 ﻿using HikingTracks.Application.Interfaces;
-using HikingTracks.Domain;
+using HikingTracks.Domain.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HikingTracks.Presentation.Controllers;

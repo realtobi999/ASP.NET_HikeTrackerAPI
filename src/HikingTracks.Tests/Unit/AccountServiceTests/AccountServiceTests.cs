@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
-using HikingTracks.Application.Services.AccountService;
-using HikingTracks.Domain;
+using HikingTracks.Application.Service;
+using HikingTracks.Domain.DTO;
 using HikingTracks.Domain.Entities;
 using HikingTracks.Domain.Exceptions;
 using HikingTracks.Domain.Interfaces;

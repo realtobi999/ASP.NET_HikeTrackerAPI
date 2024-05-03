@@ -1,6 +1,6 @@
 ﻿using HikingTracks.Domain.Entities;
 
-namespace HikingTracks.Domain;
+namespace HikingTracks.Domain.DTO;
 
 public record HikeDto
 {

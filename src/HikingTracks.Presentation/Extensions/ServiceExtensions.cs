@@ -1,5 +1,5 @@
-﻿using HikingTracks.Application;
-using HikingTracks.Application.Interfaces;
+﻿using HikingTracks.Application.Interfaces;
+using HikingTracks.Application.Service;
 using HikingTracks.Domain.Interfaces;
 using HikingTracks.Infrastructure;
 using HikingTracks.Infrastructure.Repositories;

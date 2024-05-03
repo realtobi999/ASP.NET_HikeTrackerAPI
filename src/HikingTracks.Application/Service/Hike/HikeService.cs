@@ -1,10 +1,11 @@
 ﻿using HikingTracks.Application.Interfaces;
 using HikingTracks.Domain;
+using HikingTracks.Domain.DTO;
 using HikingTracks.Domain.Entities;
 using HikingTracks.Domain.Exceptions;
 using HikingTracks.Domain.Interfaces;
 
-namespace HikingTracks.Application.Services.HikeService;
+namespace HikingTracks.Application.Service;
 
 public class HikeService : IHikeService
 {

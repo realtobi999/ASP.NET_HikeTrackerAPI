@@ -5,7 +5,7 @@ using HikingTracks.Domain.Entities;
 using HikingTracks.Domain.Exceptions;
 using HikingTracks.Domain.Interfaces;
 
-namespace HikingTracks.Application.Services.AccountService;
+namespace HikingTracks.Application.Service;
 
 public class AccountService : IAccountService
 {

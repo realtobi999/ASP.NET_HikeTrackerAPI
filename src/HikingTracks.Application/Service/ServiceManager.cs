@@ -1,9 +1,7 @@
 ﻿using HikingTracks.Application.Interfaces;
-using HikingTracks.Application.Services.AccountService;
-using HikingTracks.Application.Services.HikeService;
 using HikingTracks.Domain.Interfaces;
 
-namespace HikingTracks.Application;
+namespace HikingTracks.Application.Service;
 
 public class ServiceManager : IServiceManager
 {
@@ -12,7 +10,7 @@ public class ServiceManager : IServiceManager
 
     public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger)
     {
-        _accountService = new Lazy<IAccountService>(() => new AccountService(repositoryManager, logger));
+        _accountService = new Lazy<IAccountService>(() => new HikingTracks.Application.Service.AccountService(repositoryManager, logger));
         _hikeService = new Lazy<IHikeService>(() => new HikeService(repositoryManager, logger));
     }
 

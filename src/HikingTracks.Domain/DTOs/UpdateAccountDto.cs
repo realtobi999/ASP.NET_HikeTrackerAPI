@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace HikingTracks.Domain;
+namespace HikingTracks.Domain.DTO;
 
 public record class UpdateAccountDto
 {

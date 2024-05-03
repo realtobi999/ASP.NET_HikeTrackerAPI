@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
-using HikingTracks.Domain;
 using HikingTracks.Domain.Entities;
+using HikingTracks.Domain.Exceptions;
 
 namespace HikingTracks.Tests.Unit;
 

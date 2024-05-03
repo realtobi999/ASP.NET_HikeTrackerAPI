@@ -1,4 +1,4 @@
-﻿using HikingTracks.Domain;
+﻿using HikingTracks.Domain.DTO;
 using HikingTracks.Domain.Entities;
 
 namespace HikingTracks.Application.Interfaces;
