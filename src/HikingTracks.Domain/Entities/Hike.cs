@@ -37,7 +37,7 @@ public class Hike
     }
 
     [NotMapped]
-    public required List<Coordinate> Coordinates; 
+    public List<Coordinate> Coordinates = new(); 
 
     [ForeignKey("account_id")]
     public Account? Account { get; set; }

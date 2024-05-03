@@ -43,7 +43,14 @@ public class AccountControllerTests
         var client = new WebAppFactory<Program>().CreateDefaultClient();
         var account = new Account().WithFakeData();
 
-        var response = await  client.PostAsJsonAsync("/api/account", account);
+        var createAccountDto = new CreateAccountDto{
+            ID = account.ID,
+            Username = account.Username,
+            Email = account.Email,
+            Password = account.Password,
+        };
+
+        var response = await client.PostAsJsonAsync("/api/account", createAccountDto);
 
         response.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
         response.Headers.Contains("Location").Should().BeTrue();
@@ -59,19 +66,25 @@ public class AccountControllerTests
         var client = new WebAppFactory<Program>().CreateDefaultClient(); 
         var account = new Account().WithFakeData();
 
+        var updateAccountDto = new UpdateAccountDto{
+            Username = "tobinek",
+            Email = "tobiasfilgas@gmail.com",
+            TotalHikes = 13,
+            TotalDistance = account.TotalDistance,
+            TotalMovingTime = account.TotalMovingTime
+        };
+
         var create = await client.PostAsJsonAsync("/api/account", account);
         create.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
-        account.Username = "tobinek";
-        account.Email = "tobiasfilgas@gmail.com";
-        account.TotalHikes = 13;        
-
-        var update = await client.PutAsJsonAsync(string.Format("/api/account/{0}", account.ID), account);
+        // Act
+        var update = await client.PutAsJsonAsync(string.Format("/api/account/{0}", account.ID), updateAccountDto);
         update.StatusCode.Should().Be(System.Net.HttpStatusCode.OK); 
 
         var response = await client.GetAsync(string.Format("/api/account/{0}", account.ID));
         response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
 
+        // Assert
         var body = await response.Content.ReadFromJsonAsync<AccountDto>() ??  throw new Exception("Failed to deserialize the response body into an AccountDto object.");
         body.Username.Should().Be("tobinek");
         body.Email.Should().Be("tobiasfilgas@gmail.com");

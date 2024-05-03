@@ -30,8 +30,4 @@
     <ProjectReference Include="..\HikingTracks.Infrastructure\HikingTracks.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Integration\HikeEndpointTests\" />
-  </ItemGroup>
-
 </Project>
