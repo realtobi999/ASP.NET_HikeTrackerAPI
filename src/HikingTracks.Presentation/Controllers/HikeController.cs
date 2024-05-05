@@ -34,7 +34,6 @@ public class HikeController : ControllerBase
             hikes = hikes.Take(limit);
 
         var hikesDto = hikes.Select(hike => hike.ToDTO()).ToList();
-
         return Ok(hikesDto);
     }
 

@@ -31,19 +31,14 @@ public class AccountController : ControllerBase
     public async Task<IActionResult> GetAccounts(int limit = 0, int offset = 0)
     {
         var accounts = await _service.AccountService.GetAllAccounts();
-        var accountsDto = new List<AccountDto>();
 
         if (offset > 0) 
             accounts = accounts.Skip(offset);
 
         if (limit > 0) 
             accounts = accounts.Take(limit);
-        
-        foreach (var account in accounts)
-        {
-            accountsDto.Add(account.ToDTO());
-        }
 
+        var accountsDto = accounts.Select(account => account.ToDTO()).ToList();
         return Ok(accountsDto);
     }
 
