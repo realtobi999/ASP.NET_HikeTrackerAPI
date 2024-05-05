@@ -20,18 +20,16 @@ public class HikeController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetHikes(Guid accountID, int limit = 0, int offset = 0)
     {
-        IEnumerable<Hike> hikes;
-
-        if (accountID != Guid.Empty)
-            hikes = await _service.HikeService.GetAllHikesByAccount(accountID);
-        else
-            hikes = await _service.HikeService.GetAllHikes();
+        var hikes = await _service.HikeService.GetAllHikes();
 
         if (offset > 0)
             hikes = hikes.Skip(offset);
 
         if (limit > 0)
             hikes = hikes.Take(limit);
+        
+        if (accountID != Guid.Empty)
+            hikes = hikes.Where(hike => hike.AccountID == accountID);
 
         var hikesDto = hikes.Select(hike => hike.ToDTO()).ToList();
         return Ok(hikesDto);
