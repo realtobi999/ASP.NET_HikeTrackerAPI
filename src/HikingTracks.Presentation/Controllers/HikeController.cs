@@ -16,9 +16,9 @@ public class HikeController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetHikes(string? limit, string? offset)
+    public async Task<IActionResult> GetHikes(int limit = 0, int offset = 0)
     {
-        var hikes = await _service.HikeService.GetAllHikes(Int32.Parse(limit ?? "0"), Int32.Parse(offset ?? "0"));
+        var hikes = await _service.HikeService.GetAllHikes(limit, offset);
         var hikesDto = new List<HikeDto>();
 
         foreach (var hike in hikes)
