@@ -17,7 +17,7 @@ namespace HikingTracks.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.4")
+                .HasAnnotation("ProductVersion", "8.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -126,25 +126,20 @@ namespace HikingTracks.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("title");
 
-                    b.Property<Guid?>("account_id")
-                        .HasColumnType("uuid");
-
                     b.HasKey("ID");
 
-                    b.HasIndex("account_id");
+                    b.HasIndex("AccountID");
 
-                    b.ToTable("Hikes", t =>
-                        {
-                            t.Property("account_id")
-                                .HasColumnName("account_id1");
-                        });
+                    b.ToTable("Hikes");
                 });
 
             modelBuilder.Entity("HikingTracks.Domain.Entities.Hike", b =>
                 {
                     b.HasOne("HikingTracks.Domain.Entities.Account", "Account")
                         .WithMany()
-                        .HasForeignKey("account_id");
+                        .HasForeignKey("AccountID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Account");
                 });

@@ -49,7 +49,6 @@ public class Hike
     [Required, Column("created_at")]
     public DateTimeOffset CreatedAt { get; set; }
 
-    [ForeignKey("account_id")]
     public Account? Account { get; set; }
 
     public HikeDto ToDTO()
