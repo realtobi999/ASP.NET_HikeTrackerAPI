@@ -6,9 +6,9 @@ namespace HikingTracks.Application.Interfaces;
 
 public interface IAccountService
 {
-    Task<IEnumerable<Account>> GetAllAccounts(int limit = 0, int offset = 0);
-    Task<Account> GetAccount(Guid id);
+    Task<IEnumerable<Account>> GetAllAccounts();
+    Task<Account> GetAccount(Guid Id);
     Task<Account> CreateAccount(CreateAccountDto createAccountDto);
-    Task<int> UpdateAccount(Guid id, UpdateAccountDto updateAccountDto);  
-    Task DeleteAccount(Guid id); 
+    Task<int> UpdateAccount(Guid Id, UpdateAccountDto updateAccountDto);  
+    Task DeleteAccount(Guid Id); 
 }

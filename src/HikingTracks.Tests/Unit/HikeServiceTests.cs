@@ -11,7 +11,7 @@ namespace HikingTracks.Tests.Unit;
 public class HikeServiceTests
 {
     [Fact]
-    public async void Hike_GetAllHikes_Works()
+    public async Task Hike_GetAllHikes_Works()
     {
         // Prepare
         var hike1 = new Hike().WithFakeData();
@@ -33,32 +33,6 @@ public class HikeServiceTests
         hikes.ElementAt(0).Should().BeEquivalentTo(hike1);
         hikes.ElementAt(1).Should().BeEquivalentTo(hike2);
         hikes.ElementAt(2).Should().BeEquivalentTo(hike3);
-    }
-
-    [Fact]
-    public async void Hike_GetAllHikes_LimitAndOffsetWorks()
-    {
-        // Prepare
-        var hike1 = new Hike().WithFakeData();
-        var hike2 = new Hike().WithFakeData();
-        var hike3 = new Hike().WithFakeData();
-
-        var repository = new Mock<IRepositoryManager>();
-        var logger = new Mock<ILoggerManager>();
-
-        repository.Setup(repo => repo.Hike.GetAllHikes()).ReturnsAsync(new List<Hike> { hike1, hike2, hike3 });
-
-        var service = new HikeService(repository.Object, logger.Object);
-
-        // Act & Assert
-        var limit = 2;
-        var offset = 1;
-        var hikes = await service.GetAllHikes(limit, offset);
-
-        hikes.Should().NotBeEmpty();
-        hikes.Count().Should().Be(limit);
-        hikes.ElementAt(0).Should().BeEquivalentTo(hike2);
-        hikes.ElementAt(1).Should().BeEquivalentTo(hike3);
     }
 
     [Fact]
@@ -112,4 +86,30 @@ public class HikeServiceTests
         repository.Verify(repo => repo.SaveAsync(), Times.Once);
     }
 
+    [Fact]
+    public async Task Hike_GetAllHikesByAccount_Works()
+    {
+        // Prepare
+        var accountId = Guid.NewGuid();
+        var hike1 = new Hike().WithFakeData();
+        var hike2 = new Hike().WithFakeData();
+        var hike3 = new Hike().WithFakeData();
+
+        var repository = new Mock<IRepositoryManager>();
+        var logger = new Mock<ILoggerManager>();
+
+        repository.Setup(repo => repo.Hike.GetAllHikesByAccount(accountId)).ReturnsAsync(new List<Hike> { hike1, hike2, hike3 });
+
+        var service = new HikeService(repository.Object, logger.Object);
+
+        // Act
+        var hikes = await service.GetAllHikesByAccount(accountId);
+
+        // Assert
+        hikes.Should().NotBeEmpty();
+        hikes.Count().Should().Be(3);
+        hikes.ElementAt(0).Should().BeEquivalentTo(hike1);
+        hikes.ElementAt(1).Should().BeEquivalentTo(hike2);
+        hikes.ElementAt(2).Should().BeEquivalentTo(hike3);
+    }
 }

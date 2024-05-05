@@ -52,12 +52,9 @@ public class AccountService : IAccountService
         return account;
     }
 
-    public async Task<IEnumerable<Account>> GetAllAccounts(int limit = 0, int offset = 0)
+    public async Task<IEnumerable<Account>> GetAllAccounts()
     {
         var accounts = await _repository.Account.GetAllAccounts();
-
-        if (offset > 0) accounts = accounts.Skip(offset);
-        if (limit > 0 ) accounts = accounts.Take(limit);
 
         return accounts;
     }

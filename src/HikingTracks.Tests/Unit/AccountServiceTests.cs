@@ -32,32 +32,6 @@ public class AccountServiceTests
     }
 
     [Fact]
-    public async void Account_GetAllAccount_LimitAndOffsetWorks()
-    {
-        // Prepare
-        var account1 = new Account().WithFakeData();
-        var account2 = new Account().WithFakeData();
-        var account3 = new Account().WithFakeData();
-
-        var repository = new Mock<IRepositoryManager>();
-        var logger = new Mock<ILoggerManager>();
-
-        repository.Setup(repo => repo.Account.GetAllAccounts()).ReturnsAsync([account1, account2, account3]);
-        var service = new AccountService(repository.Object, logger.Object); 
-
-        // Act & Assert
-
-        var limit = 2;
-        var offset = 1;
-        var accounts = await service.GetAllAccounts(limit, offset);
-
-        accounts.Should().NotBeEmpty();
-        accounts.Count().Should().Be(limit);
-        accounts.ElementAt(0).Should().BeEquivalentTo(account2);
-        accounts.ElementAt(1).Should().BeEquivalentTo(account3);
-    }
-
-    [Fact]
     public async void Account_GetAccount_Works()
     {
         var account = new Account().WithFakeData();

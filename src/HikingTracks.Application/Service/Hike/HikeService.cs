@@ -56,14 +56,18 @@ public class HikeService : IHikeService
         await _repository.SaveAsync();
     }
 
-    public async Task<IEnumerable<Hike>> GetAllHikes(int limit = 0, int offset = 0)
+    public async Task<IEnumerable<Hike>> GetAllHikes()
     {
         var hikes = await _repository.Hike.GetAllHikes();
 
-        if (offset > 0) hikes = hikes.Skip(offset);
-        if (limit > 0) hikes = hikes.Take(limit);
-        
         return hikes;        
+    }
+
+    public async Task<IEnumerable<Hike>> GetAllHikesByAccount(Guid accountId)
+    {
+        var hikes = await _repository.Hike.GetAllHikesByAccount(accountId);
+
+        return hikes;
     }
 
     public async Task<Hike> GetHike(Guid Id)
