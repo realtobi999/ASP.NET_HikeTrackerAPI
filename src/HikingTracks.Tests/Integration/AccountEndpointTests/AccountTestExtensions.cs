@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using HikingTracks.Domain.DTO;
 using HikingTracks.Domain.Entities;
 
 namespace HikingTracks.Tests.Integration.AccountEndpointTests;
@@ -19,5 +20,16 @@ public static class AccountTestExtensions
     public static Account WithFakeData(this Account account)
     {
         return _accountFaker.Generate();
+    }
+
+    public static CreateAccountDto ToCreateAccountDto(this Account account)
+    {
+        return new CreateAccountDto{
+            ID = account.ID,
+            Username = account.Username,
+            Email = account.Email,
+            Password = account.Password,
+        };
+
     }
 }

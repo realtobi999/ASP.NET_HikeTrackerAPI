@@ -27,7 +27,7 @@ public class AccountControllerTests
         var client = new WebAppFactory<Program>().CreateDefaultClient(); 
         var account = new Account().WithFakeData();
 
-        var create = await  client.PostAsJsonAsync("/api/account", account);
+        var create = await  client.PostAsJsonAsync("/api/account", account.ToCreateAccountDto());
         create.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
         var response = await client.GetAsync(string.Format("/api/account/{0}", account.ID));
@@ -43,14 +43,7 @@ public class AccountControllerTests
         var client = new WebAppFactory<Program>().CreateDefaultClient();
         var account = new Account().WithFakeData();
 
-        var createAccountDto = new CreateAccountDto{
-            ID = account.ID,
-            Username = account.Username,
-            Email = account.Email,
-            Password = account.Password,
-        };
-
-        var response = await client.PostAsJsonAsync("/api/account", createAccountDto);
+        var response = await client.PostAsJsonAsync("/api/account", account.ToCreateAccountDto());
 
         response.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
         response.Headers.Contains("Location").Should().BeTrue();
@@ -74,7 +67,7 @@ public class AccountControllerTests
             TotalMovingTime = account.TotalMovingTime
         };
 
-        var create = await client.PostAsJsonAsync("/api/account", account);
+        var create = await client.PostAsJsonAsync("/api/account", account.ToCreateAccountDto());
         create.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
         // Act
@@ -97,12 +90,11 @@ public class AccountControllerTests
         var client = new WebAppFactory<Program>().CreateDefaultClient(); 
         var account = new Account().WithFakeData();
 
-        var create = await client.PostAsJsonAsync("/api/account", account);
+        var create = await client.PostAsJsonAsync("/api/account", account.ToCreateAccountDto());
         create.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
         var response = await client.DeleteAsync(string.Format("/api/account/{0}", account.ID));
         
         response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
    }
-
 }

@@ -29,5 +29,4 @@
     <ProjectReference Include="..\HikingTracks.Presentation\HikingTracks.Presentation.csproj" />
     <ProjectReference Include="..\HikingTracks.Infrastructure\HikingTracks.Infrastructure.csproj" />
   </ItemGroup>
-
 </Project>

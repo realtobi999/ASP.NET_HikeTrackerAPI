@@ -43,7 +43,7 @@ public static class HikeTestExtensions
     public static CreateHikeDto ToCreateHikeDto(this Hike hike)
     {
         return new CreateHikeDto{
-            Id = hike.ID,
+            ID = hike.ID,
             Title = hike.Title,
             Description = hike.Description,
             Distance = hike.Distance,
