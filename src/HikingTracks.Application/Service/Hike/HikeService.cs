@@ -23,7 +23,7 @@ public class HikeService : IHikeService
         var account = await _repository.Account.GetAccount(accountID) ?? throw new AccountNotFoundException(accountID); 
 
         var hike = new Hike{
-            ID = createHikeDto.Id ?? Guid.NewGuid(),
+            ID = createHikeDto.ID ?? Guid.NewGuid(),
             AccountID = account.ID,
             Title = createHikeDto.Title,
             Description = createHikeDto.Description,
@@ -56,9 +56,12 @@ public class HikeService : IHikeService
         await _repository.SaveAsync();
     }
 
-    public async Task<IEnumerable<Hike>> GetAllHikes()
+    public async Task<IEnumerable<Hike>> GetAllHikes(int limit = 0, int offset = 0)
     {
         var hikes = await _repository.Hike.GetAllHikes();
+
+        if (offset > 0) hikes = hikes.Skip(offset);
+        if (limit > 0) hikes = hikes.Take(limit);
         
         return hikes;        
     }

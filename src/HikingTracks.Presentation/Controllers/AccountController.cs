@@ -28,9 +28,9 @@ public class AccountController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAccounts()
+    public async Task<IActionResult> GetAccounts(string? limit, string? offset)
     {
-        var accounts = await _service.AccountService.GetAllAccounts();
+        var accounts = await _service.AccountService.GetAllAccounts(Int32.Parse(limit ?? "0"), Int32.Parse(offset ?? "0"));
         var accountsDto = new List<AccountDto>();
         
         foreach (var account in accounts)
