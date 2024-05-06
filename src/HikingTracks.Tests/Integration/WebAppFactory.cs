@@ -1,10 +1,13 @@
 ﻿using HikingTracks.Infrastructure;
+using HikingTracks.Presentation;
 using HikingTracks.Presentation.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace HikingTracks.Tests;
 
@@ -19,6 +22,7 @@ public class WebAppFactory<TStartup> : WebApplicationFactory<TStartup> where TSt
         {
             // Replace the DbContext registration with an in-memory database
             ReplaceDbContextWithInMemoryDb(services);
+
         });
     }
 

@@ -38,6 +38,8 @@ namespace HikingTracks.Presentation
                 app.UseCors("CorsPolicy");
                 app.UseHttpsRedirection();
                 app.UseAuthorization();
+                app.UseAccountMiddleware();
+
                 if (app.Environment.IsDevelopment())
                     app.MapControllers().AllowAnonymous();
                 else

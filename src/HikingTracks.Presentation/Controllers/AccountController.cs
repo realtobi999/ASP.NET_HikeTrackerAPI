@@ -2,6 +2,7 @@
 using HikingTracks.Application.Interfaces;
 using HikingTracks.Domain;
 using HikingTracks.Domain.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Security.Claims;
@@ -76,6 +77,7 @@ public class AccountController : ControllerBase
         return Ok();
     }
 
+    [Authorize, AccountAuth]
     [HttpDelete("api/account/{accountID:guid}")]
     public async Task<IActionResult> DeleteAccount(Guid accountID)
     {

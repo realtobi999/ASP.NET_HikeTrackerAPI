@@ -36,4 +36,12 @@ public class TokenService : ITokenService
 
         return new JwtSecurityTokenHandler().WriteToken(secToken);
     }
+
+    public IEnumerable<Claim> ParseTokenPayload(string token)
+    {
+        var handler = new JwtSecurityTokenHandler();
+        var payload = handler.ReadJwtToken(token).Claims;
+
+        return payload;
+    }
 }

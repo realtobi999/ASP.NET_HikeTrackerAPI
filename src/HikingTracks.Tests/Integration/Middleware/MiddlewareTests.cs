@@ -19,4 +19,13 @@ public class MiddlewareTests
         body.StatusCode.Should().Be(404);
         body.Message.Should().Be("The account with the id: 00000000-0000-0000-0000-000000000000 doesn't exist.");
     }
+
+    [Fact]
+    public async Task AccountMiddleware_TestThatItReturns401()
+    {
+        // Prepare
+        var client = new WebAppFactory<Program>().CreateDefaultClient();
+        var account = 
+
+    }
 }
