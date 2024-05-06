@@ -22,11 +22,13 @@ public class AccountController : ControllerBase
 {
     private readonly IServiceManager _service;
     private readonly IConfiguration _config;
+    private readonly ITokenService _token;
 
-    public AccountController(IServiceManager service, IConfiguration config)
+    public AccountController(IServiceManager service, IConfiguration config, ITokenService token)
     {
         _service = service;
         _config = config;
+        _token = token;
     }
 
     [HttpGet("api/account")]
@@ -87,7 +89,7 @@ public class AccountController : ControllerBase
     {
         var account = await _service.AccountService.LoginAccount(loginAccountDto);
 
-        var token = new TokenService(_config["Jwt:Issuer"]!, _config["Jwt:Key"]!).CreateToken(account.ID.ToString()); 
+        var token = _token.CreateToken(account.ID.ToString());
 
         return Ok(token);
     }

@@ -38,6 +38,8 @@ public static class ServiceExtensions
 
     public static void ConfigureLoggerService(this IServiceCollection services) =>
         services.AddSingleton<ILoggerManager, LoggerManager>(); 
-    public static void ConfigureTokenService(this IServiceCollection services) =>
-        services.AddSingleton<ITokenService, TokenService>();    
+    public static void ConfigureTokenService(this IServiceCollection services, string jwtIssuer, string jwtKey) =>
+        services.AddSingleton<ITokenService>(new TokenService(jwtIssuer, jwtKey));
+    
+
 }

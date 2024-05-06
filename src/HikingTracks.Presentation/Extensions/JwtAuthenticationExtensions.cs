@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using HikingTracks.Presentation.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -20,6 +21,7 @@ public static class JwtAuthenticationExtensions
             throw new ArgumentNullException(nameof(jwtKey), "JWT Key configuration is missing");
         }
 
+        services.ConfigureTokenService(jwtIssuer, jwtKey);
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -34,6 +36,7 @@ public static class JwtAuthenticationExtensions
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
                     };
                 });
+
     }
 }
 

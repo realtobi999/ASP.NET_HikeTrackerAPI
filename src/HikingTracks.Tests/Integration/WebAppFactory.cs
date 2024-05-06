@@ -1,4 +1,6 @@
 ﻿using HikingTracks.Infrastructure;
+using HikingTracks.Presentation.Extensions;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +18,7 @@ public class WebAppFactory<TStartup> : WebApplicationFactory<TStartup> where TSt
         builder.ConfigureServices(services =>
         {
             // Replace the DbContext registration with an in-memory database
-            this.ReplaceDbContextWithInMemoryDb(services);
+            ReplaceDbContextWithInMemoryDb(services);
         });
     }
 

@@ -22,7 +22,6 @@ namespace HikingTracks.Presentation
                 builder.Services.ConfigureServiceManager();
                 builder.Services.ConfigureDbContext();
                 builder.Services.ConfigureJwtAuthentication(builder.Configuration);
-                builder.Services.ConfigureTokenService();
             }
 
             var app = builder.Build();
@@ -39,7 +38,10 @@ namespace HikingTracks.Presentation
                 app.UseCors("CorsPolicy");
                 app.UseHttpsRedirection();
                 app.UseAuthorization();
-                app.MapControllers();
+                if (app.Environment.IsDevelopment())
+                    app.MapControllers().AllowAnonymous();
+                else
+                    app.MapControllers();
 
                 app.Run();
             }
