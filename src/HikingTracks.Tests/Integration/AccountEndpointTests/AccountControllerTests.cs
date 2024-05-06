@@ -63,9 +63,6 @@ public class AccountControllerTests
         {
             Username = "tobinek",
             Email = "tobiasfilgas@gmail.com",
-            TotalHikes = 13,
-            TotalDistance = account.TotalDistance,
-            TotalMovingTime = account.TotalMovingTime
         };
 
         var create = await client.PostAsJsonAsync("/api/account", account.ToCreateAccountDto());
@@ -82,7 +79,6 @@ public class AccountControllerTests
         var body = await response.Content.ReadFromJsonAsync<AccountDto>() ?? throw new Exception("Failed to deserialize the response body into an AccountDto object.");
         body.Username.Should().Be("tobinek");
         body.Email.Should().Be("tobiasfilgas@gmail.com");
-        body.TotalHikes.Should().Be(13);
     }
 
     [Fact]

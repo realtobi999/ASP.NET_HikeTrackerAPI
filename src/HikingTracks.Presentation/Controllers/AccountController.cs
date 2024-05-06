@@ -55,9 +55,7 @@ public class AccountController : ControllerBase
     public async Task<IActionResult> CreateAccount([FromBody] CreateAccountDto createAccountDto)
     {
         if (createAccountDto is null) 
-        {
             return BadRequest("Body is not provided");
-        }
 
         var account = await _service.AccountService.CreateAccount(createAccountDto);
 
@@ -68,9 +66,7 @@ public class AccountController : ControllerBase
     public async Task<IActionResult> UpdateAccount(Guid accountID, [FromBody] UpdateAccountDto updateAccountDto)
     {
         if (updateAccountDto is null)
-        {
             return BadRequest("Body is not provided");
-        }
 
         _ = await _service.AccountService.UpdateAccount(accountID, updateAccountDto);
 
@@ -90,9 +86,7 @@ public class AccountController : ControllerBase
     {
         var account = await _service.AccountService.LoginAccount(loginAccountDto);
 
-        var claims = new List<Claim>(){
-            new("AccountID", account.ID.ToString())
-        };
+        var claims = new List<Claim>(){ new("AccountID", account.ID.ToString()) };
         var token = _service.AccountService.CreateToken(_config["Jwt:Key"]!, _config["Jwt:Issuer"]!, claims);
 
         return Ok(token);

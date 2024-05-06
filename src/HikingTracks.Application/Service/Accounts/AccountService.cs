@@ -97,9 +97,6 @@ public class AccountService : IAccountService
 
         account.Username = updateAccountDto.Username;
         account.Email = updateAccountDto.Email;
-        account.TotalHikes = updateAccountDto.TotalHikes;
-        account.TotalDistance = updateAccountDto.TotalDistance;
-        account.TotalMovingTime = updateAccountDto.TotalMovingTime;
 
         return await _repository.SaveAsync();
     }

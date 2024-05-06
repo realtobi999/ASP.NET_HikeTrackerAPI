@@ -21,6 +21,8 @@ namespace HikingTracks.Presentation
                 builder.Services.ConfigureRepositoryManager();
                 builder.Services.ConfigureServiceManager();
                 builder.Services.ConfigureDbContext();
+                
+                builder.ConfigureJwtAuthentication();
             }
 
             var app = builder.Build();

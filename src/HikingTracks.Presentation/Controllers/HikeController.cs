@@ -2,6 +2,7 @@
 using HikingTracks.Application.Interfaces;
 using HikingTracks.Domain.DTO;
 using HikingTracks.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HikingTracks.Presentation.Controllers;
@@ -42,6 +43,7 @@ public class HikeController : ControllerBase
         return Ok(hike.ToDTO());
     }
     
+    [Authorize]
     [HttpPost("api/account/{accountID:guid}/hike")]
     public async Task<IActionResult> CreateHike(Guid accountID, [FromBody] CreateHikeDto createHikeDto)
     {
