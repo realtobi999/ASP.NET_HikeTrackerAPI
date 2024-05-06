@@ -1,4 +1,5 @@
-﻿using HikingTracks.Application.Interfaces;
+﻿using HikingTracks.Application;
+using HikingTracks.Application.Interfaces;
 using HikingTracks.Application.Service;
 using HikingTracks.Domain.Interfaces;
 using HikingTracks.Infrastructure;
@@ -37,4 +38,6 @@ public static class ServiceExtensions
 
     public static void ConfigureLoggerService(this IServiceCollection services) =>
         services.AddSingleton<ILoggerManager, LoggerManager>(); 
+    public static void ConfigureTokenService(this IServiceCollection services) =>
+        services.AddSingleton<ITokenService, TokenService>();    
 }

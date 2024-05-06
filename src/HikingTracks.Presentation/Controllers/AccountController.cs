@@ -1,4 +1,5 @@
-﻿using HikingTracks.Application.Interfaces;
+﻿using HikingTracks.Application;
+using HikingTracks.Application.Interfaces;
 using HikingTracks.Domain;
 using HikingTracks.Domain.DTO;
 using Microsoft.AspNetCore.Mvc;
@@ -86,8 +87,7 @@ public class AccountController : ControllerBase
     {
         var account = await _service.AccountService.LoginAccount(loginAccountDto);
 
-        var claims = new List<Claim>(){ new("AccountID", account.ID.ToString()) };
-        var token = _service.AccountService.CreateToken(_config["Jwt:Key"]!, _config["Jwt:Issuer"]!, claims);
+        var token = new TokenService(_config["Jwt:Issuer"]!, _config["Jwt:Key"]!).CreateToken(account.ID.ToString()); 
 
         return Ok(token);
     }

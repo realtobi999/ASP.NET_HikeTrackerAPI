@@ -13,5 +13,4 @@ public interface IAccountService
     Task<Account> CreateAccount(CreateAccountDto createAccountDto);
     Task<int> UpdateAccount(Guid Id, UpdateAccountDto updateAccountDto);  
     Task DeleteAccount(Guid Id); 
-    string CreateToken(string key, string issuer, IEnumerable<Claim> claims);
 }

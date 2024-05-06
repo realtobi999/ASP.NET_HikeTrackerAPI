@@ -40,22 +40,7 @@ public class AccountService : IAccountService
 
         return account;
     }
-
-    public string CreateToken(string key, string issuer, IEnumerable<Claim> claims)
-    {
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
-        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-        var secToken = new JwtSecurityToken(
-            issuer,
-            issuer,
-            claims,
-            expires: DateTime.Now.AddHours(2),
-            signingCredentials: credentials);
-
-        return new JwtSecurityTokenHandler().WriteToken(secToken);
-    }
-
+    
     public async Task DeleteAccount(Guid id)
     {
         var account = await _repository.Account.GetAccount(id) ?? throw new AccountNotFoundException(id);
