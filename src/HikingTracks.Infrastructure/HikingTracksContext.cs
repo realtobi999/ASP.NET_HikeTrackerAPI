@@ -9,8 +9,10 @@ public class HikingTracksContext(DbContextOptions<HikingTracksContext> options) 
     public DbSet<Account> Accounts { get; set; }
     public DbSet<Hike> Hikes { get; set; }
 
-    // protected override void OnModelCreating(ModelBuilder modelBuilder)
-    // {
-    //     modelBuilder.Entity<Coordinate>().HasNoKey();
-    // }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Account>()
+        .HasIndex(e => e.Email)
+        .IsUnique();
+    }
 }
