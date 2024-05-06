@@ -34,13 +34,14 @@ public class AccountMiddleware
 
         var tokenPayload = _token.ParseTokenPayload(token);
 
-        var tokenAccountId = tokenPayload.FirstOrDefault(c => c.Type == "AccountId")?.Value;
+        var tokenAccountId = tokenPayload.FirstOrDefault(c => c.Type == "accountId")?.Value;
         if (tokenAccountId is null)
-            throw new InvalidJwtTokenException("Token payload is missing AccountId");
+            throw new InvalidJwtTokenException("Token payload is missing accountId");
 
-        var queryAccountId = context.Request.Query["accountId"];
+        // Get the url accountId from the url
+        var queryAccountId = context.Request.RouteValues.FirstOrDefault(v => v.Key == "accountId").Value as string;
 
-        // Verify if the JWT AccountId matches the Id the user wants to modify 
+        // Verify if the JWT accountId matches the Id the user wants to modify 
         if (tokenAccountId != queryAccountId)
         {
             throw new NotAuthorizedException("Not Authorized!");

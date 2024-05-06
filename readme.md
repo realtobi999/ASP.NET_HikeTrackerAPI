@@ -132,7 +132,7 @@ Retrieve a list of all hikes.
 [
   {
     "id": "ad31e37d-cfb2-4b6d-bfc8-e577849f6265",
-    "accountID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "accountId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     "distance": 10.5,
     "elevationGain": 200,
     "elevationLoss": 150,
@@ -179,7 +179,7 @@ Retrieve a hike by it's ID.
 [
   {
     "id": "ad31e37d-cfb2-4b6d-bfc8-e577849f6265",
-    "accountID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "accountId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     "distance": 10.5,
     "elevationGain": 200,
     "elevationLoss": 150,

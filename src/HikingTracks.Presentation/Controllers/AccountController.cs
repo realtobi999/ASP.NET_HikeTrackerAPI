@@ -47,10 +47,10 @@ public class AccountController : ControllerBase
         return Ok(accountsDto);
     }
 
-    [HttpGet("api/account/{accountID:guid}")]
-    public async Task<IActionResult> GetAccount(Guid accountID) 
+    [HttpGet("api/account/{accountId:guid}")]
+    public async Task<IActionResult> GetAccount(Guid accountId) 
     {
-        var account = await _service.AccountService.GetAccount(accountID);
+        var account = await _service.AccountService.GetAccount(accountId);
 
         return Ok(account.ToDTO());
     }
@@ -66,22 +66,21 @@ public class AccountController : ControllerBase
         return Created(string.Format("/api/account/{0}", account.ID), null);
     }
 
-    [HttpPut("api/account/{accountID:guid}")]
-    public async Task<IActionResult> UpdateAccount(Guid accountID, [FromBody] UpdateAccountDto updateAccountDto)
+    [HttpPut("api/account/{accountId:guid}")]
+    public async Task<IActionResult> UpdateAccount(Guid accountId, [FromBody] UpdateAccountDto updateAccountDto)
     {
         if (updateAccountDto is null)
             return BadRequest("Body is not provided");
 
-        _ = await _service.AccountService.UpdateAccount(accountID, updateAccountDto);
+        _ = await _service.AccountService.UpdateAccount(accountId, updateAccountDto);
 
         return Ok();
     }
 
-    [Authorize, AccountAuth]
-    [HttpDelete("api/account/{accountID:guid}")]
-    public async Task<IActionResult> DeleteAccount(Guid accountID)
+    [HttpDelete("api/account/{accountId:guid}")]
+    public async Task<IActionResult> DeleteAccount(Guid accountId)
     {
-        await _service.AccountService.DeleteAccount(accountID);
+        await _service.AccountService.DeleteAccount(accountId);
 
         return Ok();
     }
@@ -93,6 +92,6 @@ public class AccountController : ControllerBase
 
         var token = _token.CreateToken(account.ID.ToString());
 
-        return Ok(token);
+        return Ok(new TokenDto{Token = token});
     }
 }

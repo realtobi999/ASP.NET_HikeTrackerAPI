@@ -5,7 +5,7 @@ namespace HikingTracks.Domain.DTO;
 public record HikeDto
 {
     public Guid ID { get; set; }         
-    public Guid AccountID { get; set; }
+    public Guid accountId { get; set; }
     public double Distance { get; set; }
     public double ElevationGain { get; set; }
     public double ElevationLoss { get; set; }

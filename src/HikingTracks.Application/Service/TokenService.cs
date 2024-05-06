@@ -17,14 +17,14 @@ public class TokenService : ITokenService
         _jwtKey = jwtKey;
     }
 
-    public string CreateToken(string accountID)
+    public string CreateToken(string accountId)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtKey));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
         var claims = new[]
         {
-            new Claim("AccountID", accountID)
+            new Claim("accountId", accountId)
         };
 
         var secToken = new JwtSecurityToken(

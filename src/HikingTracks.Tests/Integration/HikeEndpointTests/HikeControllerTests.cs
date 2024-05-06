@@ -175,7 +175,7 @@ public class HikeControllerTests
         var body = await response.Content.ReadFromJsonAsync<List<HikeDto>>() ?? throw new Exception("Failed to deserialize the response body into an HikeDto object.");
 
         body.Should().NotBeEmpty();
-        body.ElementAt(0).AccountID.Should().Be(account2.ID);
-        body.ElementAt(1).AccountID.Should().Be(account2.ID);
+        body.ElementAt(0).accountId.Should().Be(account2.ID);
+        body.ElementAt(1).accountId.Should().Be(account2.ID);
     }
 }

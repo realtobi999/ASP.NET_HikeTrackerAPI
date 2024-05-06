@@ -8,7 +8,7 @@ public static class HikeTestExtensions
 {
     private static readonly Faker<Hike> _hikeFaker = new Faker<Hike>()
             .RuleFor(h => h.ID, f => f.Random.Guid())
-            .RuleFor(h => h.AccountID, f => f.Random.Guid())
+            .RuleFor(h => h.accountId, f => f.Random.Guid())
             .RuleFor(h => h.Title, f => f.Random.AlphaNumeric(32))
             .RuleFor(h => h.Description, f => f.Random.AlphaNumeric(123))
             .RuleFor(h => h.Distance, f => f.Random.Double(0, 100))

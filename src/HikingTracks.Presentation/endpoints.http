@@ -1,11 +1,11 @@
 @HOST = http://localhost:5294
-@AccountID = ""
+@accountId = ""
 
 ###
 GET {{HOST}}/api/account
 
 ###
-GET {{HOST}}/api/account/{{AccountID}}
+GET {{HOST}}/api/account/{{accountId}}
 
 ###
 POST {{HOST}}/api/account

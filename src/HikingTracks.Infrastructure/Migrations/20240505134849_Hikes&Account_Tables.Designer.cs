@@ -82,7 +82,7 @@ namespace HikingTracks.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<Guid>("AccountID")
+                    b.Property<Guid>("accountId")
                         .HasColumnType("uuid")
                         .HasColumnName("account_id");
 
@@ -131,7 +131,7 @@ namespace HikingTracks.Infrastructure.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("AccountID");
+                    b.HasIndex("accountId");
 
                     b.ToTable("Hikes");
                 });
@@ -140,7 +140,7 @@ namespace HikingTracks.Infrastructure.Migrations
                 {
                     b.HasOne("HikingTracks.Domain.Entities.Account", "Account")
                         .WithMany()
-                        .HasForeignKey("AccountID")
+                        .HasForeignKey("accountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

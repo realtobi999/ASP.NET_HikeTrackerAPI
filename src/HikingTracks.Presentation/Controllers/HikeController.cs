@@ -18,12 +18,12 @@ public class HikeController : ControllerBase
     }
 
     [HttpGet("api/hike")]
-    public async Task<IActionResult> GetHikes(Guid accountID, int limit = 0, int offset = 0)
+    public async Task<IActionResult> GetHikes(Guid accountId, int limit = 0, int offset = 0)
     {
         var hikes = await _service.HikeService.GetAllHikes();
 
-        if (accountID != Guid.Empty)
-            hikes = hikes.Where(hike => hike.AccountID == accountID);
+        if (accountId != Guid.Empty)
+            hikes = hikes.Where(hike => hike.accountId == accountId);
 
         if (offset > 0)
             hikes = hikes.Skip(offset);
@@ -35,32 +35,32 @@ public class HikeController : ControllerBase
         return Ok(hikesDto);
     }
 
-    [HttpGet("api/hike/{hikeID:guid}")]
-    public async Task<IActionResult> GetHike(Guid hikeID)
+    [HttpGet("api/hike/{hikeId:guid}")]
+    public async Task<IActionResult> GetHike(Guid hikeId)
     {
-        var hike = await _service.HikeService.GetHike(hikeID);
+        var hike = await _service.HikeService.GetHike(hikeId);
 
         return Ok(hike.ToDTO());
     }
     
     [Authorize]
-    [HttpPost("api/account/{accountID:guid}/hike")]
-    public async Task<IActionResult> CreateHike(Guid accountID, [FromBody] CreateHikeDto createHikeDto)
+    [HttpPost("api/account/{accountId:guid}/hike")]
+    public async Task<IActionResult> CreateHike(Guid accountId, [FromBody] CreateHikeDto createHikeDto)
     {
         if (createHikeDto is null)
         {
             return BadRequest("Body is not provided");
         }
 
-        var hike = await _service.HikeService.CreateHike(accountID, createHikeDto);
+        var hike = await _service.HikeService.CreateHike(accountId, createHikeDto);
 
         return Created(string.Format("/api/hike/{0}", hike.ID), null);
     }
 
-    [HttpDelete("api/hike/{hikeID:guid}")]
-    public async Task<IActionResult> DeleteHike(Guid hikeID)
+    [HttpDelete("api/hike/{hikeId:guid}")]
+    public async Task<IActionResult> DeleteHike(Guid hikeId)
     {
-        await _service.HikeService.DeleteHike(hikeID);
+        await _service.HikeService.DeleteHike(hikeId);
 
         return Ok();
     }

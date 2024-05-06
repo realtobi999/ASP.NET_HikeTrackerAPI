@@ -30,7 +30,7 @@ public class HikeRepository : IHikeRepository
 
     public async Task<IEnumerable<Hike>> GetAllHikesByAccount(Guid accountId)
     {
-        return await _context.Hikes.Where(hike => hike.AccountID == accountId).ToListAsync();
+        return await _context.Hikes.Where(hike => hike.accountId == accountId).ToListAsync();
     }
 
     public async Task<Hike?> GetHike(Guid Id)

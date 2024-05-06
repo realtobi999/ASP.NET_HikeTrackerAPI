@@ -10,7 +10,7 @@ public class Hike
     public Guid ID { get; set; }         
     
     [Required, Column("account_id")]
-    public Guid AccountID { get; set; }
+    public Guid accountId { get; set; }
 
     [Required, Column("title")]
     public string? Title { get; set; }
@@ -56,7 +56,7 @@ public class Hike
         return new HikeDto
         {
             ID = this.ID,
-            AccountID = this.AccountID,
+            accountId = this.accountId,
             Distance = this.Distance,
             ElevationGain = this.ElevationGain,
             ElevationLoss = this.ElevationLoss,

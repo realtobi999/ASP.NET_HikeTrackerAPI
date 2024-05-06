@@ -18,13 +18,13 @@ public class HikeService : IHikeService
         _logger = logger;
     }
 
-    public async Task<Hike> CreateHike(Guid accountID, CreateHikeDto createHikeDto)
+    public async Task<Hike> CreateHike(Guid accountId, CreateHikeDto createHikeDto)
     {
-        var account = await _repository.Account.GetAccount(accountID) ?? throw new AccountNotFoundException(accountID); 
+        var account = await _repository.Account.GetAccount(accountId) ?? throw new AccountNotFoundException(accountId); 
 
         var hike = new Hike{
             ID = createHikeDto.ID ?? Guid.NewGuid(),
-            AccountID = account.ID,
+            accountId = account.ID,
             Title = createHikeDto.Title,
             Description = createHikeDto.Description,
             Distance = createHikeDto.Distance,
