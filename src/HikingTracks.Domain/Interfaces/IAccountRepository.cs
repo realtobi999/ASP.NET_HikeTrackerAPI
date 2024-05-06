@@ -8,4 +8,5 @@ public interface IAccountRepository
     Task<Account?> GetAccount(Guid id);
     void CreateAccount(Account account); 
     void DeleteAccount(Account account);
+    Task<Account?> GetAccountByCredentials(string email, string password);
 }

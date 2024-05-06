@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HikingTracks.Presentation.Controllers;
 
-[Route("api/hike")]
 [ApiController]
 public class HikeController : ControllerBase
 {
@@ -17,7 +16,7 @@ public class HikeController : ControllerBase
         _service = service;
     }
 
-    [HttpGet]
+    [HttpGet("api/hike")]
     public async Task<IActionResult> GetHikes(Guid accountID, int limit = 0, int offset = 0)
     {
         var hikes = await _service.HikeService.GetAllHikes();
@@ -35,15 +34,28 @@ public class HikeController : ControllerBase
         return Ok(hikesDto);
     }
 
-    [HttpGet("{hikeID:guid}")]
+    [HttpGet("api/hike/{hikeID:guid}")]
     public async Task<IActionResult> GetHike(Guid hikeID)
     {
         var hike = await _service.HikeService.GetHike(hikeID);
 
         return Ok(hike.ToDTO());
     }
+    
+    [HttpPost("api/account/{accountID:guid}/hike")]
+    public async Task<IActionResult> CreateHike(Guid accountID, [FromBody] CreateHikeDto createHikeDto)
+    {
+        if (createHikeDto is null)
+        {
+            return BadRequest("Body is not provided");
+        }
 
-    [HttpDelete("{hikeID:guid}")]
+        var hike = await _service.HikeService.CreateHike(accountID, createHikeDto);
+
+        return Created(string.Format("/api/hike/{0}", hike.ID), null);
+    }
+
+    [HttpDelete("api/hike/{hikeID:guid}")]
     public async Task<IActionResult> DeleteHike(Guid hikeID)
     {
         await _service.HikeService.DeleteHike(hikeID);

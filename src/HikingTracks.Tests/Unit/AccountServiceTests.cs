@@ -98,6 +98,5 @@ public class AccountServiceTests
         account.Email.Should().Be(createAccountDto.Email);
         account.Password.Should().Be(createAccountDto.Password);
         account.Username.Should().Be(createAccountDto.Username);
-        account.Token.Should().NotBe(Guid.Empty);
     }
 }

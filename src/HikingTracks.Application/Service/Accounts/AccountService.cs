@@ -1,9 +1,13 @@
-﻿using HikingTracks.Application.Interfaces;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using HikingTracks.Application.Interfaces;
 using HikingTracks.Domain;
 using HikingTracks.Domain.DTO;
 using HikingTracks.Domain.Entities;
 using HikingTracks.Domain.Exceptions;
 using HikingTracks.Domain.Interfaces;
+using Microsoft.IdentityModel.Tokens;
 
 namespace HikingTracks.Application.Service.Accounts;
 
@@ -25,7 +29,6 @@ public class AccountService : IAccountService
             Username = createAccountDto.Username,
             Email = createAccountDto.Email,
             Password = createAccountDto.Password,
-            Token = Guid.NewGuid(),
             TotalHikes = 0,
             TotalDistance = 0.00,
             TotalMovingTime = TimeSpan.Zero,
@@ -36,6 +39,21 @@ public class AccountService : IAccountService
         await _repository.SaveAsync();
 
         return account;
+    }
+
+    public string CreateToken(string key, string issuer, IEnumerable<Claim> claims)
+    {
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
+        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+        var secToken = new JwtSecurityToken(
+            issuer,
+            issuer,
+            claims,
+            expires: DateTime.Now.AddHours(2),
+            signingCredentials: credentials);
+
+        return new JwtSecurityTokenHandler().WriteToken(secToken);
     }
 
     public async Task DeleteAccount(Guid id)
@@ -57,6 +75,20 @@ public class AccountService : IAccountService
         var accounts = await _repository.Account.GetAllAccounts();
 
         return accounts;
+    }
+
+    public async Task<Account> LoginAccount(LoginAccountDto loginAccountDto)
+    {
+        var email = loginAccountDto.Email!;
+        var password = loginAccountDto.Password!;
+        var account = await _repository.Account.GetAccountByCredentials(email, password);
+
+        if (account is null)
+        {
+            throw new AccountBadCredentialsException(email, password);
+        }
+
+        return account;
     }
 
     public async Task<int> UpdateAccount(Guid id, UpdateAccountDto updateAccountDto)

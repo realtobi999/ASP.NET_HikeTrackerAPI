@@ -24,6 +24,11 @@ public class AccountRepository : IAccountRepository
         _context.Accounts.Remove(account);
     }
 
+    public async Task<Account?> GetAccountByCredentials(string email, string password)
+    {
+        return await _context.Accounts.FirstOrDefaultAsync(account => account.Email == email && account.Password == password);
+    }
+
     async Task<Account?> IAccountRepository.GetAccount(Guid id)
     {
         return await _context.Accounts.SingleOrDefaultAsync(account => account.ID == id);

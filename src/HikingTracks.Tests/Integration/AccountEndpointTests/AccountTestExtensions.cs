@@ -11,7 +11,6 @@ public static class AccountTestExtensions
     .RuleFor(a => a.Username, f => f.Internet.UserName())
     .RuleFor(a => a.Email, f => f.Internet.Email())
     .RuleFor(a => a.Password, f => f.Internet.Password())
-    .RuleFor(a => a.Token, f => f.Random.Guid())
     .RuleFor(a => a.TotalHikes, f => f.Random.Int(0, 1000))
     .RuleFor(a => a.TotalDistance, f => f.Random.Double(0, 10000))
     .RuleFor(a => a.TotalMovingTime, f => f.Date.Timespan())

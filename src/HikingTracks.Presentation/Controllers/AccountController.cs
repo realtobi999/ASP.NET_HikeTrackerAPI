@@ -3,12 +3,11 @@ using HikingTracks.Domain;
 using HikingTracks.Domain.DTO;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Security.Claims;
 
 namespace HikingTracks.Presentation.Controllers;
 
-[Route("api/account")]
 [ApiController]
-
 /*
 
 GET /api/account
@@ -21,13 +20,15 @@ DELETE /api/account/{account_id}
 public class AccountController : ControllerBase
 {
     private readonly IServiceManager _service;
+    private readonly IConfiguration _config;
 
-    public AccountController(IServiceManager service)
+    public AccountController(IServiceManager service, IConfiguration config)
     {
         _service = service;
+        _config = config;
     }
 
-    [HttpGet]
+    [HttpGet("api/account")]
     public async Task<IActionResult> GetAccounts(int limit = 0, int offset = 0)
     {
         var accounts = await _service.AccountService.GetAllAccounts();
@@ -42,7 +43,7 @@ public class AccountController : ControllerBase
         return Ok(accountsDto);
     }
 
-    [HttpGet("{accountID:guid}")]
+    [HttpGet("api/account/{accountID:guid}")]
     public async Task<IActionResult> GetAccount(Guid accountID) 
     {
         var account = await _service.AccountService.GetAccount(accountID);
@@ -50,7 +51,7 @@ public class AccountController : ControllerBase
         return Ok(account.ToDTO());
     }
 
-    [HttpPost]
+    [HttpPost("api/account")]
     public async Task<IActionResult> CreateAccount([FromBody] CreateAccountDto createAccountDto)
     {
         if (createAccountDto is null) 
@@ -60,12 +61,10 @@ public class AccountController : ControllerBase
 
         var account = await _service.AccountService.CreateAccount(createAccountDto);
 
-        return Created(string.Format("/api/account/{0}", account.ID), new { 
-            Token = account.Token
-        });
+        return Created(string.Format("/api/account/{0}", account.ID), null);
     }
 
-    [HttpPut("{accountID:guid}")]
+    [HttpPut("api/account/{accountID:guid}")]
     public async Task<IActionResult> UpdateAccount(Guid accountID, [FromBody] UpdateAccountDto updateAccountDto)
     {
         if (updateAccountDto is null)
@@ -78,7 +77,7 @@ public class AccountController : ControllerBase
         return Ok();
     }
 
-    [HttpDelete("{accountID:guid}")]
+    [HttpDelete("api/account/{accountID:guid}")]
     public async Task<IActionResult> DeleteAccount(Guid accountID)
     {
         await _service.AccountService.DeleteAccount(accountID);
@@ -86,16 +85,16 @@ public class AccountController : ControllerBase
         return Ok();
     }
 
-    [HttpPost("{accountID:guid}/hike")]
-    public async Task<IActionResult> CreateHike(Guid accountID, [FromBody] CreateHikeDto createHikeDto)
+    [HttpPost("api/account/token")]
+    public async Task<IActionResult> LoginAccount([FromBody] LoginAccountDto loginAccountDto)
     {
-        if (createHikeDto is null)
-        {
-            return BadRequest("Body is not provided");
-        }
+        var account = await _service.AccountService.LoginAccount(loginAccountDto);
 
-        var hike = await _service.HikeService.CreateHike(accountID, createHikeDto);
+        var claims = new List<Claim>(){
+            new("AccountID", account.ID.ToString())
+        };
+        var token = _service.AccountService.CreateToken(_config["Jwt:Key"]!, _config["Jwt:Issuer"]!, claims);
 
-        return Created(string.Format("/api/hike/{0}", hike.ID), null);
+        return Ok(token);
     }
 }
