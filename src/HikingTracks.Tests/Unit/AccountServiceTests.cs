@@ -1,11 +1,9 @@
-﻿using Castle.Core.Logging;
-using FluentAssertions;
-using HikingTracks.Application.Service;
+﻿using FluentAssertions;
+using HikingTracks.Application.Service.Accounts;
 using HikingTracks.Domain.DTO;
 using HikingTracks.Domain.Entities;
 using HikingTracks.Domain.Exceptions;
 using HikingTracks.Domain.Interfaces;
-using HikingTracks.Infrastructure.Repositories;
 using HikingTracks.Tests.Integration.AccountEndpointTests;
 using Moq;
 

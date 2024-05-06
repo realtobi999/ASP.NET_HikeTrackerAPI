@@ -22,15 +22,15 @@ public class HikeController : ControllerBase
     {
         var hikes = await _service.HikeService.GetAllHikes();
 
+        if (accountID != Guid.Empty)
+            hikes = hikes.Where(hike => hike.AccountID == accountID);
+
         if (offset > 0)
             hikes = hikes.Skip(offset);
 
         if (limit > 0)
             hikes = hikes.Take(limit);
         
-        if (accountID != Guid.Empty)
-            hikes = hikes.Where(hike => hike.AccountID == accountID);
-
         var hikesDto = hikes.Select(hike => hike.ToDTO()).ToList();
         return Ok(hikesDto);
     }

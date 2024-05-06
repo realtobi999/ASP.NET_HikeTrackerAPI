@@ -5,7 +5,7 @@ using HikingTracks.Domain.Entities;
 using HikingTracks.Domain.Exceptions;
 using HikingTracks.Domain.Interfaces;
 
-namespace HikingTracks.Application.Service;
+namespace HikingTracks.Application.Service.Hikes;
 
 public class HikeService : IHikeService
 {
@@ -38,10 +38,9 @@ public class HikeService : IHikeService
         };
 
         _repository.Hike.CreateHike(hike);
-        
-        account.TotalHikes++;
-        account.TotalDistance += hike.Distance;
-        account.TotalMovingTime += hike.MovingTime;
+
+        // Update user total distance etc..
+        account.UpdateAccountStatistics(hike); 
 
         await _repository.SaveAsync();
 
