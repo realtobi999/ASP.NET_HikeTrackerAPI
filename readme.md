@@ -1,4 +1,4 @@
-# HikingTracks Api Project
+# HikingTracks Api Project - NOT FINISHED, IN PROGRESS
 
 ## Summary
 
