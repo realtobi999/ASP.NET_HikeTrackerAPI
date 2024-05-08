@@ -21,6 +21,12 @@ public class HikeControllerTests
         var create = await client.PostAsJsonAsync("/api/account", account.ToCreateAccountDto());
         create.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
+        // Authenticate the request
+        var login = await client.PostAsJsonAsync("/api/login", account.ToLoginAccountDto());
+        login.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        var token = await login.Content.ReadFromJsonAsync<TokenDto>();
+        client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token!.Token);
+
         // Act & Assert
 
         var response = await client.PostAsJsonAsync(string.Format("/api/account/{0}/hike", account.ID), hike.ToCreateHikeDto());
@@ -43,17 +49,23 @@ public class HikeControllerTests
         var create1 = await client.PostAsJsonAsync("/api/account", account.ToCreateAccountDto());
         create1.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
+        // Authenticate the request
+        var login = await client.PostAsJsonAsync("/api/login", account.ToLoginAccountDto());
+        login.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        var token = await login.Content.ReadFromJsonAsync<TokenDto>();
+        client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token!.Token);
+
         var create2 = await client.PostAsJsonAsync(string.Format("/api/account/{0}/hike", account.ID), hike.ToCreateHikeDto());
         create2.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
         // Act & Assert
-        
+
         var response = await client.GetAsync(string.Format("/api/hike/{0}", hike.ID));
 
         response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
     }
 
-    [Fact]   
+    [Fact]
     public async Task Hike_GetHikes_ReturnsOk()
     {
         // Prepare
@@ -65,23 +77,29 @@ public class HikeControllerTests
         var create1 = await client.PostAsJsonAsync("/api/account", account.ToCreateAccountDto());
         create1.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
+        // Authenticate the request
+        var login = await client.PostAsJsonAsync("/api/login", account.ToLoginAccountDto());
+        login.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        var token = await login.Content.ReadFromJsonAsync<TokenDto>();
+        client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token!.Token);
+
         var create2 = await client.PostAsJsonAsync(string.Format("/api/account/{0}/hike", account.ID), hike1.ToCreateHikeDto());
         create2.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
-       var create3 = await client.PostAsJsonAsync(string.Format("/api/account/{0}/hike", account.ID), hike2.ToCreateHikeDto());
-       create3.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
+        var create3 = await client.PostAsJsonAsync(string.Format("/api/account/{0}/hike", account.ID), hike2.ToCreateHikeDto());
+        create3.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
         // Act & Assert
 
-        var response = await client.GetAsync("/api/hike");     
+        var response = await client.GetAsync("/api/hike");
         response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-        
+
         var body = await response.Content.ReadFromJsonAsync<List<HikeDto>>() ?? throw new Exception("Failed to deserialize the response body into HikeDto object.");
 
         body.Should().NotBeEmpty();
         body.Count.Should().Be(2);
         body.ElementAt(0).ID.Should().Be(hike1.ID);
-        body.ElementAt(1).ID.Should().Be(hike2.ID); 
+        body.ElementAt(1).ID.Should().Be(hike2.ID);
     }
 
     [Fact]
@@ -91,15 +109,21 @@ public class HikeControllerTests
         var client = new WebAppFactory<Program>().CreateDefaultClient();
         var hike = new Hike().WithFakeData();
         var account = new Account().WithFakeData();
- 
+
         var create1 = await client.PostAsJsonAsync("/api/account", account.ToCreateAccountDto());
         create1.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
+
+        // Authenticate the request
+        var login = await client.PostAsJsonAsync("/api/login", account.ToLoginAccountDto());
+        login.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        var token = await login.Content.ReadFromJsonAsync<TokenDto>();
+        client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token!.Token);
 
         var create2 = await client.PostAsJsonAsync(string.Format("/api/account/{0}/hike", account.ID), hike.ToCreateHikeDto());
         create2.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
         // Act & Assert
-    
+
         var response = await client.DeleteAsync(string.Format("/api/hike/{0}", hike.ID));
         response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
 
@@ -119,16 +143,22 @@ public class HikeControllerTests
         var create1 = await client.PostAsJsonAsync("/api/account", account.ToCreateAccountDto());
         create1.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
+        // Authenticate the request
+        var login = await client.PostAsJsonAsync("/api/login", account.ToLoginAccountDto());
+        login.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        var token = await login.Content.ReadFromJsonAsync<TokenDto>();
+        client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token!.Token);
+
         var create2 = await client.PostAsJsonAsync(string.Format("/api/account/{0}/hike", account.ID), hike1.ToCreateHikeDto());
         create2.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
-       var create3 = await client.PostAsJsonAsync(string.Format("/api/account/{0}/hike", account.ID), hike2.ToCreateHikeDto());
-       create3.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
+        var create3 = await client.PostAsJsonAsync(string.Format("/api/account/{0}/hike", account.ID), hike2.ToCreateHikeDto());
+        create3.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
-       var create4 = await client.PostAsJsonAsync(string.Format("/api/account/{0}/hike", account.ID), hike3.ToCreateHikeDto());
-       create4.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
+        var create4 = await client.PostAsJsonAsync(string.Format("/api/account/{0}/hike", account.ID), hike3.ToCreateHikeDto());
+        create4.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
-       // Act & Assert
+        // Act & Assert
         var limit = 2;
         var offset = 1;
         var response = await client.GetAsync(string.Format("/api/hike?limit={0}&offset={1}", limit, offset));
@@ -153,14 +183,28 @@ public class HikeControllerTests
         var create1 = await client.PostAsJsonAsync("/api/account", account1.ToCreateAccountDto());
         create1.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
-        var create2 = await client.PostAsJsonAsync("/api/account", account2.ToCreateAccountDto());
-        create2.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
+        // Authenticate the request
+        var login1 = await client.PostAsJsonAsync("/api/login", account1.ToLoginAccountDto());
+        login1.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        var token1 = await login1.Content.ReadFromJsonAsync<TokenDto>();
+        client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token1!.Token);
 
         for (int i = 0; i < 2; i++)
         {
             var create3 = await client.PostAsJsonAsync(string.Format("/api/account/{0}/hike", account1.ID), new Hike().WithFakeData().ToCreateHikeDto());
             create3.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
         }
+
+        client.DefaultRequestHeaders.Remove("Authorization"); 
+
+        var create2 = await client.PostAsJsonAsync("/api/account", account2.ToCreateAccountDto());
+        create2.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
+
+        // Authenticate the request
+        var login2 = await client.PostAsJsonAsync("/api/login", account2.ToLoginAccountDto());
+        login2.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        var token2 = await login2.Content.ReadFromJsonAsync<TokenDto>();
+        client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token2!.Token);
 
         for (int i = 0; i < 2; i++)
         {
