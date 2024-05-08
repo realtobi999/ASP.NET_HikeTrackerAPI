@@ -44,8 +44,7 @@ namespace HikingTracks.Presentation
 
                 app.UseAuthentication();
                 app.UseAuthorization();
-                
-                // app.UseAccountAuthenticationMiddleware();
+                app.UseAccountAuthentication();
 
                 app.MapControllers();
 

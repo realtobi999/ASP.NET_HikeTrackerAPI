@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using HikingTracks.Domain;
 using HikingTracks.Domain.DTO;
 using HikingTracks.Domain.Entities;
 
@@ -29,6 +30,13 @@ public static class AccountTestExtensions
             Email = account.Email,
             Password = account.Password,
         };
+    }
 
+    public static LoginAccountDto ToLoginAccountDto(this Account account)
+    {
+        return new LoginAccountDto{
+            Email = account.Email,
+            Password = account.Password
+        };
     }
 }

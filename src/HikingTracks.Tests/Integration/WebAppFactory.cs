@@ -24,9 +24,9 @@ public class WebAppFactory<TStartup> : WebApplicationFactory<TStartup> where TSt
             // Replace the DbContext registration with an in-memory database
             ReplaceDbContextWithInMemoryDb(services);
 
-            RemoveAccountAuthenticationMiddleware(services);
+            // Remove middleware here
+            RemoveMiddleware<AccountAuthenticationMiddleware>(services);
         });
-
     }
 
     private void ReplaceDbContextWithInMemoryDb(IServiceCollection services)
@@ -47,12 +47,12 @@ public class WebAppFactory<TStartup> : WebApplicationFactory<TStartup> where TSt
         });
     }
 
-    private void RemoveAccountAuthenticationMiddleware(IServiceCollection services)
+    private void RemoveMiddleware<TMiddleware>(IServiceCollection services)
     {
         var middlewareDescriptor = services.SingleOrDefault(
-            d => d.ServiceType == typeof(AccountAuthenticationMiddleware));
-        
-        if (middlewareDescriptor is not null)
+            d => d.ServiceType == typeof(TMiddleware));
+
+        if (middlewareDescriptor != null)
         {
             services.Remove(middlewareDescriptor);
         }

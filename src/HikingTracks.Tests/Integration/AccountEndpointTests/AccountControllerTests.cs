@@ -68,6 +68,11 @@ public class AccountControllerTests
         var create = await client.PostAsJsonAsync("/api/account", account.ToCreateAccountDto());
         create.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
+        var login = await client.PostAsJsonAsync("/api/login", account.ToLoginAccountDto());
+        login.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        var token = await login.Content.ReadFromJsonAsync<TokenDto>(); 
+        client.DefaultRequestHeaders.Add("Authorization", string.Format("Bearer {0}", token?.Token));
+
         // Act
         var update = await client.PutAsJsonAsync(string.Format("/api/account/{0}", account.ID), updateAccountDto);
         update.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
@@ -84,12 +89,19 @@ public class AccountControllerTests
     [Fact]
     public async Task Account_DeleteAccount_ReturnsOK()
     {
+        // Prepare
         var client = new WebAppFactory<Program>().CreateDefaultClient();
         var account = new Account().WithFakeData();
 
         var create = await client.PostAsJsonAsync("/api/account", account.ToCreateAccountDto());
         create.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
+        var login = await client.PostAsJsonAsync("/api/login", account.ToLoginAccountDto());
+        login.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        var token = await login.Content.ReadFromJsonAsync<TokenDto>(); 
+        client.DefaultRequestHeaders.Add("Authorization", string.Format("Bearer {0}", token?.Token));
+
+        // Act & Assert
         var response = await client.DeleteAsync(string.Format("/api/account/{0}", account.ID));
 
         response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);

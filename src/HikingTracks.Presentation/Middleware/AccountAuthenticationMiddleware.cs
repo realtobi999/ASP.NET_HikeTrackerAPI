@@ -53,6 +53,6 @@ public class AccountAuthenticationMiddleware
 
 public static class AccountMiddlewareExtensions
 {
-    public static void UseAccountAuthenticationMiddleware(this IApplicationBuilder builder) =>
+    public static void UseAccountAuthentication(this IApplicationBuilder builder) =>
         builder.UseMiddleware<AccountAuthenticationMiddleware>();
 }

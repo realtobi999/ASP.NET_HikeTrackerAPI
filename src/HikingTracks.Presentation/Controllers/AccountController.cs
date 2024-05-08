@@ -18,8 +18,6 @@ POST /api/account
 PUT /api/account/{account_id}
 DELETE /api/account/{account_id}
 
-TODO: Apply the Authorize, AccountAuth attributes and modify the tests for the given routes 
-
 */
 public class AccountController : ControllerBase
 {
@@ -64,7 +62,7 @@ public class AccountController : ControllerBase
         return Created(string.Format("/api/account/{0}", account.ID), null);
     }
 
-    [Authorize]
+    [Authorize, AccountAuth]
     [HttpPut("api/account/{accountId:guid}")]
     public async Task<IActionResult> UpdateAccount(Guid accountId, [FromBody] UpdateAccountDto updateAccountDto)
     {
@@ -76,7 +74,7 @@ public class AccountController : ControllerBase
         return Ok();
     }
 
-    [Authorize]
+    [Authorize, AccountAuth]
     [HttpDelete("api/account/{accountId:guid}")]
     public async Task<IActionResult> DeleteAccount(Guid accountId)
     {

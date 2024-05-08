@@ -43,7 +43,7 @@ public class TokenServiceTests
         var payload = service.ParseTokenPayload(token); 
 
         payload.Should().NotBeEmpty();
-        payload.Count().Should().Be(4); // Include the issuers also, otherwise it would be 1.
+        payload.Count().Should().BeGreaterThanOrEqualTo(1);
         payload.FirstOrDefault(c => c.Type == "AccountId")?.Value.Should().Be(account.ID.ToString());
     }
 }

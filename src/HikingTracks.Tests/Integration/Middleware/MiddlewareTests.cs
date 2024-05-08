@@ -36,10 +36,7 @@ public class MiddlewareTests
         var create2 = await client.PostAsJsonAsync("/api/account", account2.ToCreateAccountDto());
         create2.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
-        var login = await client.PostAsJsonAsync("/api/login", new LoginAccountDto{
-            Email = account1.Email,
-            Password = account1.Password
-        });
+        var login = await client.PostAsJsonAsync("/api/login", account1.ToLoginAccountDto());
         login.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
 
         var token = await login.Content.ReadFromJsonAsync<TokenDto>() ?? throw new Exception("Failed to deserialize the response body.");
@@ -63,10 +60,7 @@ public class MiddlewareTests
         var create = await client.PostAsJsonAsync("/api/account", account.ToCreateAccountDto());
         create.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
-        var login = await client.PostAsJsonAsync("/api/login", new LoginAccountDto{
-            Email = account.Email,
-            Password = account.Password
-        });
+        var login = await client.PostAsJsonAsync("/api/login", account.ToLoginAccountDto());
         login.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
 
         var token = await login.Content.ReadFromJsonAsync<TokenDto>() ?? throw new Exception("Failed to deserialize the response body.");
