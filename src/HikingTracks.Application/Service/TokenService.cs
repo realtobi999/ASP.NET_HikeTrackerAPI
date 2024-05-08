@@ -10,6 +10,7 @@ public class TokenService : ITokenService
 {
     private readonly string _jwtIssuer;
     private readonly string _jwtKey;
+    private IEnumerable<Claim> claims = [];
 
     public TokenService(string jwtIssuer, string jwtKey)
     {
@@ -17,20 +18,15 @@ public class TokenService : ITokenService
         _jwtKey = jwtKey;
     }
 
-    public string CreateToken(string accountId)
+    public string CreateToken()
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtKey));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-        var claims = new[]
-        {
-            new Claim("accountId", accountId)
-        };
-
         var secToken = new JwtSecurityToken(
             _jwtIssuer,
             _jwtIssuer,
-            claims,
+            this.claims,
             expires: DateTime.Now.AddHours(2),
             signingCredentials: credentials);
 
@@ -43,5 +39,12 @@ public class TokenService : ITokenService
         var payload = handler.ReadJwtToken(token).Claims;
 
         return payload;
+    }
+
+    public ITokenService WithPayload(IEnumerable<Claim> claims)
+    {
+        this.claims = claims;
+
+        return this;
     }
 }

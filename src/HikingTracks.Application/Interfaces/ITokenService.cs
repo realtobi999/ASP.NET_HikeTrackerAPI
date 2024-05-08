@@ -4,6 +4,7 @@ namespace HikingTracks.Application.Interfaces;
 
 public interface ITokenService
 {
-    string CreateToken(string accountId);
+    string CreateToken();
     IEnumerable<Claim> ParseTokenPayload(string token);
+    ITokenService WithPayload(IEnumerable<Claim> claims);
 }
