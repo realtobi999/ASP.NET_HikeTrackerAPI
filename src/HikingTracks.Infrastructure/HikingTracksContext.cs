@@ -14,5 +14,15 @@ public class HikingTracksContext(DbContextOptions<HikingTracksContext> options) 
         modelBuilder.Entity<Account>()
         .HasIndex(e => e.Email)
         .IsUnique();
+
+        modelBuilder.Entity<Hike>()
+        .HasOne(a => a.Account)
+        .WithMany(h => h.Hikes)
+        .HasForeignKey(h => h.AccountId);
+
+        modelBuilder.Entity<Photo>()
+        .HasOne(p => p.Hike)
+        .WithMany(h => h.Photos)
+        .HasForeignKey(p => p.HikeID);
     }
 }

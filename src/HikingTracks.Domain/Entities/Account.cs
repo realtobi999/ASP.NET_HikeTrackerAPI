@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.CompilerServices;
@@ -40,6 +41,8 @@ public class Account
     [Column("created_at")]
     [Required]
     public DateTimeOffset CreatedAt { get; set; }
+
+    public Collection<Hike>? Hikes { get; set; }
 
     public AccountDto ToDTO()
     {

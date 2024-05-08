@@ -78,7 +78,7 @@ namespace HikingTracks.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<Guid>("accountId")
+                    b.Property<Guid>("AccountId")
                         .HasColumnType("uuid")
                         .HasColumnName("account_id");
 
@@ -127,20 +127,73 @@ namespace HikingTracks.Infrastructure.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("accountId");
+                    b.HasIndex("AccountId");
 
                     b.ToTable("Hikes");
+                });
+
+            modelBuilder.Entity("HikingTracks.Domain.Photo", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<byte[]>("Content")
+                        .IsRequired()
+                        .HasColumnType("bytea")
+                        .HasColumnName("content");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("file_name");
+
+                    b.Property<Guid>("HikeID")
+                        .HasColumnType("uuid")
+                        .HasColumnName("hike_id");
+
+                    b.Property<long>("Length")
+                        .HasColumnType("bigint")
+                        .HasColumnName("length");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("HikeID");
+
+                    b.ToTable("Photo");
                 });
 
             modelBuilder.Entity("HikingTracks.Domain.Entities.Hike", b =>
                 {
                     b.HasOne("HikingTracks.Domain.Entities.Account", "Account")
-                        .WithMany()
-                        .HasForeignKey("accountId")
+                        .WithMany("Hikes")
+                        .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Account");
+                });
+
+            modelBuilder.Entity("HikingTracks.Domain.Photo", b =>
+                {
+                    b.HasOne("HikingTracks.Domain.Entities.Hike", "Hike")
+                        .WithMany("Photos")
+                        .HasForeignKey("HikeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Hike");
+                });
+
+            modelBuilder.Entity("HikingTracks.Domain.Entities.Account", b =>
+                {
+                    b.Navigation("Hikes");
+                });
+
+            modelBuilder.Entity("HikingTracks.Domain.Entities.Hike", b =>
+                {
+                    b.Navigation("Photos");
                 });
 #pragma warning restore 612, 618
         }

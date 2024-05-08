@@ -24,7 +24,7 @@ public class HikeService : IHikeService
 
         var hike = new Hike{
             ID = createHikeDto.ID ?? Guid.NewGuid(),
-            accountId = account.ID,
+            AccountId = account.ID,
             Title = createHikeDto.Title,
             Description = createHikeDto.Description,
             Distance = createHikeDto.Distance,

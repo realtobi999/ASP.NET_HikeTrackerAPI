@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using HikingTracks.Application;
+﻿using HikingTracks.Application;
 using HikingTracks.Application.Interfaces;
 using HikingTracks.Domain.DTO;
-using HikingTracks.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,7 +22,7 @@ public class HikeController : ControllerBase
         var hikes = await _service.HikeService.GetAllHikes();
 
         if (accountId != Guid.Empty)
-            hikes = hikes.Where(hike => hike.accountId == accountId);
+            hikes = hikes.Where(hike => hike.AccountId == accountId);
 
         if (offset > 0)
             hikes = hikes.Skip(offset);

@@ -10,7 +10,7 @@ public class Hike
     public Guid ID { get; set; }         
     
     [Required, Column("account_id")]
-    public Guid accountId { get; set; }
+    public Guid AccountId { get; set; }
 
     [Required, Column("title")]
     public string? Title { get; set; }
@@ -36,6 +36,9 @@ public class Hike
     [Required, Column("moving_time")]
     public TimeSpan MovingTime { get; set; }
 
+    [Required, Column("created_at")]
+    public DateTimeOffset CreatedAt { get; set; }
+
     [Required, Column("coordinates")]
     public string CoordinatesString
     {
@@ -46,17 +49,16 @@ public class Hike
     [NotMapped]
     public List<Coordinate> Coordinates = []; 
 
-    [Required, Column("created_at")]
-    public DateTimeOffset CreatedAt { get; set; }
-
     public Account? Account { get; set; }
+
+    public ICollection<Photo>? Photos { get; set; }
 
     public HikeDto ToDTO()
     {
         return new HikeDto
         {
             ID = this.ID,
-            accountId = this.accountId,
+            AccountId = this.AccountId,
             Distance = this.Distance,
             ElevationGain = this.ElevationGain,
             ElevationLoss = this.ElevationLoss,
@@ -64,6 +66,7 @@ public class Hike
             MaxSpeed = this.MaxSpeed,
             MovingTime = this.MovingTime,
             Coordinates = this.Coordinates ?? [],
+            Photos = [.. this.Photos],
             CreatedAt = this.CreatedAt
         };
     }

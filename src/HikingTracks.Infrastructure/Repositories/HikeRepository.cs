@@ -25,16 +25,16 @@ public class HikeRepository : IHikeRepository
 
     public async Task<IEnumerable<Hike>> GetAllHikes()
     {
-        return await _context.Hikes.OrderBy(hike => hike.CreatedAt).ToListAsync();
+        return await _context.Hikes.Include(h => h.Photos).OrderBy(hike => hike.CreatedAt).ToListAsync();
     }
 
     public async Task<IEnumerable<Hike>> GetAllHikesByAccount(Guid accountId)
     {
-        return await _context.Hikes.Where(hike => hike.accountId == accountId).ToListAsync();
+        return await _context.Hikes.Include(h => h.Photos).Where(hike => hike.AccountId == accountId).ToListAsync();
     }
 
     public async Task<Hike?> GetHike(Guid Id)
     {
-        return await _context.Hikes.SingleOrDefaultAsync(account => account.ID == Id);
+        return await _context.Hikes.Include(h => h.Photos).SingleOrDefaultAsync(account => account.ID == Id);
     }
 }

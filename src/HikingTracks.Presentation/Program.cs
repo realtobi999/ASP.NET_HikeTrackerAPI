@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using HikingTracks.Domain.Interfaces;
 using HikingTracks.Presentation.Extensions;
 using NLog;
@@ -12,7 +13,12 @@ namespace HikingTracks.Presentation
 
             var builder = WebApplication.CreateBuilder(args);
             {
-                builder.Services.AddControllers();
+                builder.Services.AddControllers().AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                    options.JsonSerializerOptions.WriteIndented = true;
+                });
+
                 builder.Services.AddEndpointsApiExplorer();
                 builder.Services.ConfigureSwaggerGen();
 
@@ -44,6 +50,7 @@ namespace HikingTracks.Presentation
 
                 app.UseAuthentication();
                 app.UseAuthorization();
+                
                 app.UseAccountAuthentication();
 
                 app.MapControllers();
