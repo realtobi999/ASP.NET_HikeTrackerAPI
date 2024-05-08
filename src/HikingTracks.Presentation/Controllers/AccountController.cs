@@ -18,18 +18,16 @@ POST /api/account
 PUT /api/account/{account_id}
 DELETE /api/account/{account_id}
 
+TODO: Apply the Authorize, AccountAuth attributes and modify the tests for the given routes 
+
 */
 public class AccountController : ControllerBase
 {
     private readonly IServiceManager _service;
-    private readonly IConfiguration _config;
-    private readonly ITokenService _token;
 
-    public AccountController(IServiceManager service, IConfiguration config, ITokenService token)
+    public AccountController(IServiceManager service)
     {
         _service = service;
-        _config = config;
-        _token = token;
     }
 
     [HttpGet("api/account")]
@@ -66,6 +64,7 @@ public class AccountController : ControllerBase
         return Created(string.Format("/api/account/{0}", account.ID), null);
     }
 
+    [Authorize]
     [HttpPut("api/account/{accountId:guid}")]
     public async Task<IActionResult> UpdateAccount(Guid accountId, [FromBody] UpdateAccountDto updateAccountDto)
     {
@@ -77,21 +76,12 @@ public class AccountController : ControllerBase
         return Ok();
     }
 
+    [Authorize]
     [HttpDelete("api/account/{accountId:guid}")]
     public async Task<IActionResult> DeleteAccount(Guid accountId)
     {
         await _service.AccountService.DeleteAccount(accountId);
 
         return Ok();
-    }
-
-    [HttpPost("api/account/token")]
-    public async Task<IActionResult> LoginAccount([FromBody] LoginAccountDto loginAccountDto)
-    {
-        var account = await _service.AccountService.LoginAccount(loginAccountDto);
-
-        var token = _token.CreateToken(account.ID.ToString());
-
-        return Ok(new TokenDto{Token = token});
     }
 }

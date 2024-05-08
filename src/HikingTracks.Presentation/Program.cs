@@ -17,11 +17,15 @@ namespace HikingTracks.Presentation
                 builder.Services.AddSwaggerGen();
 
                 builder.Services.ConfigureCors();
+
                 builder.Services.ConfigureLoggerService();
                 builder.Services.ConfigureRepositoryManager();
                 builder.Services.ConfigureServiceManager();
                 builder.Services.ConfigureDbContext();
-                builder.Services.ConfigureJwtAuthentication(builder.Configuration);
+
+
+                builder.Services.AddJWTAuthentication(builder.Configuration);
+                builder.Services.AddAuthorization();
             }
 
             var app = builder.Build();
@@ -37,13 +41,13 @@ namespace HikingTracks.Presentation
 
                 app.UseCors("CorsPolicy");
                 app.UseHttpsRedirection();
-                app.UseAuthorization();
-                app.UseAccountMiddleware();
 
-                if (app.Environment.IsDevelopment())
-                    app.MapControllers().AllowAnonymous();
-                else
-                    app.MapControllers();
+                app.UseAuthentication();
+                app.UseAuthorization();
+                
+                // app.UseAccountAuthenticationMiddleware();
+
+                app.MapControllers();
 
                 app.Run();
             }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -23,7 +24,9 @@ public class WebAppFactory<TStartup> : WebApplicationFactory<TStartup> where TSt
             // Replace the DbContext registration with an in-memory database
             ReplaceDbContextWithInMemoryDb(services);
 
+            RemoveAccountAuthenticationMiddleware(services);
         });
+
     }
 
     private void ReplaceDbContextWithInMemoryDb(IServiceCollection services)
@@ -42,5 +45,16 @@ public class WebAppFactory<TStartup> : WebApplicationFactory<TStartup> where TSt
         {
             options.UseInMemoryDatabase(_dbName);
         });
+    }
+
+    private void RemoveAccountAuthenticationMiddleware(IServiceCollection services)
+    {
+        var middlewareDescriptor = services.SingleOrDefault(
+            d => d.ServiceType == typeof(AccountAuthenticationMiddleware));
+        
+        if (middlewareDescriptor is not null)
+        {
+            services.Remove(middlewareDescriptor);
+        }
     }
 }

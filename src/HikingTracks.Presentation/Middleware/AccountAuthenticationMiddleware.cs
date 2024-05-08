@@ -4,12 +4,12 @@ using HikingTracks.Domain.Exceptions;
 
 namespace HikingTracks.Presentation;
 
-public class AccountMiddleware
+public class AccountAuthenticationMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly ITokenService _token;
 
-    public AccountMiddleware(RequestDelegate next, ITokenService token)
+    public AccountAuthenticationMiddleware(RequestDelegate next, ITokenService token)
     {
         _next = next;
         _token = token;
@@ -53,6 +53,6 @@ public class AccountMiddleware
 
 public static class AccountMiddlewareExtensions
 {
-    public static void UseAccountMiddleware(this IApplicationBuilder builder) =>
-        builder.UseMiddleware<AccountMiddleware>();
+    public static void UseAccountAuthenticationMiddleware(this IApplicationBuilder builder) =>
+        builder.UseMiddleware<AccountAuthenticationMiddleware>();
 }

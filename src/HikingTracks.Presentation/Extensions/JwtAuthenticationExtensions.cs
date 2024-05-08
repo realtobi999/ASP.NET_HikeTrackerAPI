@@ -5,9 +5,9 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace HikingTracks.Presentation;
 
-public static class JwtAuthenticationExtensions
+public static class JWTAuthenticationExtensions
 {
-    public static void ConfigureJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
+    public static void AddJWTAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
         var jwtIssuer = configuration.GetSection("Jwt:Issuer").Get<string>();
         var jwtKey = configuration.GetSection("Jwt:Key").Get<string>();
@@ -22,20 +22,25 @@ public static class JwtAuthenticationExtensions
         }
 
         services.ConfigureTokenService(jwtIssuer, jwtKey);
-        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = jwtIssuer,
-                        ValidAudience = jwtIssuer,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
-                    };
-                });
+
+        services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = false,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = jwtIssuer,
+                ValidAudience = jwtIssuer,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+            };
+        });
 
     }
 }

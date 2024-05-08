@@ -20,17 +20,20 @@ public class TokenService : ITokenService
 
     public string CreateToken()
     {
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtKey));
-        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+        var key = Encoding.ASCII.GetBytes(_jwtKey);
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(claims),
+            Expires = DateTime.UtcNow.AddMinutes(30),
+            Issuer = _jwtIssuer,
+            Audience = _jwtIssuer,
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+        };
 
-        var secToken = new JwtSecurityToken(
-            _jwtIssuer,
-            _jwtIssuer,
-            this.claims,
-            expires: DateTime.Now.AddHours(2),
-            signingCredentials: credentials);
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = tokenHandler.CreateToken(tokenDescriptor);
 
-        return new JwtSecurityTokenHandler().WriteToken(secToken);
+        return tokenHandler.WriteToken(token);
     }
 
     public IEnumerable<Claim> ParseTokenPayload(string token)

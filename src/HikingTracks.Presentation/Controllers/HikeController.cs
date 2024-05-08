@@ -43,7 +43,6 @@ public class HikeController : ControllerBase
         return Ok(hike.ToDTO());
     }
     
-    [Authorize]
     [HttpPost("api/account/{accountId:guid}/hike")]
     public async Task<IActionResult> CreateHike(Guid accountId, [FromBody] CreateHikeDto createHikeDto)
     {
