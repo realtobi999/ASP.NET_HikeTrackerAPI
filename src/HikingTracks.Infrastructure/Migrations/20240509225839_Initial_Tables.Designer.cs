@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HikingTracks.Infrastructure.Migrations
 {
     [DbContext(typeof(HikingTracksContext))]
-    [Migration("20240508184321_Initial_Migration")]
-    partial class Initial_Migration
+    [Migration("20240509225839_Initial_Tables")]
+    partial class Initial_Tables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -164,7 +164,7 @@ namespace HikingTracks.Infrastructure.Migrations
 
                     b.HasIndex("HikeID");
 
-                    b.ToTable("Photo");
+                    b.ToTable("Photos");
                 });
 
             modelBuilder.Entity("HikingTracks.Domain.Entities.Hike", b =>

@@ -1,5 +1,6 @@
 ﻿using HikingTracks.Application;
 using HikingTracks.Application.Interfaces;
+using HikingTracks.Domain;
 using HikingTracks.Domain.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +30,7 @@ public class HikeController : ControllerBase
 
         if (limit > 0)
             hikes = hikes.Take(limit);
-        
+
         var hikesDto = hikes.Select(hike => hike.ToDTO()).ToList();
         return Ok(hikesDto);
     }
@@ -41,7 +42,7 @@ public class HikeController : ControllerBase
 
         return Ok(hike.ToDTO());
     }
-    
+
     [Authorize, AccountAuth]
     [HttpPost("api/account/{accountId:guid}/hike")]
     public async Task<IActionResult> CreateHike(Guid accountId, [FromBody] CreateHikeDto createHikeDto)
@@ -60,6 +61,28 @@ public class HikeController : ControllerBase
     public async Task<IActionResult> DeleteHike(Guid hikeId)
     {
         await _service.HikeService.DeleteHike(hikeId);
+
+        return Ok();
+    }
+
+    [HttpPost("api/hike/{hikeId:guid}/upload-photos")]
+    public async Task<IActionResult> UploadHikePhotos(Guid hikeId, [FromForm] List<IFormFile> files)
+    {
+        var photos = new List<Photo>();
+
+        foreach (var file in files)
+        {
+            var photo = await _service.PhotoService.CreatePhoto(new CreatePhotoDto(){
+                HikeID = hikeId,
+                FileName = file.FileName,
+                Length = file.Length,
+                Content = await _service.FormFileService.IntoByteArray(file)
+            });
+
+            photos.Add(photo);
+        }
+
+        await _service.HikeService.UpdateHikePictures(hikeId, photos);
 
         return Ok();
     }

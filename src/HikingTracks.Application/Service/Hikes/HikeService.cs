@@ -75,4 +75,16 @@ public class HikeService : IHikeService
 
         return hike;
     }
+
+    public async Task<int> UpdateHikePictures(Guid Id, IEnumerable<Photo> photos)
+    {
+        var hike = await _repository.Hike.GetHike(Id) ?? throw new HikeNotFoundException(Id);
+
+        foreach (var photo in photos)
+        {
+            hike.Photos.Add(photo);
+        }
+
+        return await _repository.SaveAsync();
+    }
 }

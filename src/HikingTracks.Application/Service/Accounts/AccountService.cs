@@ -1,7 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using HikingTracks.Application.Interfaces;
+﻿using HikingTracks.Application.Interfaces;
 using HikingTracks.Domain;
 using HikingTracks.Domain.DTO;
 using HikingTracks.Domain.Entities;

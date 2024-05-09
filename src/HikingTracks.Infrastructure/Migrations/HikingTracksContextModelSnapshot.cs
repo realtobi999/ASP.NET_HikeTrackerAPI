@@ -161,7 +161,7 @@ namespace HikingTracks.Infrastructure.Migrations
 
                     b.HasIndex("HikeID");
 
-                    b.ToTable("Photo");
+                    b.ToTable("Photos");
                 });
 
             modelBuilder.Entity("HikingTracks.Domain.Entities.Hike", b =>

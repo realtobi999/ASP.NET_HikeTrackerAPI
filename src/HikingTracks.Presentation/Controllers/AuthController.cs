@@ -10,13 +10,11 @@ namespace HikingTracks.Presentation;
 public class AuthController : ControllerBase
 {
     private readonly IServiceManager _service;
-    private readonly IConfiguration _config;
     private readonly ITokenService _token;
 
-    public AuthController(IServiceManager service, IConfiguration config, ITokenService token)
+    public AuthController(IServiceManager service, ITokenService token)
     {
         _service = service;
-        _config = config;
         _token = token;
     }
     

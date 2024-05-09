@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HikingTracks.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial_Migration : Migration
+    public partial class Initial_Tables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -58,7 +58,7 @@ namespace HikingTracks.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Photo",
+                name: "Photos",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -69,9 +69,9 @@ namespace HikingTracks.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Photo", x => x.id);
+                    table.PrimaryKey("PK_Photos", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Photo_Hikes_hike_id",
+                        name: "FK_Photos_Hikes_hike_id",
                         column: x => x.hike_id,
                         principalTable: "Hikes",
                         principalColumn: "id",
@@ -90,8 +90,8 @@ namespace HikingTracks.Infrastructure.Migrations
                 column: "account_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Photo_hike_id",
-                table: "Photo",
+                name: "IX_Photos_hike_id",
+                table: "Photos",
                 column: "hike_id");
         }
 
@@ -99,7 +99,7 @@ namespace HikingTracks.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Photo");
+                name: "Photos");
 
             migrationBuilder.DropTable(
                 name: "Hikes");
