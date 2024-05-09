@@ -56,7 +56,7 @@ public class HikeServiceTests
 
         hike.Should().NotBeNull();
         hike.ID.Should().Be((Guid)createHikeDto.ID);
-        hike.accountId.Should().Be(account.ID);
+        hike.AccountId.Should().Be(account.ID);
         hike.Title.Should().Be(createHikeDto.Title);
         hike.Description.Should().Be(createHikeDto.Description);
         hike.ElevationGain.Should().Be(createHikeDto.ElevationGain);
