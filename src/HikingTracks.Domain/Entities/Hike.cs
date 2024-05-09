@@ -51,7 +51,7 @@ public class Hike
 
     public Account? Account { get; set; }
 
-    public ICollection<Photo>? Photos { get; set; }
+    public ICollection<Photo> Photos { get; set; } = [];
 
     public HikeDto ToDTO()
     {
