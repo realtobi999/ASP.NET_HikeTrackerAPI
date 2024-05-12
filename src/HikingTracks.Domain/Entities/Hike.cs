@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using HikingTracks.Domain.DTO;
 
 namespace HikingTracks.Domain.Entities;
@@ -39,7 +40,7 @@ public class Hike
     [Required, Column("created_at")]
     public DateTimeOffset CreatedAt { get; set; }
 
-    [Required, Column("coordinates")]
+    [Required, Column("coordinates"), JsonIgnore]
     public string CoordinatesString
     {
         get => string.Join(";", Coordinates.Select(a => a.ToString()));

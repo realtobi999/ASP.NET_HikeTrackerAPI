@@ -1,19 +1,15 @@
-﻿using HikingTracks.Domain.Exceptions;
-
-namespace HikingTracks.Domain.Entities;
+﻿namespace HikingTracks.GPXService;
 
 public class Coordinate
 {
     public double Latitude { get; }
     public double Longitude { get; }
-    public double Elevation { get; }
 
-    public Coordinate(double latitude, double longitude, double elevation)
+    public Coordinate(double latitude, double longitude)
     {
         Latitude = latitude;
         Longitude = longitude;
-        Elevation = elevation;
-
+        
         Validate();
     }
 
@@ -32,7 +28,7 @@ public class Coordinate
 
     public override string ToString()
     {
-        return string.Format("{0}|{1}|{2}", Latitude, Longitude, Elevation);
+        return string.Format("{0}|{1}", Latitude, Longitude);
     }
 
     public override bool Equals(object? obj)
@@ -49,17 +45,17 @@ public class Coordinate
     public static Coordinate Parse(string coordinate)
     {
         var coordinates = coordinate.Split('|');
-        if (coordinates.Length != 3)
+        if (coordinates.Length != 2)
         {
-            throw new  InvalidCoordinateException("Invalid coordinate format. Expected format: 'latitude|longitude|elevation'");
+            throw new InvalidCoordinateException("Invalid coordinate format. Expected format: 'latitude|longitude'");
         }
 
-        if (!double.TryParse(coordinates[0], out double latitude) || !double.TryParse(coordinates[1], out double longitude) || !double.TryParse(coordinates[2], out double elevation))
+        if (!double.TryParse(coordinates[0], out double latitude) || !double.TryParse(coordinates[1], out double longitude))
         {
             throw new InvalidCoordinateException("Invalid latitude or longitude format.");
         }
 
-        return new Coordinate(latitude, longitude, elevation);
+        return new Coordinate(latitude, longitude);
     }
 
     public override int GetHashCode()
