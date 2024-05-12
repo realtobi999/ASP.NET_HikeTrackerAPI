@@ -52,6 +52,7 @@ public class Program
             app.UseAuthorization();
             
             app.UseAccountAuthentication();
+            app.UseHikeAuthentication();
 
             app.MapControllers();
 

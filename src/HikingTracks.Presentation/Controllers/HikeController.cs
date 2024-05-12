@@ -57,6 +57,7 @@ public class HikeController : ControllerBase
         return Created(string.Format("/api/hike/{0}", hike.ID), null);
     }
 
+    [Authorize, HikeAuth]
     [HttpDelete("api/hike/{hikeId:guid}")]
     public async Task<IActionResult> DeleteHike(Guid hikeId)
     {
@@ -65,6 +66,7 @@ public class HikeController : ControllerBase
         return Ok();
     }
 
+    [Authorize, HikeAuth]
     [HttpPost("api/hike/{hikeId:guid}/upload-photos")]
     public async Task<IActionResult> UploadHikePhotos(Guid hikeId, [FromForm] List<IFormFile> files)
     {

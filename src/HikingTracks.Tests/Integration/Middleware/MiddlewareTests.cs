@@ -51,25 +51,39 @@ public class MiddlewareTests
     }
 
     [Fact]
-    public async Task AccountMiddleware_TestThatItWorks()
+    public async Task HikeMiddleware_TestThatItReturns401()
     {
         // Prepare
         var client = new WebAppFactory<Program>().CreateDefaultClient();
-        var account = new Account().WithFakeData();
+        var account1 = new Account().WithFakeData();
+        var account2 = new Account().WithFakeData();
+        var hike = new Hike().WithFakeData();
 
-        var create = await client.PostAsJsonAsync("/api/account", account.ToCreateAccountDto());
-        create.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
+        var create1 = await client.PostAsJsonAsync("/api/account", account1.ToCreateAccountDto());
+        create1.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
-        var login = await client.PostAsJsonAsync("/api/login", account.ToLoginAccountDto());
-        login.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        var create2 = await client.PostAsJsonAsync("/api/account", account2.ToCreateAccountDto());
+        create2.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
-        var token = await login.Content.ReadFromJsonAsync<TokenDto>() ?? throw new Exception("Failed to deserialize the response body.");
+        // Authenticate the request and create the hike with the owner being account1
+        var login1 = await client.PostAsJsonAsync("/api/login", account1.ToLoginAccountDto());
+        login1.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        var token1 = await login1.Content.ReadFromJsonAsync<TokenDto>();
+        client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token1!.Token);
 
-        client.DefaultRequestHeaders.Add("Authorization", string.Format("Bearer {0}", token.Token));
+        var create3 = await client.PostAsJsonAsync(string.Format("/api/account/{0}/hike", account1.ID), hike.ToCreateHikeDto());
+        create3.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
+
+        // Now try to delete hike authenticated as account2
+        client.DefaultRequestHeaders.Remove("Authorization");
         
+        var login2 = await client.PostAsJsonAsync("/api/login", account2.ToLoginAccountDto());
+        login2.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        var token2 = await login2.Content.ReadFromJsonAsync<TokenDto>();
+        client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token2!.Token);
+
         // Act & Assert
-        var response = await client.DeleteAsync(string.Format("/api/account/{0}", account.ID));
-        
-        response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        var response = await client.DeleteAsync(string.Format("/api/hike/{0}", hike.ID));
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.Unauthorized);
     }
 }
