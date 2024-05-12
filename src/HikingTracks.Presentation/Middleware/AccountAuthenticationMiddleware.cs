@@ -7,15 +7,13 @@ namespace HikingTracks.Presentation;
 public class AccountAuthenticationMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly ITokenService _token;
-
-    public AccountAuthenticationMiddleware(RequestDelegate next, ITokenService token)
+    
+    public AccountAuthenticationMiddleware(RequestDelegate next)
     {
         _next = next;
-        _token = token;
     }
 
-    public async Task InvokeAsync(HttpContext context)
+    public async Task InvokeAsync(HttpContext context, IServiceManager _service)
     {
         // Skip the request if the corresponding controller doesnt have the AccountAuth attribute
         if(context.GetEndpoint()?.Metadata.GetMetadata<AccountAuthAttribute>() is null)
@@ -32,7 +30,7 @@ public class AccountAuthenticationMiddleware
         if (token is null)
             throw new InvalidAuthHeaderException("Bad Authentication Header Format. Try: Bearer <JWT_TOKEN>");
 
-        var tokenPayload = _token.ParseTokenPayload(token);
+        var tokenPayload = _service.TokenService.ParseTokenPayload(token);
 
         var tokenAccountId = tokenPayload.FirstOrDefault(c => c.Type == "accountId")?.Value;
         if (tokenAccountId is null)

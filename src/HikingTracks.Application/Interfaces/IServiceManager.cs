@@ -8,4 +8,5 @@ public interface IServiceManager
     public IHikeService HikeService { get; }
     public IPhotoService PhotoService { get; }
     public IFormFileService FormFileService { get; }
+    public ITokenService TokenService { get; }
 }
