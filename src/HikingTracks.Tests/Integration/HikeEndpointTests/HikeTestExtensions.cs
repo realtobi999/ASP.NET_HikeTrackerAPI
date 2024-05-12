@@ -29,7 +29,7 @@ public static class HikeTestExtensions
         {
             var latitude = random.NextDouble() * (90 - (-90)) + (-90);
             var longitude = random.NextDouble() * (180 - (-180)) + (-180);
-            coordinates.Add(new Coordinate(latitude, longitude));
+            coordinates.Add(new Coordinate(latitude, longitude, random.NextDouble()));
         }
 
         return coordinates;
