@@ -5,19 +5,13 @@ using HikingTracks.Domain.DTO;
 
 namespace HikingTracks.Domain.Entities;
 
-public class Hike
+public class Segment
 {
-    [Required, Column("id"), Key]
-    public Guid ID { get; set; }         
-    
-    [Required, Column("account_id")]
-    public Guid AccountId { get; set; }
+    [Required]
+    public Guid ID { get; set; }
 
-    [Required, Column("title")]
-    public string? Title { get; set; }
-
-    [Required, Column("description")]
-    public string? Description { get; set; }
+    [Required, Column("name")]
+    public string? Name { get; set; }
 
     [Required, Column("distance"), Range(0, double.MaxValue)]
     public double Distance { get; set; }
@@ -27,15 +21,6 @@ public class Hike
 
     [Required, Column("elevation_loss"), Range(0, double.MaxValue)]
     public double ElevationLoss { get; set; }
-
-    [Required, Column("average_speed"), Range(0, double.MaxValue)]
-    public double AverageSpeed { get; set; }
-
-    [Required, Column("max_speed"), Range(0, double.MaxValue)]
-    public double MaxSpeed { get; set; }
-
-    [Required, Column("moving_time")]
-    public TimeSpan MovingTime { get; set; }
 
     [Required, Column("created_at")]
     public DateTimeOffset CreatedAt { get; set; }
@@ -50,25 +35,20 @@ public class Hike
     [NotMapped]
     public List<Coordinate> Coordinates = []; 
 
-    public Account? Account { get; set; }
-
-    public ICollection<Photo> Photos { get; set; } = [];
+    [JsonIgnore]
     public ICollection<SegmentHike> SegmentHike { get; set; } = [];
 
-    public HikeDto ToDTO()
+
+    public SegmentDto ToDTO()
     {
-        return new HikeDto
+        return new SegmentDto
         {
             ID = this.ID,
-            AccountId = this.AccountId,
+            Name = this.Name,
             Distance = this.Distance,
             ElevationGain = this.ElevationGain,
             ElevationLoss = this.ElevationLoss,
-            AverageSpeed = this.AverageSpeed,
-            MaxSpeed = this.MaxSpeed,
-            MovingTime = this.MovingTime,
-            Coordinates = this.Coordinates ?? [],
-            Photos = [.. this.Photos],
+            Coordinates = this.Coordinates,
             CreatedAt = this.CreatedAt
         };
     }
