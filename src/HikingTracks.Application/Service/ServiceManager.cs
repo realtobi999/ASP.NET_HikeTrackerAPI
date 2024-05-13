@@ -13,6 +13,7 @@ public class ServiceManager : IServiceManager
     private readonly Lazy<IPhotoService> _photoService;
     private readonly Lazy<IFormFileService> _formFileService;
     private readonly Lazy<ITokenService> _tokenService;
+    private readonly Lazy<ISegmentService> _segmentService;
 
     public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger, ITokenService tokenService)
     {
@@ -24,6 +25,8 @@ public class ServiceManager : IServiceManager
         // This token service is already injected as a singleton due to jwt key and issuer being 
         // defaulted from appsettings.json
         _tokenService = new Lazy<ITokenService>(() => tokenService);
+
+        _segmentService = new Lazy<ISegmentService>(() => new SegmentService(repositoryManager, logger));
     }
 
     public IAccountService AccountService => _accountService.Value;
@@ -31,4 +34,5 @@ public class ServiceManager : IServiceManager
     public IPhotoService PhotoService => _photoService.Value;
     public IFormFileService FormFileService => _formFileService.Value;
     public ITokenService TokenService => _tokenService.Value;
+    public ISegmentService SegmentService => _segmentService.Value;
 }

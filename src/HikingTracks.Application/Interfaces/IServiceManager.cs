@@ -9,4 +9,5 @@ public interface IServiceManager
     public IPhotoService PhotoService { get; }
     public IFormFileService FormFileService { get; }
     public ITokenService TokenService { get; }
+    public ISegmentService SegmentService { get; }
 }
