@@ -9,7 +9,7 @@ namespace HikingTracks.Presentation;
 public class AccountAuthenticationMiddleware
 {
     private readonly RequestDelegate _next;
-    
+
     public AccountAuthenticationMiddleware(RequestDelegate next)
     {
         _next = next;
@@ -18,20 +18,17 @@ public class AccountAuthenticationMiddleware
     public async Task InvokeAsync(HttpContext context, IServiceManager _service)
     {
         // Skip the request if the corresponding controller doesnt have the correct attribute
-        if(context.GetEndpoint()?.Metadata.GetMetadata<AccountAuthAttribute>() is null)
+        if (context.GetEndpoint()?.Metadata.GetMetadata<AccountAuthAttribute>() is null)
         {
             await _next(context);
-           return; 
+            return;
         }
 
         var header = context.Request.Headers.Authorization.FirstOrDefault();
         if (header is null)
             throw new InvalidAuthHeaderException("Missing header: Bearer <JWT_TOKEN>");
 
-        var token = header.Split(" ").Last().Trim();
-        if (token is null)
-            throw new InvalidAuthHeaderException("Bad authentication header format. Try: Bearer <JWT_TOKEN>");
-
+        var token = _service.TokenService.ParseTokenFromAuthHeader(header);
         var tokenPayload = _service.TokenService.ParseTokenPayload(token);
 
         var tokenAccountId = tokenPayload.FirstOrDefault(c => c.Type == "accountId")?.Value;
@@ -51,7 +48,7 @@ public class AccountAuthenticationMiddleware
             if (contextAccountId is null)
                 throw new AccountBadRequestException("Missing accountId in request body.");
         }
-        
+
         // Verify if the JWT accountId matches the Id the user wants to modify 
         if (tokenAccountId != contextAccountId)
         {

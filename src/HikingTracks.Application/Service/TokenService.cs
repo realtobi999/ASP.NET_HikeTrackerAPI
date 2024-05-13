@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using HikingTracks.Application.Interfaces;
+using HikingTracks.Domain.Exceptions;
 using Microsoft.IdentityModel.Tokens;
 
 namespace HikingTracks.Application;
@@ -34,6 +35,15 @@ public class TokenService : ITokenService
         var token = tokenHandler.CreateToken(tokenDescriptor);
 
         return tokenHandler.WriteToken(token);
+    }
+
+    public string ParseTokenFromAuthHeader(string header)
+    {
+        var token = header.Split(" ").Last().Trim();
+        if (token is null)
+            throw new InvalidAuthHeaderException("Bad authentication header format. Try: Bearer <JWT_TOKEN>");
+         
+         return token;
     }
 
     public IEnumerable<Claim> ParseTokenPayload(string token)

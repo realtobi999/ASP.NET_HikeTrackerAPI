@@ -17,7 +17,7 @@ public class HikeAuthenticationMIddleware
     public async Task InvokeAsync(HttpContext context, IServiceManager _service)
     {
         // Skip the request if the corresponding controller doesnt have the correct attribute
-        if(context.GetEndpoint()?.Metadata.GetMetadata<HikeAuthAttribute>() is null)
+        if (context.GetEndpoint()?.Metadata.GetMetadata<HikeAuthAttribute>() is null)
         {
             await _next(context);
             return;
@@ -28,10 +28,7 @@ public class HikeAuthenticationMIddleware
         if (header is null)
             throw new InvalidAuthHeaderException("Missing header: Bearer <JWT_TOKEN>");
 
-        var token = header.Split(" ").Last().Trim();
-        if (token is null)
-            throw new InvalidAuthHeaderException("Bad authentication header format. Try: Bearer <JWT_TOKEN>");
-
+        var token = _service.TokenService.ParseTokenFromAuthHeader(header);
         var tokenPayload = _service.TokenService.ParseTokenPayload(token);
 
         var accountId = tokenPayload.FirstOrDefault(c => c.Type == "accountId")?.Value;
