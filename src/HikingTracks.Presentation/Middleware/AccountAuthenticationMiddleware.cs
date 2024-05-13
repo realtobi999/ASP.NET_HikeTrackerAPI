@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Nodes;
+﻿using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using HikingTracks.Application;
 using HikingTracks.Application.Interfaces;
 using HikingTracks.Domain;
@@ -33,20 +35,27 @@ public class AccountAuthenticationMiddleware
 
         var tokenAccountId = tokenPayload.FirstOrDefault(c => c.Type == "accountId")?.Value;
         if (tokenAccountId is null)
-            throw new InvalidJwtTokenException("Token payload is missing accountId");
+            throw new InvalidJwtTokenException("Token payload is missing 'accountId'");
 
         // Get the url accountId from the url
         var contextAccountId = context.Request.RouteValues.FirstOrDefault(v => v.Key == "accountId").Value as string;
 
         if (contextAccountId is null)
         {
-            // Read the request body to get the accountId
-            var requestBody = await new StreamReader(context.Request.Body).ReadToEndAsync();
-            var requestBodyJson = JsonObject.Parse(requestBody) ?? throw new AccountBadRequestException("Missing accountId in request body.");
+            // Read the request body into a string
+            using StreamReader reader = new(context.Request.Body);
+            var requestBody = await reader.ReadToEndAsync();
+
+            // Parse the request body as JSON
+            var requestBodyJson = JsonObject.Parse(requestBody) ?? throw new AccountBadRequestException("Missing 'accountId' in request body.");
             contextAccountId = requestBodyJson["accountId"]?.ToString();
 
             if (contextAccountId is null)
-                throw new AccountBadRequestException("Missing accountId in request body.");
+                throw new AccountBadRequestException("Missing or invalid 'accountId' in request body.");
+
+            // Create a new stream back to the request with the parsed JSON data
+            var requestBodyBytes = Encoding.UTF8.GetBytes(requestBody);
+            context.Request.Body = new MemoryStream(requestBodyBytes);
         }
 
         // Verify if the JWT accountId matches the Id the user wants to modify 

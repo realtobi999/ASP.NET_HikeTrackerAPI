@@ -18,9 +18,9 @@ public class HikeService : IHikeService
         _logger = logger;
     }
 
-    public async Task<Hike> CreateHike(Guid accountId, CreateHikeDto createHikeDto)
+    public async Task<Hike> CreateHike(CreateHikeDto createHikeDto)
     {
-        var account = await _repository.Account.GetAccount(accountId) ?? throw new AccountNotFoundException(accountId); 
+        var account = await _repository.Account.GetAccount(createHikeDto.AccountId) ?? throw new AccountNotFoundException(createHikeDto.AccountId); 
 
         var hike = new Hike{
             ID = createHikeDto.ID ?? Guid.NewGuid(),
@@ -30,6 +30,7 @@ public class HikeService : IHikeService
             Distance = createHikeDto.Distance,
             ElevationGain = createHikeDto.ElevationGain,
             ElevationLoss = createHikeDto.ElevationLoss,
+            // Calculate the average speed by dividing the distance and the total moving time
             AverageSpeed = createHikeDto.Distance / createHikeDto.MovingTime.TotalSeconds,
             MaxSpeed = createHikeDto.MaxSpeed,
             MovingTime = createHikeDto.MovingTime,

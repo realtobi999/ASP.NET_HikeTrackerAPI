@@ -15,8 +15,8 @@ public class HikeControllerTests
     {
         // Prepare
         var client = new WebAppFactory<Program>().CreateDefaultClient();
-        var hike = new Hike().WithFakeData();
         var account = new Account().WithFakeData();
+        var hike = new Hike().WithFakeData(account);
 
         var create = await client.PostAsJsonAsync("/api/account", account.ToCreateAccountDto());
         create.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
@@ -28,8 +28,7 @@ public class HikeControllerTests
         client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token!.Token);
 
         // Act & Assert
-
-        var response = await client.PostAsJsonAsync(string.Format("/api/account/{0}/hike", account.ID), hike.ToCreateHikeDto());
+        var response = await client.PostAsJsonAsync("/api/hike", hike.ToCreateHikeDto());
 
         response.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
         response.Headers.Contains("Location").Should().BeTrue();
@@ -43,8 +42,8 @@ public class HikeControllerTests
     {
         // Prepare
         var client = new WebAppFactory<Program>().CreateDefaultClient();
-        var hike = new Hike().WithFakeData();
         var account = new Account().WithFakeData();
+        var hike = new Hike().WithFakeData(account);
 
         var create1 = await client.PostAsJsonAsync("/api/account", account.ToCreateAccountDto());
         create1.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
@@ -55,7 +54,7 @@ public class HikeControllerTests
         var token = await login.Content.ReadFromJsonAsync<TokenDto>();
         client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token!.Token);
 
-        var create2 = await client.PostAsJsonAsync(string.Format("/api/account/{0}/hike", account.ID), hike.ToCreateHikeDto());
+        var create2 = await client.PostAsJsonAsync("/api/hike", hike.ToCreateHikeDto());
         create2.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
         // Act & Assert
@@ -71,8 +70,8 @@ public class HikeControllerTests
         // Prepare
         var client = new WebAppFactory<Program>().CreateDefaultClient();
         var account = new Account().WithFakeData();
-        var hike1 = new Hike().WithFakeData();
-        var hike2 = new Hike().WithFakeData();
+        var hike1 = new Hike().WithFakeData(account);
+        var hike2 = new Hike().WithFakeData(account);
 
         var create1 = await client.PostAsJsonAsync("/api/account", account.ToCreateAccountDto());
         create1.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
@@ -83,10 +82,10 @@ public class HikeControllerTests
         var token = await login.Content.ReadFromJsonAsync<TokenDto>();
         client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token!.Token);
 
-        var create2 = await client.PostAsJsonAsync(string.Format("/api/account/{0}/hike", account.ID), hike1.ToCreateHikeDto());
+        var create2 = await client.PostAsJsonAsync("/api/hike", hike1.ToCreateHikeDto());
         create2.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
-        var create3 = await client.PostAsJsonAsync(string.Format("/api/account/{0}/hike", account.ID), hike2.ToCreateHikeDto());
+        var create3 = await client.PostAsJsonAsync("/api/hike", hike2.ToCreateHikeDto());
         create3.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
         // Act & Assert
@@ -107,8 +106,8 @@ public class HikeControllerTests
     {
         // Prepare
         var client = new WebAppFactory<Program>().CreateDefaultClient();
-        var hike = new Hike().WithFakeData();
         var account = new Account().WithFakeData();
+        var hike = new Hike().WithFakeData(account);
 
         var create1 = await client.PostAsJsonAsync("/api/account", account.ToCreateAccountDto());
         create1.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
@@ -119,7 +118,7 @@ public class HikeControllerTests
         var token = await login.Content.ReadFromJsonAsync<TokenDto>();
         client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token!.Token);
 
-        var create2 = await client.PostAsJsonAsync(string.Format("/api/account/{0}/hike", account.ID), hike.ToCreateHikeDto());
+        var create2 = await client.PostAsJsonAsync("/api/hike", hike.ToCreateHikeDto());
         create2.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
         // Act & Assert
@@ -136,9 +135,9 @@ public class HikeControllerTests
         // Prepare
         var client = new WebAppFactory<Program>().CreateDefaultClient();
         var account = new Account().WithFakeData();
-        var hike1 = new Hike().WithFakeData();
-        var hike2 = new Hike().WithFakeData();
-        var hike3 = new Hike().WithFakeData();
+        var hike1 = new Hike().WithFakeData(account);
+        var hike2 = new Hike().WithFakeData(account);
+        var hike3 = new Hike().WithFakeData(account);
 
         var create1 = await client.PostAsJsonAsync("/api/account", account.ToCreateAccountDto());
         create1.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
@@ -149,13 +148,13 @@ public class HikeControllerTests
         var token = await login.Content.ReadFromJsonAsync<TokenDto>();
         client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token!.Token);
 
-        var create2 = await client.PostAsJsonAsync(string.Format("/api/account/{0}/hike", account.ID), hike1.ToCreateHikeDto());
+        var create2 = await client.PostAsJsonAsync("/api/hike", hike1.ToCreateHikeDto());
         create2.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
-        var create3 = await client.PostAsJsonAsync(string.Format("/api/account/{0}/hike", account.ID), hike2.ToCreateHikeDto());
+        var create3 = await client.PostAsJsonAsync("/api/hike", hike2.ToCreateHikeDto());
         create3.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
-        var create4 = await client.PostAsJsonAsync(string.Format("/api/account/{0}/hike", account.ID), hike3.ToCreateHikeDto());
+        var create4 = await client.PostAsJsonAsync("/api/hike", hike3.ToCreateHikeDto());
         create4.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
         // Act & Assert
@@ -191,7 +190,7 @@ public class HikeControllerTests
 
         for (int i = 0; i < 2; i++)
         {
-            var create3 = await client.PostAsJsonAsync(string.Format("/api/account/{0}/hike", account1.ID), new Hike().WithFakeData().ToCreateHikeDto());
+            var create3 = await client.PostAsJsonAsync("/api/hike", new Hike().WithFakeData(account1).ToCreateHikeDto());
             create3.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
         }
 
@@ -208,7 +207,7 @@ public class HikeControllerTests
 
         for (int i = 0; i < 2; i++)
         {
-            var create4 = await client.PostAsJsonAsync(string.Format("/api/account/{0}/hike", account2.ID), new Hike().WithFakeData().ToCreateHikeDto());
+            var create4 = await client.PostAsJsonAsync("/api/hike", new Hike().WithFakeData(account2).ToCreateHikeDto());
             create4.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
         }
 

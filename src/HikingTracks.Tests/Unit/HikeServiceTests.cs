@@ -39,7 +39,7 @@ public class HikeServiceTests
     {
         // Prepare
         var account = new Account().WithFakeData();
-        var createHikeDto = new Hike().WithFakeData().ToCreateHikeDto();
+        var createHikeDto = new Hike().WithFakeData(account).ToCreateHikeDto();
 
         if (createHikeDto.ID is null) throw new Exception("Something went wrong.. ID cannot be null!");
 
@@ -52,7 +52,7 @@ public class HikeServiceTests
         var service = new HikeService(repository.Object, logger.Object);
 
         // Act & Assert
-        var hike = await service.CreateHike(account.ID, createHikeDto);
+        var hike = await service.CreateHike(createHikeDto);
 
         hike.Should().NotBeNull();
         hike.ID.Should().Be((Guid)createHikeDto.ID);

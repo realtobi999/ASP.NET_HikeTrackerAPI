@@ -57,7 +57,7 @@ public class MiddlewareTests
         var client = new WebAppFactory<Program>().CreateDefaultClient();
         var account1 = new Account().WithFakeData();
         var account2 = new Account().WithFakeData();
-        var hike = new Hike().WithFakeData();
+        var hike = new Hike().WithFakeData(account1);
 
         var create1 = await client.PostAsJsonAsync("/api/account", account1.ToCreateAccountDto());
         create1.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
@@ -71,7 +71,7 @@ public class MiddlewareTests
         var token1 = await login1.Content.ReadFromJsonAsync<TokenDto>();
         client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token1!.Token);
 
-        var create3 = await client.PostAsJsonAsync(string.Format("/api/account/{0}/hike", account1.ID), hike.ToCreateHikeDto());
+        var create3 = await client.PostAsJsonAsync("/api/hike", hike.ToCreateHikeDto());
         create3.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
         // Now try to delete hike authenticated as account2

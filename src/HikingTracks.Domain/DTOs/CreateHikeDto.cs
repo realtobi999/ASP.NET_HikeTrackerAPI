@@ -8,6 +8,9 @@ public record class CreateHikeDto
     public Guid? ID { get; set; }
 
     [Required]
+    public Guid AccountId { get; set; }
+
+    [Required]
     public string? Title { get; set; }
 
     [Required]

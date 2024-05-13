@@ -44,15 +44,15 @@ public class HikeController : ControllerBase
     }
 
     [Authorize, AccountAuth]
-    [HttpPost("api/account/{accountId:guid}/hike")]
-    public async Task<IActionResult> CreateHike(Guid accountId, [FromBody] CreateHikeDto createHikeDto)
+    [HttpPost("api/hike")]
+    public async Task<IActionResult> CreateHike([FromBody] CreateHikeDto createHikeDto)
     {
         if (createHikeDto is null)
         {
             return BadRequest("Body is not provided");
         }
 
-        var hike = await _service.HikeService.CreateHike(accountId, createHikeDto);
+        var hike = await _service.HikeService.CreateHike(createHikeDto);
 
         return Created(string.Format("/api/hike/{0}", hike.ID), null);
     }

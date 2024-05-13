@@ -37,13 +37,22 @@ public static class HikeTestExtensions
 
     public static Hike WithFakeData(this Hike hike)
     {
-        return _hikeFaker.Generate();
+        hike = _hikeFaker.Generate();
+        return hike;
+    }
+
+    public static Hike WithFakeData(this Hike hike, Account account)
+    {
+        hike = _hikeFaker.Generate();
+        hike.AccountId = account.ID;
+        return hike;
     }
 
     public static CreateHikeDto ToCreateHikeDto(this Hike hike)
     {
         return new CreateHikeDto{
             ID = hike.ID,
+            AccountId = hike.AccountId,
             Title = hike.Title,
             Description = hike.Description,
             Distance = hike.Distance,

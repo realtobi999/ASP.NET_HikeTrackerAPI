@@ -9,7 +9,7 @@ public interface IHikeService
     Task<IEnumerable<Hike>> GetAllHikes();
     Task<IEnumerable<Hike>> GetAllHikesByAccount(Guid accountId);
     Task<Hike> GetHike(Guid Id);
-    Task<Hike> CreateHike(Guid accountId, CreateHikeDto createHikeDto);
+    Task<Hike> CreateHike(CreateHikeDto createHikeDto);
     Task<int> UpdateHikePictures(Guid Id, IEnumerable<Photo> photos);
     Task DeleteHike(Guid Id);
 }
