@@ -26,22 +26,22 @@ public class HikeAuthenticationMIddleware
         // Get the accountId from the JWT token payload
         var header = context.Request.Headers.Authorization.FirstOrDefault();
         if (header is null)
-            throw new InvalidAuthHeaderException("Missing Header: Bearer <JWT_TOKEN>");
+            throw new InvalidAuthHeaderException("Missing header: Bearer <JWT_TOKEN>");
 
         var token = header.Split(" ").Last().Trim();
         if (token is null)
-            throw new InvalidAuthHeaderException("Bad Authentication Header Format. Try: Bearer <JWT_TOKEN>");
+            throw new InvalidAuthHeaderException("Bad authentication header format. Try: Bearer <JWT_TOKEN>");
 
         var tokenPayload = _service.TokenService.ParseTokenPayload(token);
 
         var accountId = tokenPayload.FirstOrDefault(c => c.Type == "accountId")?.Value;
         if (accountId is null)
-            throw new InvalidJwtTokenException("Token Payload is Missing accountId");
+            throw new InvalidJwtTokenException("Token payload is missing accountId");
 
         // Get the hikeId from the url
         var hikeId = context.Request.RouteValues.FirstOrDefault(v => v.Key == "hikeId").Value as string;
         if (hikeId is null)
-            throw new HikeBadRequestException("The Request is Missing hikeId");
+            throw new HikeBadRequestException("The request is missing hikeId");
 
         // Check if the hike accountId matches the sender accountId
         var hike = await _service.HikeService.GetHike(Guid.Parse(hikeId));
