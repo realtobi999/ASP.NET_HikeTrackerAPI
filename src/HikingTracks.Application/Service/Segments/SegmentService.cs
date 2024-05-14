@@ -23,6 +23,7 @@ public class SegmentService : ISegmentService
             ID = createSegmentDto.ID ?? Guid.NewGuid(),
             Name = createSegmentDto.Name,
             Distance = createSegmentDto.Distance,
+            ElevationGain = createSegmentDto.ElevationGain,
             ElevationLoss = createSegmentDto.ElevationLoss,
             CreatedAt = DateTimeOffset.UtcNow,
             Coordinates = createSegmentDto.Coordinates,
