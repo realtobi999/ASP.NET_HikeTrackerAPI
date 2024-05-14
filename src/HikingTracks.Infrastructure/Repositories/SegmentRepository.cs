@@ -14,6 +14,11 @@ public class SegmentRepository : ISegmentRepository
         _context = context;
     }
 
+    public void CreateSegment(Segment segment)
+    {
+        _context.Segments.Add(segment);
+    }
+
     public async Task<IEnumerable<Segment>> GetAllSegments()
     {
         return await _context.Segments.OrderBy(segment => segment.CreatedAt).ToListAsync();

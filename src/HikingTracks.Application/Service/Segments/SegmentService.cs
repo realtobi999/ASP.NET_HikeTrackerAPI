@@ -1,4 +1,5 @@
 ﻿using HikingTracks.Application.Interfaces;
+using HikingTracks.Domain.DTO;
 using HikingTracks.Domain.Entities;
 using HikingTracks.Domain.Interfaces;
 
@@ -13,6 +14,23 @@ public class SegmentService : ISegmentService
     {
         _repository = repository;
         _logger = logger;
+    }
+
+    public async Task<Segment> CreateSegment(CreateSegmentDto createSegmentDto)
+    {
+        var segment = new Segment{
+            ID = createSegmentDto.ID ?? Guid.NewGuid(),
+            Name = createSegmentDto.Name,
+            Distance = createSegmentDto.Distance,
+            ElevationLoss = createSegmentDto.ElevationLoss,
+            CreatedAt = DateTimeOffset.UtcNow,
+            Coordinates = createSegmentDto.Coordinates,
+        };
+
+        _repository.Segment.CreateSegment(segment);
+        await _repository.SaveAsync();
+
+        return segment;
     }
 
     public async Task<IEnumerable<Segment>> GetAllSegments()

@@ -2,6 +2,7 @@
 using HikingTracks.Application.Interfaces;
 using HikingTracks.Domain;
 using HikingTracks.Domain.DTO;
+using HikingTracks.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -33,10 +34,10 @@ public class AccountController : ControllerBase
     {
         var accounts = await _service.AccountService.GetAllAccounts();
 
-        if (offset > 0) 
+        if (offset > 0)
             accounts = accounts.Skip(offset);
 
-        if (limit > 0) 
+        if (limit > 0)
             accounts = accounts.Take(limit);
 
         var accountsDto = accounts.Select(account => account.ToDTO()).ToList();
@@ -44,7 +45,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpGet("api/account/{accountId:guid}")]
-    public async Task<IActionResult> GetAccount(Guid accountId) 
+    public async Task<IActionResult> GetAccount(Guid accountId)
     {
         var account = await _service.AccountService.GetAccount(accountId);
 
@@ -54,8 +55,12 @@ public class AccountController : ControllerBase
     [HttpPost("api/account")]
     public async Task<IActionResult> CreateAccount([FromBody] CreateAccountDto createAccountDto)
     {
-        if (createAccountDto is null) 
-            return BadRequest("Body is not provided");
+        if (createAccountDto is null)
+            return BadRequest(new ErrorDetails
+            {
+                StatusCode = (int)System.Net.HttpStatusCode.BadRequest,
+                Message = "Body is not provided."
+            });
 
         var account = await _service.AccountService.CreateAccount(createAccountDto);
 
@@ -67,8 +72,12 @@ public class AccountController : ControllerBase
     public async Task<IActionResult> UpdateAccount(Guid accountId, [FromBody] UpdateAccountDto updateAccountDto)
     {
         if (updateAccountDto is null)
-            return BadRequest("Body is not provided");
-
+            return BadRequest(new ErrorDetails
+            {
+                StatusCode = (int)System.Net.HttpStatusCode.BadRequest,
+                Message = "Body is not provided."
+            });
+        
         _ = await _service.AccountService.UpdateAccount(accountId, updateAccountDto);
 
         return Ok();

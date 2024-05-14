@@ -24,6 +24,7 @@ public class RepositoryManager : IRepositoryManager
     public IHikeRepository Hike => _hikeRepository.Value;
     public IPhotoRepository Photo => _photoRepository.Value;
     public ISegmentRepository Segment => _segmentRepository.Value;
+    
     public async Task<int> SaveAsync()
     {
         return await _context.SaveChangesAsync();

@@ -2,6 +2,7 @@
 using HikingTracks.Application.Interfaces;
 using HikingTracks.Domain;
 using HikingTracks.Domain.DTO;
+using HikingTracks.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -48,9 +49,17 @@ public class HikeController : ControllerBase
     public async Task<IActionResult> CreateHike([FromBody] CreateHikeDto createHikeDto)
     {
         if (createHikeDto is null)
-        {
-            return BadRequest("Body is not provided");
-        }
+            return BadRequest(new ErrorDetails
+            {
+                StatusCode = (int)System.Net.HttpStatusCode.BadRequest,
+                Message = "Body is not provided."
+            });
+        if (createHikeDto.Coordinates.Count == 0)
+            return BadRequest(new ErrorDetails
+            {
+                StatusCode = (int)System.Net.HttpStatusCode.BadRequest,
+                Message = string.Format("Coordinates must be set, provide the following fields: '{0}', for each coordinate", Coordinate.ValidCoordinateFormat) 
+            });
 
         var hike = await _service.HikeService.CreateHike(createHikeDto);
 
