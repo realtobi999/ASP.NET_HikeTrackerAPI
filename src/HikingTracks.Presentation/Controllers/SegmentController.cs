@@ -29,6 +29,14 @@ public class SegmentController : ControllerBase
         return Ok(segmentsDto);
     }
 
+    [HttpGet("api/segment/{segmentId:guid}")]
+    public async Task<IActionResult> GetSegment(Guid segmentId)
+    {
+        var segment = await _service.SegmentService.GetSegment(segmentId);
+
+        return Ok(segment.ToDTO());
+    }
+
     [HttpPost("api/segment")]
     public async Task<IActionResult> CreateSegment([FromBody] CreateSegmentDto createSegmentDto)
     {

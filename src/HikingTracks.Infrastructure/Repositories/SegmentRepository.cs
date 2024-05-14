@@ -23,4 +23,9 @@ public class SegmentRepository : ISegmentRepository
     {
         return await _context.Segments.OrderBy(segment => segment.CreatedAt).ToListAsync();
     }
+
+    public async Task<Segment?> GetSegment(Guid id)
+    {
+        return await _context.Segments.SingleOrDefaultAsync(segment => segment.ID == id);
+    }
 }
