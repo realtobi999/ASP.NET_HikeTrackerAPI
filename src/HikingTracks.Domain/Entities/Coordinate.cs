@@ -4,6 +4,7 @@ namespace HikingTracks.Domain.Entities;
 
 public class Coordinate
 {
+    public const string ValidCoordinateFormat = "latitude|longitude|elevation";
     public double Latitude { get; }
     public double Longitude { get; }
     public double Elevation { get; }
@@ -51,7 +52,7 @@ public class Coordinate
         var coordinates = coordinate.Split('|');
         if (coordinates.Length != 3)
         {
-            throw new InvalidCoordinateException("Invalid coordinate format. Expected format: 'latitude|longitude|elevation'");
+            throw new InvalidCoordinateException(string.Format("Invalid coordinate format. Expected format: '{0}'", ValidCoordinateFormat));
         }
 
         if (!double.TryParse(coordinates[0], out double latitude) ||
