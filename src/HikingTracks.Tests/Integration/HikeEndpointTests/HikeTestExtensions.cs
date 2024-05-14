@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using HikingTracks.Application;
 using HikingTracks.Domain.DTO;
 using HikingTracks.Domain.Entities;
 
@@ -17,23 +18,8 @@ public static class HikeTestExtensions
             .RuleFor(h => h.AverageSpeed, f => f.Random.Double(0, 20))
             .RuleFor(h => h.MaxSpeed, f => f.Random.Double(0, 30))
             .RuleFor(h => h.MovingTime, f => f.Date.Timespan())
-            .RuleFor(h => h.Coordinates, f => GenerateRandomCoordinates())
+            .RuleFor(h => h.Coordinates, f => CoordinateService.GenerateRandomCoordinatesList(50))
             .RuleFor(h => h.CreatedAt, f => DateTimeOffset.UtcNow);
-
-    private static List<Coordinate> GenerateRandomCoordinates()
-    {
-        var random = new Random();
-        var coordinates = new List<Coordinate>();
-
-        for (int i = 0; i < 5; i++)
-        {
-            var latitude = random.NextDouble() * (90 - (-90)) + (-90);
-            var longitude = random.NextDouble() * (180 - (-180)) + (-180);
-            coordinates.Add(new Coordinate(latitude, longitude, random.NextDouble()));
-        }
-
-        return coordinates;
-    }
 
     public static Hike WithFakeData(this Hike hike)
     {
