@@ -7,6 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace HikingTracks.Presentation;
 
 [ApiController]
+/*
+
+POST    /api/login
+
+*/
 public class AuthController : ControllerBase
 {
     private readonly IServiceManager _service;

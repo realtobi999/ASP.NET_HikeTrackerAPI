@@ -13,11 +13,11 @@ namespace HikingTracks.Presentation.Controllers;
 [ApiController]
 /*
 
-GET /api/account
-GET /api/account/{account_id}
-POST /api/account
-PUT /api/account/{account_id}
-DELETE /api/account/{account_id}
+GET     /api/account - params: limit, offset
+GET     /api/account/{account_id}
+POST    /api/account
+PUT     /api/account/{account_id}
+DELETE  /api/account/{account_id}
 
 */
 public class AccountController : ControllerBase
@@ -55,13 +55,6 @@ public class AccountController : ControllerBase
     [HttpPost("api/account")]
     public async Task<IActionResult> CreateAccount([FromBody] CreateAccountDto createAccountDto)
     {
-        if (createAccountDto is null)
-            return BadRequest(new ErrorDetails
-            {
-                StatusCode = (int)System.Net.HttpStatusCode.BadRequest,
-                Message = "Body is not provided."
-            });
-
         var account = await _service.AccountService.CreateAccount(createAccountDto);
 
         return Created(string.Format("/api/account/{0}", account.ID), null);
@@ -71,13 +64,6 @@ public class AccountController : ControllerBase
     [HttpPut("api/account/{accountId:guid}")]
     public async Task<IActionResult> UpdateAccount(Guid accountId, [FromBody] UpdateAccountDto updateAccountDto)
     {
-        if (updateAccountDto is null)
-            return BadRequest(new ErrorDetails
-            {
-                StatusCode = (int)System.Net.HttpStatusCode.BadRequest,
-                Message = "Body is not provided."
-            });
-        
         _ = await _service.AccountService.UpdateAccount(accountId, updateAccountDto);
 
         return Ok();

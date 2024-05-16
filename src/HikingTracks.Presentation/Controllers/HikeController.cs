@@ -3,12 +3,22 @@ using HikingTracks.Application.Interfaces;
 using HikingTracks.Domain;
 using HikingTracks.Domain.DTO;
 using HikingTracks.Domain.Entities;
+using HikingTracks.Domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HikingTracks.Presentation.Controllers;
 
 [ApiController]
+/*
+
+GET     /api/hike - params: limit, offset, accountId
+GET     /api/hike/{hike_id}
+POST    /api/hike
+DELETE  /api/hike/{hike_id}
+POST    /api/hike/{hike_id}/upload-photos
+
+*/
 public class HikeController : ControllerBase
 {
     private readonly IServiceManager _service;
@@ -48,18 +58,8 @@ public class HikeController : ControllerBase
     [HttpPost("api/hike")]
     public async Task<IActionResult> CreateHike([FromBody] CreateHikeDto createHikeDto)
     {
-        if (createHikeDto is null)
-            return BadRequest(new ErrorDetails
-            {
-                StatusCode = (int)System.Net.HttpStatusCode.BadRequest,
-                Message = "Body is not provided."
-            });
         if (createHikeDto.Coordinates.Count == 0)
-            return BadRequest(new ErrorDetails
-            {
-                StatusCode = (int)System.Net.HttpStatusCode.BadRequest,
-                Message = string.Format("Coordinates must be set, provide the following fields: '{0}', for each coordinate", Coordinate.ValidCoordinateFormat) 
-            });
+            throw new BadRequestException(string.Format("Coordinates must be set, provide the following fields: '{0}', for each coordinate", Coordinate.ValidCoordinateFormat));
 
         var hike = await _service.HikeService.CreateHike(createHikeDto);
 
