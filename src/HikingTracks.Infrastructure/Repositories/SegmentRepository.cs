@@ -19,6 +19,11 @@ public class SegmentRepository : ISegmentRepository
         _context.Segments.Add(segment);
     }
 
+    public void DeleteSegment(Segment segment)
+    {
+        _context.Segments.Remove(segment);
+    }
+
     public async Task<IEnumerable<Segment>> GetAllSegments()
     {
         return await _context.Segments.OrderBy(segment => segment.CreatedAt).ToListAsync();

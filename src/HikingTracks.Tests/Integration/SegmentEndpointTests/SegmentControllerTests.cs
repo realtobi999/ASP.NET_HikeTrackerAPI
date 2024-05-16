@@ -92,7 +92,7 @@ public class SegmentControllerTests
         segment.Distance = 123;
 
         var response = await client.PutAsJsonAsync(string.Format("/api/segment/{0}", segment.ID), segment.ToUpdateSegmentDto());
-        response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK); 
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
 
         var get = await client.GetAsync(string.Format("/api/segment/{0}", segment.ID));
         get.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
@@ -102,5 +102,23 @@ public class SegmentControllerTests
         body.ID.Should().Be(segment.ID);
         body.Name.Should().Be("TEST");
         body.Distance.Should().Be(123);
+    }
+
+    [Fact]
+    public async Task Segment_DeleteSegment_ReturnsOK()
+    {
+        // Prepare
+        var client = new WebAppFactory<Program>().CreateDefaultClient();
+        var segment = new Segment().WithFakeData();
+
+        var create = await client.PostAsJsonAsync("/api/segment", segment.ToCreateSegmentDto());
+        create.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
+
+        // Act & Assert 
+        var response = await client.DeleteAsync(string.Format("/api/segment/{0}", segment.ID));
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+
+        var get = await client.GetAsync(string.Format("/api/segment/{0}", segment.ID));
+        get.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
     }
 }

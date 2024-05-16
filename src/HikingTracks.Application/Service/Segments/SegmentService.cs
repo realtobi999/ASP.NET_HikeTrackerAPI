@@ -37,6 +37,14 @@ public class SegmentService : ISegmentService
         return segment;
     }
 
+    public async Task DeleteSegment(Guid id)
+    {
+        var segment = await _repository.Segment.GetSegment(id) ?? throw new SegmentNotFoundException(id);
+
+        _repository.Segment.DeleteSegment(segment);
+        await _repository.SaveAsync();
+    }
+
     public async Task<IEnumerable<Segment>> GetAllSegments()
     {
         var segments = await _repository.Segment.GetAllSegments();

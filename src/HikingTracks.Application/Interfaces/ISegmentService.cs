@@ -10,4 +10,5 @@ public interface ISegmentService
    Task<Segment> GetSegment(Guid id);
    Task<Segment> CreateSegment(CreateSegmentDto createSegmentDto);
    Task<int> UpdateSegment(Guid id, UpdateSegmentDto updateSegmentDto   );
+   Task DeleteSegment(Guid id);
 }

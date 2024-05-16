@@ -15,6 +15,7 @@ GET     /api/segment - params: limit, offset
 GET     /api/segment/{segment_id}
 POST    /api/segment
 PUT     /api/segment/{segment_id}
+DELETE  /api/segment/{segment_id}
 
 */
 public class SegmentController : ControllerBase
@@ -66,10 +67,18 @@ public class SegmentController : ControllerBase
            throw new BadRequestException(string.Format("Coordinates must be set, provide the following fields: '{0}', for each coordinate", Coordinate.ValidCoordinateFormat)); 
 
         var affected = await _service.SegmentService.UpdateSegment(segmentId, updateSegmentDto);
-
+        
         if (affected == 0)
             throw new InternalServerErrorException("No rows affected.");
             
         return Ok();
     } 
+
+    [HttpDelete("api/segment/{segmentId:guid}")]
+    public async Task<IActionResult> DeleteSegment(Guid segmentId)
+    {
+        await _service.SegmentService.DeleteSegment(segmentId);
+
+        return Ok();
+    }
 }
