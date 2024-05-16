@@ -81,6 +81,7 @@ public class CoordinateTests
         Assert.True(coordinate.IsWithinRange(new Coordinate(50.05, 100.05, 0), 7000)); // Approximately 7km away 
         Assert.True(coordinate.IsWithinRange(new Coordinate(50.005, 100.005, 0), 1000)); // Approximately 1km away
         Assert.False(coordinate.IsWithinRange(new Coordinate(55, 105, 0), 1)); // Approximately 650km away
+        Assert.False(coordinate.IsWithinRange(new Coordinate(50, -100, 0), 1)); // Approximately 9000km away
    
         Assert.Throws<ArgumentException>(() => coordinate.IsWithinRange(new Coordinate(0,0,0), -1))
             .Message.Should().Be("IsWithinRange 'range' argument needs to be bigger than zero.");

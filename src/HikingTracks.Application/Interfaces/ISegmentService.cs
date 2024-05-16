@@ -11,4 +11,5 @@ public interface ISegmentService
    Task<Segment> CreateSegment(CreateSegmentDto createSegmentDto);
    Task<int> UpdateSegment(Guid id, UpdateSegmentDto updateSegmentDto   );
    Task DeleteSegment(Guid id);
+   Task<IEnumerable<Segment>> GetHikeSegments(Hike hike);
 }

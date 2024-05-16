@@ -99,4 +99,61 @@ public class SegmentServiceTests
         // Act & Assert
         await Assert.ThrowsAsync<SegmentNotFoundException>(async () => await service.GetSegment(segment.ID));
     }
+
+    [Fact]
+    public async void Segment_GetHikeSegments_Works()
+    {
+        // Prepare
+        var hike = new Hike().WithFakeData();
+        hike.Coordinates = [
+            new(50,50,0),
+            new(50.005, 50.002, 0),
+            new(50.006, 50.003, 0),
+            new(50.007, 50.003, 0),
+            new(50.006, 50.003, 0)
+        ];
+
+        var segment1 = new Segment().WithFakeData();
+        segment1.Coordinates = [
+            new(50,50,0),
+            new(50.004, 50.003, 0),
+            new(50.005, 50.004, 0),
+            new(50.006, 50.004, 0),
+            new(50.005, 50.004, 0)
+        ];
+
+        var segment2 = new Segment().WithFakeData();
+        segment2.Coordinates = [
+            new(80,50,0),
+            new(80.004, 50.003, 0),
+            new(80.005, 50.004, 0),
+            new(80.006, 50.004, 0),
+            new(80.005, 50.004, 0)
+        ];
+
+        var segment3 = new Segment().WithFakeData();
+        segment2.Coordinates = [
+            new(50,50,0),
+            new(80.004, 50.003, 0),
+            new(80.005, 50.004, 0),
+            new(80.006, 50.004, 0),
+            new(80.005, 50.004, 0)
+        ];
+
+        var testSegments = new List<Segment>(){segment1, segment2, segment3};
+
+        var repository = new Mock<IRepositoryManager>();
+        var logger = new Mock<ILoggerManager>();
+
+        repository.Setup(repo => repo.Segment.GetAllSegments()).ReturnsAsync(testSegments);
+
+        var service = new SegmentService(repository.Object, logger.Object);
+
+        // Act & Assert
+        var segments = await service.GetHikeSegments(hike);
+
+        segments.Should().NotBeEmpty();
+        segments.Count().Should().Be(1);
+        segments.ElementAt(0).Should().BeEquivalentTo(segment1);
+    }
 }
