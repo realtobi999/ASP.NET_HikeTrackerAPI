@@ -21,8 +21,6 @@ public static class JWTAuthenticationExtensions
             throw new ArgumentNullException(nameof(jwtKey), "JWT Key configuration is missing");
         }
 
-        services.ConfigureTokenService(jwtIssuer, jwtKey);
-
         services.AddAuthentication(options =>
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

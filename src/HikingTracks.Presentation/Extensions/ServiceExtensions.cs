@@ -1,4 +1,5 @@
 ﻿using HikingTracks.Application;
+using HikingTracks.Application.Factories;
 using HikingTracks.Application.Interfaces;
 using HikingTracks.Application.Service;
 using HikingTracks.Domain.Interfaces;
@@ -28,6 +29,9 @@ public static class ServiceExtensions
     public static void ConfigureServiceManager(this IServiceCollection services) =>
         services.AddScoped<IServiceManager, ServiceManager>();
 
+    public static void ConfigureServiceFactory(this IServiceCollection services) =>
+        services.AddScoped<IServiceFactory, ServiceFactory>();   
+
     public static void ConfigureDbContext(this IServiceCollection services)
     {
         services.AddDbContext<HikingTracksContext>(options =>
@@ -38,8 +42,4 @@ public static class ServiceExtensions
 
     public static void ConfigureLoggerService(this IServiceCollection services) =>
         services.AddSingleton<ILoggerManager, LoggerManager>(); 
-    public static void ConfigureTokenService(this IServiceCollection services, string jwtIssuer, string jwtKey) =>
-        services.AddSingleton<ITokenService>(new TokenService(jwtIssuer, jwtKey));
-    
-
 }

@@ -10,12 +10,10 @@ namespace HikingTracks.Presentation;
 public class AuthController : ControllerBase
 {
     private readonly IServiceManager _service;
-    private readonly ITokenService _token;
 
-    public AuthController(IServiceManager service, ITokenService token)
+    public AuthController(IServiceManager service)
     {
         _service = service;
-        _token = token;
     }
     
     [HttpPost("api/login")]
@@ -26,7 +24,7 @@ public class AuthController : ControllerBase
         var claims = new List<Claim>(){
             new("accountId", account.ID.ToString())
         };
-        var token = _token.WithPayload(claims).CreateToken();
+        var token = _service.TokenService.WithPayload(claims).CreateToken();
 
         return Ok(new TokenDto{Token = token});
     }

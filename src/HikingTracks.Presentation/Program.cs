@@ -28,10 +28,11 @@ public class Program
             builder.Services.ConfigureRepositoryManager();
             builder.Services.ConfigureDbContext();
 
+            builder.Services.ConfigureServiceFactory();
+            builder.Services.ConfigureServiceManager();
+
             builder.Services.AddJWTAuthentication(builder.Configuration);
             builder.Services.AddAuthorization();
-            
-            builder.Services.ConfigureServiceManager();
         }
 
         var app = builder.Build();
