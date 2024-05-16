@@ -69,4 +69,20 @@ public class CoordinateTests
         Assert.Throws<InvalidCoordinateException>(() => Coordinate.Parse("90|30|34|100")); // Extra elevation value
         Assert.Throws<InvalidCoordinateException>(() => Coordinate.Parse("90;34;100")); // Invalid separator
     }
+
+    [Fact]
+    public void Coordinate_IsWithinRange_Works()
+    {
+        // Prepare
+        var coordinate = new Coordinate(50, 100, 0);
+
+        // Act & Assert
+        Assert.True(coordinate.IsWithinRange(new Coordinate(50, 100, 0), 1));
+        Assert.True(coordinate.IsWithinRange(new Coordinate(50.05, 100.05, 0), 7000)); // Approximately 7km away 
+        Assert.True(coordinate.IsWithinRange(new Coordinate(50.005, 100.005, 0), 1000)); // Approximately 1km away
+        Assert.False(coordinate.IsWithinRange(new Coordinate(55, 105, 0), 1)); // Approximately 650km away
+   
+        Assert.Throws<ArgumentException>(() => coordinate.IsWithinRange(new Coordinate(0,0,0), -1))
+            .Message.Should().Be("IsWithinRange 'range' argument needs to be bigger than zero.");
+    }
 }

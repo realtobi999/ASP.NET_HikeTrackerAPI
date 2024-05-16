@@ -42,6 +42,16 @@ public class Coordinate
         return Latitude == other.Latitude && Longitude == other.Longitude && Elevation == other.Elevation;
     }
 
+    public bool IsWithinRange(Coordinate coordinate, int range)
+    {
+        if (range <= 0)
+            throw new ArgumentException("IsWithinRange 'range' argument needs to be bigger than zero.");
+        
+        var distance = CoordinateMath.Haversine(this.Latitude.ToRadians(), coordinate.Latitude.ToRadians(), this.Longitude.ToRadians(), coordinate.Longitude.ToRadians());
+
+        return distance <= range;
+    }
+
     public override int GetHashCode()
     {
         return HashCode.Combine(Latitude, Longitude, Elevation);
