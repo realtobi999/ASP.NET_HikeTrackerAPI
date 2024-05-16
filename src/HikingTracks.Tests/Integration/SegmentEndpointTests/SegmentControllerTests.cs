@@ -59,18 +59,22 @@ public class SegmentControllerTests
     {
         // Prepare
         var client = new WebAppFactory<Program>().CreateDefaultClient();
-        var segment = new Segment().WithFakeData();
+        var segment1 = new Segment().WithFakeData();
+        var segment2 = new Segment().WithFakeData();
 
-        var create = await client.PostAsJsonAsync("/api/segment", segment.ToCreateSegmentDto());
-        create.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
+        var create1 = await client.PostAsJsonAsync("/api/segment", segment1.ToCreateSegmentDto());
+        create1.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
+
+        var create2 = await client.PostAsJsonAsync("/api/segment", segment2.ToCreateSegmentDto());
+        create2.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
         // Act & Assert
-        var response = await client.GetAsync(string.Format("/api/segment/{0}", segment.ID));
+        var response = await client.GetAsync(string.Format("/api/segment/{0}", segment1.ID));
         response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
 
         var body = await response.Content.ReadFromJsonAsync<SegmentDto>() ?? throw new Exception("Failed to deserialize the response body into SegmentDto object.");
 
-        body.ID.Should().Be(segment.ID);
+        body.ID.Should().Be(segment1.ID);
     }
 
     [Fact]
