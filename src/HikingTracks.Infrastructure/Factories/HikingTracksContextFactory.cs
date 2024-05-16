@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace HikingTracks.Infrastructure.ContextFactory;
+namespace HikingTracks.Infrastructure.Factories;
 
 public class HikingTracksContextFactory : IDesignTimeDbContextFactory<HikingTracksContext>
 {
