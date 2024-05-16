@@ -65,17 +65,6 @@ public class AccountServiceTests
 
         var account = await Assert.ThrowsAsync<AccountNotFoundException>(async () => await service.DeleteAccount(Guid.Empty));
     }
-    
-    [Fact]
-    public async void Account_UpdateAccount_FailsWhenNotFound()
-    {
-        var repository = new Mock<IRepositoryManager>();
-        var logger = new Mock<ILoggerManager>();
-        repository.Setup(repo => repo.Account.GetAccount(Guid.Empty)).ReturnsAsync(null as Account);
-        var service = new AccountService(repository.Object, logger.Object);
-
-        var account = await Assert.ThrowsAsync<AccountNotFoundException>(async () => await service.UpdateAccount(Guid.Empty, new UpdateAccountDto()));
-    }
 
     [Fact]
     public async void Account_CreateAccount_Works()

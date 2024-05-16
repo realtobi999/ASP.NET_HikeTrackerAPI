@@ -16,7 +16,7 @@ public class SegmentControllerTests
         var segment = new Segment().WithFakeData();
 
         // Act & Assert
-        var response = await client.PostAsJsonAsync("/api/segment", segment.ToCreateSegmentDto()); 
+        var response = await client.PostAsJsonAsync("/api/segment", segment.ToCreateSegmentDto());
         response.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
         var header = response.Headers.GetValues("Location");
@@ -71,5 +71,32 @@ public class SegmentControllerTests
         var body = await response.Content.ReadFromJsonAsync<SegmentDto>() ?? throw new Exception("Failed to deserialize the response body into SegmentDto object.");
 
         body.ID.Should().Be(segment.ID);
+    }
+
+    [Fact]
+    public async Task Segment_UpdateSegment_ReturnsOk()
+    {
+        // Prepare
+        var client = new WebAppFactory<Program>().CreateDefaultClient();
+        var segment = new Segment().WithFakeData();
+
+        var create = await client.PostAsJsonAsync("/api/segment", segment.ToCreateSegmentDto());
+        create.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
+
+        // Act & Assert
+        segment.Name = "TEST";
+        segment.Distance = 123;
+
+        var response = await client.PutAsJsonAsync(string.Format("/api/segment/{0}", segment.ID), segment.ToUpdateSegmentDto());
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK); 
+
+        var get = await client.GetAsync(string.Format("/api/segment/{0}", segment.ID));
+        get.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+
+        var body = await get.Content.ReadFromJsonAsync<SegmentDto>() ?? throw new Exception("Failed to deserialize the response body into SegmentDto object.");
+
+        body.ID.Should().Be(segment.ID);
+        body.Name.Should().Be("TEST");
+        body.Distance.Should().Be(123);
     }
 }

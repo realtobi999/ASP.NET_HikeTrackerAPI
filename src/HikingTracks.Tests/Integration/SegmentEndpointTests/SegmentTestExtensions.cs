@@ -1,5 +1,6 @@
 ﻿using Bogus;
 using HikingTracks.Application;
+using HikingTracks.Domain;
 using HikingTracks.Domain.DTO;
 using HikingTracks.Domain.Entities;
 
@@ -26,6 +27,17 @@ public static class SegmentTestExtensions
     {
         return new CreateSegmentDto{
             ID = segment.ID,
+            Name = segment.Name,
+            Distance = segment.Distance,
+            ElevationGain = segment.ElevationGain,
+            ElevationLoss = segment.ElevationLoss,
+            Coordinates = segment.Coordinates,
+        };
+    }
+
+    public static UpdateSegmentDto ToUpdateSegmentDto(this Segment segment)
+    {
+        return new UpdateSegmentDto{
             Name = segment.Name,
             Distance = segment.Distance,
             ElevationGain = segment.ElevationGain,

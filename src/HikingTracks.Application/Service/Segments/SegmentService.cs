@@ -1,8 +1,10 @@
 ﻿using HikingTracks.Application.Interfaces;
+using HikingTracks.Domain;
 using HikingTracks.Domain.DTO;
 using HikingTracks.Domain.Entities;
 using HikingTracks.Domain.Exceptions;
 using HikingTracks.Domain.Interfaces;
+using Microsoft.IdentityModel.Tokens;
 
 namespace HikingTracks.Application;
 
@@ -47,5 +49,23 @@ public class SegmentService : ISegmentService
         var segment = await _repository.Segment.GetSegment(id) ?? throw new SegmentNotFoundException(id);
 
         return segment;
+    }
+
+    public async Task<int> UpdateSegment(Guid id, UpdateSegmentDto updateSegmentDto) 
+    {
+        var segment = await _repository.Segment.GetSegment(id) ?? throw new SegmentNotFoundException(id);
+
+        segment.Name = updateSegmentDto.Name;
+        segment.Distance = updateSegmentDto.Distance;
+        segment.ElevationGain = updateSegmentDto.ElevationGain;
+        segment.ElevationGain = updateSegmentDto.ElevationLoss;
+
+        // Updating the coordinates is not required in the Dto
+        if (!updateSegmentDto.Coordinates.IsNullOrEmpty())
+        {
+            segment.Coordinates = updateSegmentDto.Coordinates;
+        }
+
+        return await _repository.SaveAsync();
     }
 }
