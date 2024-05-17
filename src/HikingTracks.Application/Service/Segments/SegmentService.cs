@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using HikingTracks.Application.Interfaces;
+﻿using HikingTracks.Application.Interfaces;
 using HikingTracks.Domain;
 using HikingTracks.Domain.DTO;
 using HikingTracks.Domain.Entities;
@@ -7,7 +6,7 @@ using HikingTracks.Domain.Exceptions;
 using HikingTracks.Domain.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 
-namespace HikingTracks.Application;
+namespace HikingTracks.Application.Service.Segments;
 
 public class SegmentService : ISegmentService
 {
