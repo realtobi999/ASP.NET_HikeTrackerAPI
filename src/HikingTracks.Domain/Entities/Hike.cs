@@ -8,8 +8,8 @@ namespace HikingTracks.Domain.Entities;
 public class Hike
 {
     [Required, Column("id"), Key]
-    public Guid ID { get; set; }         
-    
+    public Guid ID { get; set; }
+
     [Required, Column("account_id")]
     public Guid AccountId { get; set; }
 
@@ -48,7 +48,7 @@ public class Hike
     }
 
     [NotMapped]
-    public List<Coordinate> Coordinates = []; 
+    public List<Coordinate> Coordinates = [];
 
     public Account? Account { get; set; }
 
@@ -57,6 +57,11 @@ public class Hike
 
     public HikeDto ToDTO()
     {
+        var segments = this.SegmentHike
+            .Where(segmentHike => segmentHike.Segment != null)
+            .Select(segmentHike => segmentHike.Segment?.ToDTO())
+            .ToList();
+
         return new HikeDto
         {
             ID = this.ID,
@@ -67,9 +72,11 @@ public class Hike
             AverageSpeed = this.AverageSpeed,
             MaxSpeed = this.MaxSpeed,
             MovingTime = this.MovingTime,
-            Coordinates = this.Coordinates ?? [],
+            Coordinates = this.Coordinates ?? new List<Coordinate>(),
             Photos = [.. this.Photos],
+            Segments = segments!,
             CreatedAt = this.CreatedAt
         };
     }
+
 }

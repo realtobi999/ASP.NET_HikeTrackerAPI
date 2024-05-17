@@ -1,5 +1,4 @@
 ﻿using HikingTracks.Domain;
-using HikingTracks.Domain.Entities;
 using HikingTracks.Domain.Interfaces;
 using HikingTracks.Infrastructure.Repositories;
 
@@ -27,6 +26,11 @@ public class RepositoryFactory : IRepositoryFactory
     public IPhotoRepository CreatePhotoRepository()
     {
         return new PhotoRepository(_context);
+    }
+
+    public ISegmentHikeRepository CreateSegmentHikeRepository()
+    {
+        return new SegmentHikeRepository(_context);
     }
 
     public ISegmentRepository CreateSegmentRepository()

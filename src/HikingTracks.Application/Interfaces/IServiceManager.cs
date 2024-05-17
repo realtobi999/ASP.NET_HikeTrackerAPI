@@ -10,4 +10,5 @@ public interface IServiceManager
     public IFormFileService FormFileService { get; }
     public ITokenService TokenService { get; }
     public ISegmentService SegmentService { get; }
+    public ISegmentHikeService SegmentHikeService { get; }
 }

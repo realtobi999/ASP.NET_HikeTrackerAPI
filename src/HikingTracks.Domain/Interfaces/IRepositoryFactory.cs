@@ -8,4 +8,5 @@ public interface IRepositoryFactory
     IHikeRepository CreateHikeRepository();
     IPhotoRepository CreatePhotoRepository();
     ISegmentRepository CreateSegmentRepository();
+    ISegmentHikeRepository CreateSegmentHikeRepository();
 }

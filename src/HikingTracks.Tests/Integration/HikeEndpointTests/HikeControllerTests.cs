@@ -221,4 +221,70 @@ public class HikeControllerTests
         body.ElementAt(0).AccountId.Should().Be(account2.ID);
         body.ElementAt(1).AccountId.Should().Be(account2.ID);
     }
+
+    [Fact]
+    public async Task Hike_UploadHikeSegments_ReturnsOk()
+    {
+        // Prepare
+        var client = new WebAppFactory<Program>().CreateDefaultClient();
+        var account = new Account().WithFakeData();
+        var hike = new Hike().WithFakeData(account);
+        var segment1 = new Segment().WithFakeData();
+        var segment2 = new Segment().WithFakeData();
+
+        hike.Coordinates = [
+            new(50,50,0),
+            new(50.005, 50.002, 0),
+            new(50.006, 50.003, 0),
+            new(50.007, 50.003, 0),
+            new(50.006, 50.003, 0)
+        ];
+
+        segment1.Coordinates = [
+            new(50,50,0),
+            new(50.004, 50.003, 0),
+            new(50.005, 50.004, 0),
+            new(50.006, 50.004, 0),
+            new(50.005, 50.004, 0)
+        ];
+
+        segment2.Coordinates = [
+            new(80,50,0),
+            new(80.004, 50.003, 0),
+            new(80.005, 50.004, 0),
+            new(80.006, 50.004, 0),
+            new(80.005, 50.004, 0)
+        ];
+
+        var create1 = await client.PostAsJsonAsync("/api/account", account.ToCreateAccountDto());
+        create1.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
+
+        // Authenticate the request
+        var login = await client.PostAsJsonAsync("/api/login", account.ToLoginAccountDto());
+        login.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        var token = await login.Content.ReadFromJsonAsync<TokenDto>();
+        client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token!.Token);
+
+        var create2 = await client.PostAsJsonAsync("/api/hike", hike.ToCreateHikeDto());
+        create2.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
+
+        var create3 = await client.PostAsJsonAsync("/api/segment", segment1.ToCreateSegmentDto());
+        create3.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
+
+        var create4 = await client.PostAsJsonAsync("/api/segment", segment2.ToCreateSegmentDto());
+        create4.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
+
+        // Act & Assert
+        var response = await client.PostAsync(string.Format("/api/hike/{0}/segments/upload", hike.ID), null);
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+
+        var get = await client.GetAsync(string.Format("/api/hike/{0}", hike.ID));
+        get.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+
+        var body = await get.Content.ReadFromJsonAsync<HikeDto>() ?? throw new Exception("Failed to deserialize the response body into an HikeDto object.");
+        
+        body.Segments.Count.Should().Be(1);
+        body.Segments.ElementAt(0).ID.Should().Be(segment1.ID);
+        body.Segments.ElementAt(0).Coordinates.Should().BeEquivalentTo(segment1.Coordinates);
+    }
 }

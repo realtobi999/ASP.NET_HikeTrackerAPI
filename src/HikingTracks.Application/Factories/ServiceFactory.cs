@@ -2,6 +2,7 @@
 using HikingTracks.Application.Service.Accounts;
 using HikingTracks.Application.Service.Hikes;
 using HikingTracks.Application.Service.Photos;
+using HikingTracks.Application.Service.Segments;
 using HikingTracks.Domain.Interfaces;
 using Microsoft.Extensions.Configuration;
 
@@ -60,5 +61,10 @@ public class ServiceFactory : IServiceFactory
         }
 
         return new TokenService(jwtIssuer, jwtKey);
+    }
+
+    public ISegmentHikeService CreateSegmentHikeService()
+    {
+        return new SegmentHikeService(_repositoryManager, _loggerManager);
     }
 }

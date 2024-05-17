@@ -8,4 +8,5 @@ public interface IServiceFactory
     IFormFileService CreateFormFileService();
     ISegmentService CreateSegmentService();
     ITokenService CreateTokenService();
+    ISegmentHikeService CreateSegmentHikeService();
 }

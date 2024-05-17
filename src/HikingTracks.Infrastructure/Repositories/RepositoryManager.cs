@@ -17,8 +17,9 @@ public class RepositoryManager : IRepositoryManager
     public IAccountRepository Account => _factory.CreateAccountRepository();
     public IHikeRepository Hike => _factory.CreateHikeRepository(); 
     public IPhotoRepository Photo => _factory.CreatePhotoRepository(); 
-    public ISegmentRepository Segment => _factory.CreateSegmentRepository(); 
-    
+    public ISegmentRepository Segment => _factory.CreateSegmentRepository();
+    public ISegmentHikeRepository SegmentHike => _factory.CreateSegmentHikeRepository();
+
     public async Task<int> SaveAsync()
     {
         return await _context.SaveChangesAsync();

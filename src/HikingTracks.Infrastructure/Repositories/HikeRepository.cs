@@ -25,16 +25,31 @@ public class HikeRepository : IHikeRepository
 
     public async Task<IEnumerable<Hike>> GetAllHikes()
     {
-        return await _context.Hikes.Include(h => h.Photos).OrderBy(hike => hike.CreatedAt).ToListAsync();
+        return await _context.Hikes
+            .Include(h => h.Photos)
+            .Include(h => h.SegmentHike)
+                .ThenInclude(sh => sh.Segment)
+            .OrderBy(hike => hike.CreatedAt)
+            .ToListAsync();
     }
 
     public async Task<IEnumerable<Hike>> GetAllHikesByAccount(Guid accountId)
     {
-        return await _context.Hikes.Include(h => h.Photos).Where(hike => hike.AccountId == accountId).ToListAsync();
+        return await _context.Hikes
+            .Include(h => h.Photos)
+            .Include(h => h.SegmentHike)
+                .ThenInclude(sh => sh.Segment)
+            .Where(hike => hike.AccountId == accountId)
+            .ToListAsync();
     }
 
-    public async Task<Hike?> GetHike(Guid Id)
+    public async Task<Hike?> GetHike(Guid id)
     {
-        return await _context.Hikes.Include(h => h.Photos).SingleOrDefaultAsync(account => account.ID == Id);
+        return await _context.Hikes
+            .Include(h => h.Photos)
+            .Include(h => h.SegmentHike)
+                .ThenInclude(sh => sh.Segment)
+            .SingleOrDefaultAsync(h => h.ID == id);
     }
+
 }

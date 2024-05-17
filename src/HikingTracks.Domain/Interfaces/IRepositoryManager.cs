@@ -6,5 +6,6 @@ public interface IRepositoryManager
     IHikeRepository Hike { get; }
     IPhotoRepository Photo { get; }
     ISegmentRepository Segment { get; }
+    ISegmentHikeRepository SegmentHike { get; }
     Task<int> SaveAsync();
 }

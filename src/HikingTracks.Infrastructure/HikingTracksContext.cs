@@ -10,6 +10,7 @@ public class HikingTracksContext(DbContextOptions<HikingTracksContext> options) 
     public DbSet<Hike> Hikes { get; set; }
     public DbSet<Photo> Photos { get; set; }
     public DbSet<Segment> Segments { get; set; }
+    public DbSet<SegmentHike> SegmentHike { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

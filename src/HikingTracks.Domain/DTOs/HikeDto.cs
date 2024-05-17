@@ -15,4 +15,5 @@ public record HikeDto
     public List<Coordinate> Coordinates { get; set; } = [];
     public DateTimeOffset CreatedAt { get; set; }
     public List<Photo> Photos { get; set; } = [];
+    public List<SegmentDto> Segments { get; set; } = [];
 }

@@ -106,6 +106,11 @@ public class HikeController : ControllerBase
         var hike = await _service.HikeService.GetHike(hikeId);
         var segments = await _service.SegmentService.GetHikeSegments(hike); 
 
+        foreach (var segment in segments)
+        {
+            await _service.SegmentHikeService.CreateSegmentHike(segment, hike);
+        }
+
         return Ok();
     }
 }
