@@ -17,7 +17,7 @@ GET     /api/hike/{hike_id}
 POST    /api/hike
 DELETE  /api/hike/{hike_id}
 POST    /api/hike/{hike_id}/photos/upload
-POST    /api/hike/{hike_id}/segments/upload
+POST    /api/hike/{hike_id}/segment/upload
 
 */
 public class HikeController : ControllerBase
@@ -77,7 +77,7 @@ public class HikeController : ControllerBase
     }
 
     [Authorize, HikeAuth]
-    [HttpPost("api/hike/{hikeId:guid}/photos/upload")]
+    [HttpPost("api/hike/{hikeId:guid}/photo/upload")]
     public async Task<IActionResult> UploadHikePhotos(Guid hikeId, [FromForm] List<IFormFile> files)
     {
         var photos = new List<Photo>();
@@ -100,7 +100,7 @@ public class HikeController : ControllerBase
     }
 
     [Authorize, HikeAuth]
-    [HttpPost("api/hike/{hikeId:guid}/segments/upload")]
+    [HttpPost("api/hike/{hikeId:guid}/segment/upload")]
     public async Task<IActionResult> UploadHikeSegments(Guid hikeId)
     {
         var hike = await _service.HikeService.GetHike(hikeId);

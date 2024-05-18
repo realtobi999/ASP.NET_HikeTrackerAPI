@@ -275,7 +275,7 @@ public class HikeControllerTests
         create4.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
         // Act & Assert
-        var response = await client.PostAsync(string.Format("/api/hike/{0}/segments/upload", hike.ID), null);
+        var response = await client.PostAsync(string.Format("/api/hike/{0}/segment/upload", hike.ID), null);
         response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
 
         var get = await client.GetAsync(string.Format("/api/hike/{0}", hike.ID));
