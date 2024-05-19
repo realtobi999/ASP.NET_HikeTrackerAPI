@@ -293,6 +293,26 @@ Create a new hike with the provided details.
 
 ---
 
+### `PUT /api/segment/{segment_id}`
+
+Update an existing segment's information.
+
+### Parameters
+
+- `account_id` : The id of the segment.
+
+### Request Body
+
+```json
+
+```
+
+### Response
+
+`200` - Status OK
+
+---
+
 ### `POST /api/hike/{hike_id}/photo/upload`
 
 Uploads photo provided in the body to the specified hike.
