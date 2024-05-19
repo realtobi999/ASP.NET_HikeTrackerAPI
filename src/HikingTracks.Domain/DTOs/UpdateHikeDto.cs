@@ -8,5 +8,4 @@ public record class UpdateHikeDto
     public double MaxSpeed { get; set; }
     public TimeSpan MovingTime { get; set; }
     public int Kudos { get; set; }
-    public List<Photo> Photos { get; set; } = [];
 }

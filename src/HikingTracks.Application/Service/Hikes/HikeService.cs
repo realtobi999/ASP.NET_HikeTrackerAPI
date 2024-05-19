@@ -87,7 +87,6 @@ public class HikeService : IHikeService
         hike.MaxSpeed = updateHikeDto.MaxSpeed;
         hike.MovingTime = updateHikeDto.MovingTime;
         hike.Kudos = updateHikeDto.Kudos;
-        hike.Photos = updateHikeDto.Photos;
 
         return await _repository.SaveAsync();
     }

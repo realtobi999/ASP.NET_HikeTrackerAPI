@@ -293,18 +293,25 @@ Create a new hike with the provided details.
 
 ---
 
-### `PUT /api/segment/{segment_id}`
+### `PUT /api/hike/{hike_id}`
 
-Update an existing segment's information.
+Update an existing hike's information.
 
 ### Parameters
 
-- `account_id` : The id of the segment.
+- `hike_id` : The id of the hike.
 
 ### Request Body
 
 ```json
-
+{
+  "Distance": 0,
+  "ElevationGain": 0,
+  "ElevationLoss": 0,
+  "MaxSpeed": 0,
+  "MovingTime": "string", 
+  "Kudos": 0,
+}
 ```
 
 ### Response

@@ -59,7 +59,6 @@ public static class HikeTestExtensions
             MaxSpeed = hike.MaxSpeed,
             MovingTime = hike.MovingTime,
             Kudos = hike.Kudos,
-            Photos = [.. hike.Photos]
         };
    } 
 }
