@@ -49,4 +49,17 @@ public static class HikeTestExtensions
             Coordinates = hike.Coordinates
         };
     }
+
+   public static UpdateHikeDto ToUpdateHikeDto(this Hike hike)
+   {
+        return new UpdateHikeDto{
+            Distance = hike.Distance,
+            ElevationGain = hike.ElevationGain,
+            ElevationLoss = hike.ElevationLoss,
+            MaxSpeed = hike.MaxSpeed,
+            MovingTime = hike.MovingTime,
+            Kudos = hike.Kudos,
+            Photos = [.. hike.Photos]
+        };
+   } 
 }

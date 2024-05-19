@@ -102,6 +102,42 @@ public class HikeControllerTests
     }
 
     [Fact]
+    public async Task Hike_UpdateHike_ReturnsOKAsync()
+    {
+        // Prepare
+        var client = new WebAppFactory<Program>().CreateDefaultClient();
+        var account = new Account().WithFakeData();
+        var hike = new Hike().WithFakeData(account);
+
+        var create1 = await client.PostAsJsonAsync("/api/account", account.ToCreateAccountDto());
+        create1.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
+
+        // Authenticate the request
+        var login = await client.PostAsJsonAsync("/api/login", account.ToLoginAccountDto());
+        login.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        var token = await login.Content.ReadFromJsonAsync<TokenDto>();
+        client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token!.Token);
+
+        var create2 = await client.PostAsJsonAsync("/api/hike", hike.ToCreateHikeDto());
+        create2.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
+
+        // Act & Assert
+
+        hike.Kudos = 50;
+        
+        var response = await client.PutAsJsonAsync(string.Format("/api/hike/{0}", hike.ID), hike.ToUpdateHikeDto());
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+
+        var get = await client.GetAsync(string.Format("/api/hike/{0}", hike.ID));
+        get.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+
+        var body = await get.Content.ReadFromJsonAsync<HikeDto>() ?? throw new Exception("Failed to deserialize the response body into an HikeDto object.");
+        
+        body.ID.Should().Be(hike.ID);
+        body.Kudos.Should().Be(50);
+    }
+
+    [Fact]
     public async Task Hike_DeleteHike_ReturnsOKAsync()
     {
         // Prepare
