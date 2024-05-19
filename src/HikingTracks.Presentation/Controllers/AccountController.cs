@@ -64,8 +64,11 @@ public class AccountController : ControllerBase
     [HttpPut("api/account/{accountId:guid}")]
     public async Task<IActionResult> UpdateAccount(Guid accountId, [FromBody] UpdateAccountDto updateAccountDto)
     {
-        _ = await _service.AccountService.UpdateAccount(accountId, updateAccountDto);
+        var affected = await _service.AccountService.UpdateAccount(accountId, updateAccountDto);
 
+           if (affected == 0)
+            throw new InternalServerErrorException("No rows affected.");
+            
         return Ok();
     }
 
