@@ -40,6 +40,11 @@ public class Hike
     [Required, Column("created_at")]
     public DateTimeOffset CreatedAt { get; set; }
 
+    [Required, Column("kudos"), Range(0, int.MaxValue)]
+    public int Kudos { get; set; }
+
+    // Relationships
+
     [Required, Column("coordinates"), JsonIgnore]
     public string CoordinatesString
     {
@@ -72,10 +77,12 @@ public class Hike
             AverageSpeed = this.AverageSpeed,
             MaxSpeed = this.MaxSpeed,
             MovingTime = this.MovingTime,
-            Coordinates = this.Coordinates ?? new List<Coordinate>(),
+            Coordinates = this.Coordinates ?? [],
+            CreatedAt = this.CreatedAt,
+            Kudos = this.Kudos,
             Photos = [.. this.Photos],
             Segments = segments!,
-            CreatedAt = this.CreatedAt
+
         };
     }
 

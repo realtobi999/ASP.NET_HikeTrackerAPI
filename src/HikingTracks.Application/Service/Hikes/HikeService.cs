@@ -77,6 +77,22 @@ public class HikeService : IHikeService
         return hike;
     }
 
+    public async Task<int> UpdateHike(Guid Id ,UpdateHikeDto updateHikeDto)
+    {
+        var hike = await _repository.Hike.GetHike(Id) ?? throw new HikeNotFoundException(Id);
+
+        hike.Distance = updateHikeDto.Distance;
+        hike.ElevationGain = updateHikeDto.ElevationGain;
+        hike.ElevationLoss = updateHikeDto.ElevationLoss;
+        hike.MaxSpeed = updateHikeDto.MaxSpeed;
+        hike.MovingTime = updateHikeDto.MovingTime;
+        hike.Kudos = updateHikeDto.Kudos;
+        hike.Photos = updateHikeDto.Photos;
+
+        return await _repository.SaveAsync();
+    }
+
+
     public async Task<int> UpdateHikePictures(Guid Id, IEnumerable<Photo> photos)
     {
         var hike = await _repository.Hike.GetHike(Id) ?? throw new HikeNotFoundException(Id);

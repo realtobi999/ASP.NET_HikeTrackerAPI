@@ -15,6 +15,7 @@ namespace HikingTracks.Presentation.Controllers;
 GET     /api/hike - params: limit, offset, accountId
 GET     /api/hike/{hike_id}
 POST    /api/hike
+PUT     /api/hike/{hike_id}
 DELETE  /api/hike/{hike_id}
 POST    /api/hike/{hike_id}/photos/upload
 POST    /api/hike/{hike_id}/segment/upload
@@ -66,6 +67,18 @@ public class HikeController : ControllerBase
 
         return Created(string.Format("/api/hike/{0}", hike.ID), null);
     }
+
+    [Authorize, HikeAuth]
+    [HttpPut("api/hike/{hikeId:guid}")]
+    public async Task<IActionResult> UpdateHike(Guid hikeId, [FromBody] UpdateHikeDto updateHikeDto)
+    {
+        var affected = await _service.HikeService.UpdateHike(hikeId, updateHikeDto);
+
+        if (affected == 0)
+            throw new InternalServerErrorException("No rows affected.");
+            
+        return Ok();
+    } 
 
     [Authorize, HikeAuth]
     [HttpDelete("api/hike/{hikeId:guid}")]
