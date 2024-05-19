@@ -17,7 +17,8 @@ GET     /api/hike/{hike_id}
 POST    /api/hike
 PUT     /api/hike/{hike_id}
 DELETE  /api/hike/{hike_id}
-POST    /api/hike/{hike_id}/photos
+POST    /api/hike/{hike_id}/photo
+DELETE  /api/hike/{hike_id}/photo/{photo_id}
 POST    /api/hike/{hike_id}/segment
 
 */
@@ -108,6 +109,15 @@ public class HikeController : ControllerBase
         }
 
         await _service.HikeService.UpdateHikePictures(hikeId, photos);
+
+        return Ok();
+    }
+
+    [Authorize, HikeAuth]
+    [HttpDelete("api/hike/{hikeId:guid}/photo/{photoId:guid}")] // We use the hikeId in the route url to make use of the HikeAuth middleware
+    public async Task<IActionResult> DeleteHikePhoto(Guid photoId)
+    {
+        await _service.PhotoService.DeletePhoto(photoId);
 
         return Ok();
     }

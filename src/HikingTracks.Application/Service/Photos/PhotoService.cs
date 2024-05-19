@@ -1,4 +1,5 @@
 ﻿using HikingTracks.Domain;
+using HikingTracks.Domain.Exceptions;
 using HikingTracks.Domain.Interfaces;
 
 namespace HikingTracks.Application.Service.Photos;
@@ -28,5 +29,13 @@ public class PhotoService : IPhotoService
         await _repository.SaveAsync();
 
         return photo;
+    }
+
+    public async Task DeletePhoto(Guid Id)
+    {
+        var photo = await _repository.Photo.GetPhoto(Id) ?? throw new PhotoNotFoundException(Id);
+
+        _repository.Photo.DeletePhoto(photo);
+        await _repository.SaveAsync();
     }
 }

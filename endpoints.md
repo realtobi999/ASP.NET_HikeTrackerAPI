@@ -316,7 +316,7 @@ Update an existing hike's information.
 
 ---
 
-### `POST /api/hike/{hike_id}/photo/upload`
+### `POST /api/hike/{hike_id}/photo`
 
 Uploads photo provided in the body to the specified hike.
 
@@ -334,7 +334,22 @@ Provide body as a form with the files in column 'files'
 
 ---
 
-### `POST /api/hike/{hike_id}/segment/upload`
+### `DELETE /api/hike/{hike_id}/photo/{photo_id}`
+
+Delete an existing photo from a hike.
+
+### Parameters
+
+- `hike_id` : The id of the hike.
+- `photo_id` : The id of the photo.
+
+### Response
+
+`200` - Status OK
+
+---
+
+### `POST /api/hike/{hike_id}/segment`
 
 Assigns segments to a specified hikes that the hike went trough.
 

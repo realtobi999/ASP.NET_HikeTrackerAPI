@@ -5,4 +5,6 @@ namespace HikingTracks.Application;
 public interface IPhotoService
 {
     Task<Photo> CreatePhoto(CreatePhotoDto createPhotoDto);
+    Task DeletePhoto(Guid Id);
 }
+
