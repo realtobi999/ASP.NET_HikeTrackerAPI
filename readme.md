@@ -14,7 +14,7 @@
 
 Overview of all endpoints using Swagger. In total there is **19** endpoints.
 
-![swagger](https://imgur.com/a/oEGsQFK)
+![swagger](swagger.png)
 
 **To check out all of the endpoints in greater detail click [here.](endpoints.md)**
 
