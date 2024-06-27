@@ -14,7 +14,7 @@
 
 Overview of all endpoints using Swagger. In total there is **19** endpoints.
 
-![swagger](https://cdn.discordapp.com/attachments/697505581375946833/1241820690450087966/image.png?ex=664b9724&is=664a45a4&hm=e6e8244381a49175abba5308c8f7abac9fd196596ead3f1fa4184208866451ad&)
+![swagger](https://imgur.com/a/oEGsQFK)
 
 **To check out all of the endpoints in greater detail click [here.](endpoints.md)**
 
