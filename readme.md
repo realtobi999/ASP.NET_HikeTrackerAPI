@@ -1,4 +1,4 @@
-# **HikingTracks Api Project** 
+# **HikeTracker API Project** 
 
 ## **Summary**
 
