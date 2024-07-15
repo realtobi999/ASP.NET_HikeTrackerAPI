@@ -2,7 +2,7 @@
 
 ## **Summary**
 
-- This is a **demo API** for a hike-tracking web application.
+- This is a **REST DEMO API** for a hike-tracking web application.
 - **19** endpoints in total, with over **45 unit and integration tests.**
 - Utilizes **PostgreSQL** database with EF.
 - Project is written in C# utilizing **Clean Architecture**.
@@ -124,3 +124,7 @@ This layer handles the API endpoints and HTTP requests.
 - Extensions: Extension methods for configuring services and middleware.
 - Middleware: Custom middleware components for request processing.
 - Program.cs: Entry point of the application.
+
+## Notes
+
+In this project i focused on building a solid architecture foundations and developing my OOP practices. I've learned how to write both unit and integration tests. I've learned how effectively implement features. I've learned how to implement basic middleware and how to use dependency injection.
