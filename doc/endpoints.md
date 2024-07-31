@@ -1,3 +1,31 @@
+# Endpoints
+
+## Table of Content
+
+- **[Account Endpoints](#account-endpoints)**
+  - **[GET /api/account](#get-apiaccount)**
+  - **[GET /api/account/{account_id}](#get-apiaccountaccount_id)**
+  - **[POST /api/account](#post-apiaccount)**
+  - **[PUT /api/account/{account_id}](#put-apiaccountaccount_id)**
+  - **[DELETE /api/account/{account_id}](#delete-apiaccountaccount_id)**
+- **[Auth Endpoints](#auth-endpoints)**
+  - **[POST /api/login](#post-apilogin)**
+- **[Hike Endpoints](#hike-endpoints)**
+  - **[GET /api/hike](#get-apihike)**
+  - **[GET /api/hike/{hike_id}](#get-apihikehike_id)**
+  - **[POST /api/hike](#post-apihike)**
+  - **[PUT /api/hike/{hike_id}](#put-apihikehike_id)**
+  - **[POST /api/hike/{hike_id}/photo](#post-apihikehike_idphoto)**
+  - **[DELETE /api/hike/{hike_id}/photo/{photo_id}](#delete-apihikehike_idphotophoto_id)**
+  - **[POST /api/hike/{hike_id}/segment](#post-apihikehike_idsegment)**
+  - **[DELETE /api/hike/{hike_id}](#delete-apihikehike_id)**
+- **[Segment Endpoints](#segment-endpoints)**
+  - **[GET /api/segment](#get-apisegment)**
+  - **[GET /api/segment/{segment_id}](#get-apisegmentsegment_id)**
+  - **[POST /api/segment](#post-apisegment)**
+  - **[PUT /api/segment/{segment_id}](#put-apisegmentsegment_id)**
+  - **[DELETE /api/segment/{segment_id}](#delete-apisegmentsegment_id)**
+
 ## Account Endpoints
 
 ### `GET /api/account`
@@ -328,7 +356,7 @@ Uploads photo provided in the body to the specified hike.
 
 Provide body as a form with the files in column 'files'
 
-### Response 
+### Response
 
 `200` - Status Ok
 

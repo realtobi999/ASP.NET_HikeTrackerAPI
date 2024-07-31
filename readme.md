@@ -1,4 +1,14 @@
-# **HikeTracker API Project** 
+# **HikeTracker API Project**
+
+## Table of Contents
+
+- **[Summary](#summary)**
+- **[Endpoints Overview](#endpoints-overview)**
+- **[Test Overview](#tests-overview)**
+- **[Architecture Overview](#architecture-overview)**
+  - **[Tree Overview](#tree-overview)**
+  - **[Layer Descriptions](#layer-descriptions)**
+- **[Notes](#notes)**
 
 ## **Summary**
 
@@ -9,20 +19,19 @@
 - Most endpoints are authenticated and authorized with JWT token.
 - Hike can have **multiple photos** associated with it. Also **automatic segment assignation** to each hike can be done.
 
-
 ## **Endpoints Overview**
 
 Overview of all endpoints using Swagger. In total there is **19** endpoints.
 
-![swagger](swagger.png)
+![swagger](./doc/swagger.png)
 
-**To check out all of the endpoints in greater detail click [here.](endpoints.md)**
+**To check out all of the endpoints in greater detail click [here.](./doc/endpoints.md)**
 
 ## **Tests Overview**
 
 In this project there is total of **45** tests. About 1/3 of those tests are **integration** tests and the rest are **unit tests**. I've chosen mainly the happy path for the integration tests and for the unit tests i tried to cover all scenarios.
 
-```
+``` bash
 ├───Integration
 │   │   WebAppFactory.cs // Creates a mock Program class
 │   │
@@ -55,7 +64,7 @@ This WEB-API project utilizes the well known clean architecture type.
 
 ### Tree Overview
 
-```
+``` bash
 .
 ├── endpoints.md
 ├── readme.md
